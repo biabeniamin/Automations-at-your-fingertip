@@ -17,8 +17,6 @@ namespace DesktopServerLogical
         public Serial _serial;
         private Dispatcher _dispatcher;
         private ObservableCollection<Device> _devices;
-        private int _currentDetectedId = 0;
-
         public ObservableCollection<Device> Devices
         {
             get { return _devices; }
