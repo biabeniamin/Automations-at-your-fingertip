@@ -14,3 +14,6 @@ D:\Beni\Arduino Projects\Grepit\DesktopServer\DesktopServer\obj\Debug\DesktopSer
 D:\Beni\Arduino Projects\Grepit\DesktopServer\DesktopServer\obj\Debug\DesktopServer.pdb
 D:\Beni\Arduino Projects\Grepit\DesktopServer\DesktopServer\bin\Debug\DesktopServerLogical.dll
 D:\Beni\Arduino Projects\Grepit\DesktopServer\DesktopServer\bin\Debug\DesktopServerLogical.pdb
+D:\Beni\Grepit\DesktopServer\DesktopServer\bin\Debug\DesktopServer.exe.config
+D:\Beni\Grepit\DesktopServer\DesktopServer\obj\Debug\DesktopServer.exe
+D:\Beni\Grepit\DesktopServer\DesktopServer\obj\Debug\DesktopServer.pdb
