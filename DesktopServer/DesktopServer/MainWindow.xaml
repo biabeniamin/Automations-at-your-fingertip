@@ -15,7 +15,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="924,21,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
+        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="901,21,0,0" VerticalAlignment="Top" Width="98" Click="button_Click"/>
         <ListView x:Name="listViewPins" HorizontalAlignment="Left" Height="133" Margin="165,36,0,0" VerticalAlignment="Top" Width="180" ItemsSource="{Binding SelectedItem.InputPins,ElementName=listView}" SelectedItem="{Binding SelectedPin}">
             <ListView.View>
                 <GridView x:Name="GridViewPins">
@@ -70,7 +70,8 @@
         </ListView>
         <Button Command="{Binding SaveActionCommand}" Content="Save action" HorizontalAlignment="Left" Margin="720,103,0,0" VerticalAlignment="Top" Width="74"/>
         <Button Command="{Binding LoadActionCommand}" Content="Load action" HorizontalAlignment="Left" Margin="720,128,0,0" VerticalAlignment="Top" Width="74"/>
-        <Button Command="{Binding LoadDevicesCommand}" Content="Load devices" HorizontalAlignment="Left" Margin="924,42,0,0" VerticalAlignment="Top" Width="74"/>
+        <Button Command="{Binding LoadDevicesCommand}" Content="Load devices" HorizontalAlignment="Left" Margin="901,47,0,0" VerticalAlignment="Top" Width="97"/>
+        <Button Command="{Binding ProgramActionsCommand}" Content="Program actions" HorizontalAlignment="Left" Margin="901,73,0,0" VerticalAlignment="Top" Width="97"/>
 
     </Grid>
 </Window>

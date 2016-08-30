@@ -9,6 +9,10 @@ namespace DesktopServerLogical.Enums
     public enum RequestTypes
     {
         ValueChange=0,
-        Register=1
+        Register=1,
+        Program=2,
+        DevicePortsRegister=3,
+        PortActionsRegister=4,
+
     }
 }

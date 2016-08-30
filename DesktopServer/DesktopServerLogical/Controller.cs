@@ -111,6 +111,32 @@ namespace DesktopServerLogical
         {
             _serial.Write(new Request(RequestTypes.Register, id));
         }
+
+        public void ProgramMaster()
+        {
+            Request request = new Request(RequestTypes.Program, 0);
+            request.Value1 = _devices.Count;
+            _serial.Write(request);
+            for (int i = 0; i < _devices.Count; i++)
+            {
+                Request registerPorts = new Request(RequestTypes.DevicePortsRegister, 0);
+                registerPorts.Value1 = _devices[i].Address;
+                registerPorts.Value2 = _devices[i].InputPins.Count;
+                _serial.Write(registerPorts);
+            }
+            for (int i = 0; i < _devices.Count; i++)
+            {
+                for (int j = 0; j < _devices[i].InputPins.Count; j++)
+                {
+                    Request registerPinActions = new Request(RequestTypes.PortActionsRegister, 0);
+                    registerPinActions.Value1 = _devices[i].Address;
+                    registerPinActions.Value2 = _devices[i].InputPins[j].PinNumber;
+                    registerPinActions.Value3 = _devices[i].InputPins[j].Actions.Count;
+                    _serial.Write(registerPinActions);
+                }
+            }
+        }
+
         public  Pin GetPin(Device owner,int pinNumber)
         {
             return Helpers.GetPin(owner, pinNumber);

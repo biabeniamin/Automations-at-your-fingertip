@@ -39,23 +39,26 @@ namespace DesktopServerLogical
                     _port.Write(((int)request.Type).ToString());
                     _port.Write(request.Pin.PinNumber.ToString());
                     _port.Write(((int)request.PinAction.Type).ToString());
-                    _port.Write(0.ToString());
+                    _port.Write("00");
                 }
             }
-            else if(request.Type==RequestTypes.Register)
+            else
             {
                 _port.Write(request.ToAddress.ToString());
                 _port.Write(((int)request.Type).ToString());
-                _port.Write("000");
+                _port.Write(request.Value1.ToString());
+                _port.Write(request.Value2.ToString());
+                _port.Write(request.Value3.ToString());
+                _port.Write(request.Value4.ToString());
             }
         }
         private void _port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            int[] dataReceived=new int[5];
+            int[] dataReceived=new int[6];
             while (_port.BytesToRead>0)
             {
                 string line = _port.ReadLine();
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 6; i++)
                 {
                     dataReceived[i] = line[i] - 48;
                 }

@@ -2,7 +2,7 @@
 SoftwareSerial mySerial(10,11);
 #define address 0
 int y[] = {9, 5, 6, 8};
-int x[4];
+int x[5];
 int triggerPin = 9;
 void setup()
 {
@@ -28,7 +28,7 @@ void sendCommandViaMax(int bytes[])
   writeByteMax(6);
   writeByteMax(8);
   //mySerial.write(48+bytes[1]);
-  for (int i = 0; i < 5; ++i)
+  for (int i = 0; i < 6; ++i)
   {
     writeByteMax(bytes[i]);
     Serial.print("    ");
@@ -46,6 +46,7 @@ void sendOneByteViaMax(int toAddress, int byte)
   x[2] = 0;
   x[3] = 0;
   x[4] = 0;
+  x[5] = 0;
   sendCommandViaMax(x);
 }
 void checkMax()
@@ -70,14 +71,14 @@ void checkMax()
       }
       if (isOk)
       {
-        for (int i = 0; i < 5; ++i)
+        for (int i = 0; i < 6; ++i)
         {
           x[i] = readOneByteMax();
         }
         if (x[0] == address)
         {
 
-          for (int i = 0; i < 5; ++i)
+          for (int i = 0; i < 6; ++i)
           {
             Serial.print(x[i]);
             //Serial.print(" ");
@@ -90,9 +91,9 @@ void checkMax()
 }
 void checkSerial()
 {
-  if(Serial.available()>4)
+  if(Serial.available()>5)
   {
-    for(int i=0;i<5;++i)
+    for(int i=0;i<6;++i)
     {
       x[i]=Serial.read()-48;
     }
@@ -104,7 +105,7 @@ void loop()
 {
   checkMax();
   checkSerial();
-  /*int test[]={1,0,8,2,0};
+  /*int test[]={1,0,8,2,0,0};
   sendCommandViaMax(test);
   delay(2000);*/
 }
