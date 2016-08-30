@@ -17,7 +17,7 @@ namespace DesktopServerLogical
         public Serial _serial;
         private Dispatcher _dispatcher;
         private ObservableCollection<Device> _devices;
-
+        private int _currentDetectedId = 0;
 
         public ObservableCollection<Device> Devices
         {
@@ -55,6 +55,8 @@ namespace DesktopServerLogical
                 NewPin(response);
             if (response.ResponseType == ResponseTypes.ValueChanged)
                 PinValueChanged(response);
+            if (response.ResponseType == ResponseTypes.TransmissionEnded)
+                LoadNextDevice(response);
         }
         private void PinValueChanged(Response response)
         {
@@ -97,6 +99,19 @@ namespace DesktopServerLogical
                     }
                 });
             }
+        }
+        private void LoadNextDevice(Response response)
+        {
+            if(response.FromAddress<4)
+                LoadDevice(response.FromAddress + 1);
+        }
+        public void LoadDevices()
+        {
+            LoadDevice(1);
+        }
+        private void LoadDevice(int id)
+        {
+            _serial.Write(new Request(RequestTypes.Register, id));
         }
         public  Pin GetPin(Device owner,int pinNumber)
         {

@@ -22,7 +22,7 @@ namespace DesktopServerLogical
             _port.RtsEnable = true;
             _port.Open();
             _port.DataReceived += _port_DataReceived;
-            //Write(new Request(RequestTypes.Register, 1));--led panel
+//            Write(new Request(RequestTypes.Register, 1));
             //Write(new Request(RequestTypes.Register, 2));
         }
         public void Write(Request request)
