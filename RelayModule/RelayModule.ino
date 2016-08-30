@@ -3,7 +3,7 @@
 SoftwareSerial mySerial(10, 11);
 int y[] = {9, 5, 6, 8};
 int x[5];
-int address = 2;
+int address = 0;
 int triggerPin = 9;
 int masterAddress = 0;
 //type(0-master,1-relay,2-keyboard,3-network)
@@ -142,10 +142,11 @@ void checkMax()
               }
               break;
             case 1:
-              registerInLan();
+              if(address!=0)
+                registerInLan();
               break;
           }
-          for (int i = 0; i < 5; ++i)
+          for (int i = 0; i < 6; ++i)
           {
             Serial.print(x[i]);
             Serial.print(" ");
