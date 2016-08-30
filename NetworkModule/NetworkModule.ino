@@ -30,7 +30,7 @@ const char page[] PROGMEM =
   
 SoftwareSerial mySerial(10, 11);
 int y[] = {9, 5, 6, 8};
-int x[5];
+int x[6];
 int address = 1;
 int triggerPin = 7;
 int masterAddress = 0;
@@ -43,7 +43,7 @@ int outputPins[outputPinsCount]={8};
 void registerInLan()
 {
   //toAddress,typeOfResponse(0-register,1-PinRegister),fromAddress,type(0-master,1-relay,2-keyboard,3-network)
-  int data[5] = {masterAddress, 0, address, deviceType};
+  int data[6] = {masterAddress, 0, address, deviceType,0};
   sendCommandViaMax(data);
   //toAddress,typeOfResponse,address,pinNumber,pinType(0-input,1-output,2-analog)
   for(int i=0;i<outputPinsCount;++i)
@@ -53,6 +53,7 @@ void registerInLan()
     data[2]=address;
     data[3]=outputPins[i];
     data[4]=1;
+    data[5]=0;
     sendCommandViaMax(data);
   }
   //toAddress,typeOfResponse,address,pinNumber,pinType(0-input,1-output,2-analog)
@@ -63,6 +64,7 @@ void registerInLan()
     data[2]=address;
     data[3]=inputPins[i];
     data[4]=0;
+    data[5]=0;
     sendCommandViaMax(data);
   }
   data[0] = masterAddress;
@@ -70,6 +72,7 @@ void registerInLan()
   data[2] = address;
   data[3] = 0;
   data[4] = 0;
+  data[5]=0;
   sendCommandViaMax(data);
 }
 void setupEncj()
@@ -104,7 +107,7 @@ void sendCommandViaMax(int bytes[])
   mySerial.write(y[2] + 48);
   mySerial.write(y[3] + 48);
   //mySerial.write(48+bytes[1]);
-  for (int i = 0; i < 5; ++i)
+  for (int i = 0; i < 6; ++i)
   {
     mySerial.write(48 + bytes[i]);
     Serial.print(bytes[i]);
@@ -121,11 +124,12 @@ void sendOneByteViaMax(int address, int byte)
   x[2] = 0;
   x[3] = 0;
   x[4] = 0;
+  x[5]=0;
   sendCommandViaMax(x);
 }
 void checkMax()
 {
-  if (mySerial.available() > 8)
+  if (mySerial.available() > 9)
   {
     
     while (mySerial.available())
@@ -145,7 +149,7 @@ void checkMax()
       }
       if (isOk)
       {
-        for (int i = 0; i < 5; ++i)
+        for (int i = 0; i < 6; ++i)
         {
           x[i] = mySerial.read() - 48;
         }
@@ -199,7 +203,7 @@ void checkEncj()
       request[10] = i + 48;
       if (strncmp(request, data, strlen(request)) == 0)
       {
-        int com[]={0,2,address,i,1};
+        int com[]={0,2,address,i,1,0};
         sendCommandViaMax(com);
         Serial.print(0);
         Serial.print(2);

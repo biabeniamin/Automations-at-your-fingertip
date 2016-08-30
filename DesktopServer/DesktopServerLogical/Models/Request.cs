@@ -13,6 +13,34 @@ namespace DesktopServerLogical.Models
         private int _toAddress;
         private Pin _pin;
         private RemoteAction _pinAction;
+        private int _value1=0;
+        private int _value2=0;
+        private int _value3=0;
+        private int _value4=0;
+
+        public int Value4
+        {
+            get { return _value4; }
+            set { _value4 = value; }
+        }
+
+        public int Value3
+        {
+            get { return _value3; }
+            set { _value3 = value; }
+        }
+
+        public int Value2
+        {
+            get { return _value2; }
+            set { _value2 = value; }
+        }
+
+        public int Value1
+        {
+            get { return _value1; }
+            set { _value1 = value; }
+        }
 
         public RemoteAction PinAction
         {
