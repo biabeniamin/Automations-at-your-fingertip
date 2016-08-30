@@ -12,6 +12,7 @@ namespace DesktopServerLogical.Enums
         PinRegister=1,
         ValueChanged=2,
         Command=3,
+        TransmissionEnded=4
 
     }
 }

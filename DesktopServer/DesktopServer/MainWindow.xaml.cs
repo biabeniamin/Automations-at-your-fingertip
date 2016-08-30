@@ -32,6 +32,14 @@ namespace DesktopServer
         private DelegateCommand _saveActionCommand;
         private DelegateCommand _loadActionCommand;
         private Saves _saves;
+        private DelegateCommand _loadDevicesCommand;
+        
+        public DelegateCommand LoadDevicesCommand
+        {
+            get { return _loadDevicesCommand; }
+            set { _loadDevicesCommand = value; }
+        }
+
         public DelegateCommand LoadActionCommand
         {
             get { return _loadActionCommand; }
@@ -103,7 +111,12 @@ namespace DesktopServer
             AddActionCommand = new DelegateCommand(AddAction);
             SaveActionCommand = new DelegateCommand(SaveAction);
             LoadActionCommand = new DelegateCommand(LoadAction);
+            LoadDevicesCommand = new DelegateCommand(LoadDevices);
             _saves = new Saves();
+        }
+        private void LoadDevices()
+        {
+            _controller.LoadDevices();
         }
         private void SaveAction()
         {

@@ -70,6 +70,7 @@
         </ListView>
         <Button Command="{Binding SaveActionCommand}" Content="Save action" HorizontalAlignment="Left" Margin="720,103,0,0" VerticalAlignment="Top" Width="74"/>
         <Button Command="{Binding LoadActionCommand}" Content="Load action" HorizontalAlignment="Left" Margin="720,128,0,0" VerticalAlignment="Top" Width="74"/>
+        <Button Command="{Binding LoadDevicesCommand}" Content="Load devices" HorizontalAlignment="Left" Margin="924,42,0,0" VerticalAlignment="Top" Width="74"/>
 
     </Grid>
 </Window>

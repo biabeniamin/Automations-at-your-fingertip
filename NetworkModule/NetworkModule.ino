@@ -65,6 +65,12 @@ void registerInLan()
     data[4]=0;
     sendCommandViaMax(data);
   }
+  data[0] = masterAddress;
+  data[1] = 4;
+  data[2] = address;
+  data[3] = 0;
+  data[4] = 0;
+  sendCommandViaMax(data);
 }
 void setupEncj()
 {

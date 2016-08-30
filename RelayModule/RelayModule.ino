@@ -3,8 +3,8 @@
 SoftwareSerial mySerial(10, 11);
 int y[] = {9, 5, 6, 8};
 int x[5];
-int address = 1;
-int triggerPin = 7;
+int address = 2;
+int triggerPin = 9;
 int masterAddress = 0;
 //type(0-master,1-relay,2-keyboard,3-network)
 int deviceType = 1;
@@ -37,6 +37,12 @@ void registerInLan()
     data[4]=0;
     sendCommandViaMax(data);
   }
+  data[0] = masterAddress;
+  data[1] = 4;
+  data[2] = address;
+  data[3] = 0;
+  data[4] = 0;
+  sendCommandViaMax(data);
 }
 void setup()
 {
