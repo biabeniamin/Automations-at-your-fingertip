@@ -180,7 +180,7 @@ void checkMax()
               registerInLan();
               break;
           }
-          for (int i = 0; i < 5; ++i)
+          for (int i = 0; i < 6; ++i)
           {
             Serial.print(x[i]);
             Serial.print(" ");

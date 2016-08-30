@@ -53,6 +53,7 @@
     <Compile Include="Models\Pin.cs" />
     <Compile Include="Models\RemoteAction.cs" />
     <Compile Include="Models\Request.cs" />
+    <Compile Include="Programmer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Response.cs" />
     <Compile Include="Saves.cs" />

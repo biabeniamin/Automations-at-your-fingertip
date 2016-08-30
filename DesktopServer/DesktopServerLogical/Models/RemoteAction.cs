@@ -12,7 +12,7 @@ namespace DesktopServerLogical.Models
     {
         private ActionTypes _type;
         private Pin _pin;
-        private int _value;
+        private int _value=0;
 
         public int Value
         {

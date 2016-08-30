@@ -13,6 +13,6 @@ namespace DesktopServerLogical.Enums
         Program=2,
         DevicePortsRegister=3,
         PortActionsRegister=4,
-
+        ActionRegister=5
     }
 }
