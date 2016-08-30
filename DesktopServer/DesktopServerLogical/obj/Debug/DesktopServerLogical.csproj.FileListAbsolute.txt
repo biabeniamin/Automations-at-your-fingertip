@@ -1,0 +1,5 @@
+D:\Beni\Arduino Projects\Grepit\DesktopServer\DesktopServerLogical\obj\Debug\DesktopServerLogical.csprojResolveAssemblyReference.cache
+D:\Beni\Arduino Projects\Grepit\DesktopServer\DesktopServerLogical\bin\Debug\DesktopServerLogical.dll
+D:\Beni\Arduino Projects\Grepit\DesktopServer\DesktopServerLogical\bin\Debug\DesktopServerLogical.pdb
+D:\Beni\Arduino Projects\Grepit\DesktopServer\DesktopServerLogical\obj\Debug\DesktopServerLogical.dll
+D:\Beni\Arduino Projects\Grepit\DesktopServer\DesktopServerLogical\obj\Debug\DesktopServerLogical.pdb

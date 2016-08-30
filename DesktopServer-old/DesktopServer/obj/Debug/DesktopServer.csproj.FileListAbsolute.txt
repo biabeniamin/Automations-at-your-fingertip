@@ -1,0 +1,12 @@
+D:\Beni\Arduino Projects\Grepit\DesktopServer\DesktopServer\bin\Debug\DesktopServer.exe.config
+D:\Beni\Arduino Projects\Grepit\DesktopServer\DesktopServer\bin\Debug\DesktopServer.exe
+D:\Beni\Arduino Projects\Grepit\DesktopServer\DesktopServer\bin\Debug\DesktopServer.pdb
+D:\Beni\Arduino Projects\Grepit\DesktopServer\DesktopServer\obj\Debug\DesktopServer.csprojResolveAssemblyReference.cache
+D:\Beni\Arduino Projects\Grepit\DesktopServer\DesktopServer\obj\Debug\DesktopServer.Form1.resources
+D:\Beni\Arduino Projects\Grepit\DesktopServer\DesktopServer\obj\Debug\DesktopServer.Properties.Resources.resources
+D:\Beni\Arduino Projects\Grepit\DesktopServer\DesktopServer\obj\Debug\DesktopServer.csproj.GenerateResource.Cache
+D:\Beni\Arduino Projects\Grepit\DesktopServer\DesktopServer\obj\Debug\DesktopServer.exe
+D:\Beni\Arduino Projects\Grepit\DesktopServer\DesktopServer\obj\Debug\DesktopServer.pdb
+D:\Beni\Arduino Projects\Grepit\DesktopServer-old\DesktopServer\bin\Debug\DesktopServer.exe.config
+D:\Beni\Arduino Projects\Grepit\DesktopServer-old\DesktopServer\obj\Debug\DesktopServer.exe
+D:\Beni\Arduino Projects\Grepit\DesktopServer-old\DesktopServer\obj\Debug\DesktopServer.pdb

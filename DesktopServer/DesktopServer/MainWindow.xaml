@@ -1,0 +1,75 @@
+﻿<Window x:Class="DesktopServer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DesktopServer"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="1017.188">
+    <Grid x:Name="MainGrid">
+        <ListView x:Name="listView" HorizontalAlignment="Left" Height="268" Margin="10,41,0,0" VerticalAlignment="Top" Width="133" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Address}" />
+                    <GridViewColumn Width="70" Header="Type" DisplayMemberBinding="{Binding Type}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="924,21,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
+        <ListView x:Name="listViewPins" HorizontalAlignment="Left" Height="133" Margin="165,36,0,0" VerticalAlignment="Top" Width="180" ItemsSource="{Binding SelectedItem.InputPins,ElementName=listView}" SelectedItem="{Binding SelectedPin}">
+            <ListView.View>
+                <GridView x:Name="GridViewPins">
+                    <GridViewColumn Header="Pin" DisplayMemberBinding="{Binding PinNumber}" />
+                    <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Type}" />
+
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <ListView x:Name="listView_Copy1" HorizontalAlignment="Left" Height="236" Margin="350,73,0,0" VerticalAlignment="Top" Width="356" ItemsSource="{Binding SelectedItem.Actions, ElementName=listViewPins}">
+            <ListView.View>
+                <GridView x:Name="GridViewPins1">
+                    <GridViewColumn Width="150" Header="Action">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox IsEnabled="{Binding AllowAction}" ItemsSource="{Binding DataContext.AvailableActions, ElementName=MainGrid}" SelectedItem="{Binding Type}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn x:Name="sad1" Width="100" Header="Actioned Pin">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox IsEnabled="{Binding AllowAction}" ItemsSource="{Binding DataContext.OutputPins, ElementName=MainGrid}" SelectedItem="{Binding Pin}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="90">
+                        <GridViewColumn.Header>Value</GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Width="75" Text="{Binding Value}"></TextBox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button Command="{Binding AddActionCommand}" x:Name="button1" Content="Add" HorizontalAlignment="Left" Margin="589,41,0,0" VerticalAlignment="Top" Width="74"/>
+        <Label x:Name="label" Content="Repeats" HorizontalAlignment="Left" Margin="354,41,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="411,41,0,0" TextWrapping="Wrap" Text="{Binding SelectedItem.Repeats, ElementName=listViewPins}" VerticalAlignment="Top" Width="120"/>
+        <Label x:Name="label1" Content="Devices:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label1_Copy" Content="Pins:" HorizontalAlignment="Left" Margin="165,10,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label1_Copy1" Content="Actions for a pin:" HorizontalAlignment="Left" Margin="353,10,0,0" VerticalAlignment="Top"/>
+        <ListView x:Name="listViewPins_Copy" HorizontalAlignment="Left" Height="133" Margin="165,174,0,0" VerticalAlignment="Top" Width="180" ItemsSource="{Binding SelectedItem.OutputPins, ElementName=listView}">
+            <ListView.View>
+                <GridView x:Name="GridViewPins2">
+                    <GridViewColumn Header="Pin" DisplayMemberBinding="{Binding PinNumber}" />
+                    <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Type}" />
+
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button Command="{Binding SaveActionCommand}" Content="Save action" HorizontalAlignment="Left" Margin="720,103,0,0" VerticalAlignment="Top" Width="74"/>
+        <Button Command="{Binding LoadActionCommand}" Content="Load action" HorizontalAlignment="Left" Margin="720,128,0,0" VerticalAlignment="Top" Width="74"/>
+
+    </Grid>
+</Window>
