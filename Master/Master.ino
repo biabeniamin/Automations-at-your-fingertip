@@ -1,9 +1,13 @@
+#include <EEPROM.h>
+
 #include <SoftwareSerial.h>
-SoftwareSerial mySerial(10,11);
+SoftwareSerial mySerial(10, 11);
 #define address 0
 int y[] = {9, 5, 6, 8};
 int x[5];
 int triggerPin = 9;
+int progCurrentDev=0;
+int progCurrentPort=0;
 void setup()
 {
   mySerial.begin(9600);
@@ -91,13 +95,36 @@ void checkMax()
 }
 void checkSerial()
 {
-  if(Serial.available()>5)
+  if (Serial.available() > 5)
   {
-    for(int i=0;i<6;++i)
+    for (int i = 0; i < 6; ++i)
     {
-      x[i]=Serial.read()-48;
+      x[i] = Serial.read() - 48;
     }
-    sendCommandViaMax(x);
+    if (x[0] == 0)
+    {
+      switch (x[1])
+      {
+        case 2:
+          for (int i = 0 ; i < EEPROM.length() ; i++)
+          {
+            EEPROM.write(i, 0);
+          }
+          EEPROM.write(0,x[2]);
+          progCurrentDev=1;
+          progCurrentPort=0;
+          break;
+        case 3:
+          EEPROM.write(progCurrentDev,progCurrentPort);
+          progCurrentDev++;
+          progCurrentPort+=x[3];
+          break;
+      }
+    }
+    else
+    {
+      sendCommandViaMax(x);
+    }
   }
 }
 
@@ -106,6 +133,6 @@ void loop()
   checkMax();
   checkSerial();
   /*int test[]={1,0,8,2,0,0};
-  sendCommandViaMax(test);
-  delay(2000);*/
+    sendCommandViaMax(test);
+    delay(2000);*/
 }
