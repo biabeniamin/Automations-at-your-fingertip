@@ -13,6 +13,7 @@ namespace DesktopServerLogical
     {
         private SerialPort _port;
         private Action<Response> _receivedAction;
+        private bool _prog = false;
         //private int _lastBytes[]
         public Serial(Action<Response> receivedAction)
         {
@@ -27,6 +28,8 @@ namespace DesktopServerLogical
         }
         public void Write(Request request)
         {
+            if (request.Type == RequestTypes.Program)
+                _prog = true;
             if (request.Type == RequestTypes.ValueChange)
             {
                 if(request.PinAction.Type==ActionTypes.Delay)
@@ -58,6 +61,10 @@ namespace DesktopServerLogical
             while (_port.BytesToRead>0)
             {
                 string line = _port.ReadLine();
+                if(_prog)
+                {
+                    int i = 54;
+                }
                 for (int i = 0; i < 6; i++)
                 {
                     dataReceived[i] = line[i] - 48;
@@ -78,6 +85,7 @@ namespace DesktopServerLogical
                 {
                     response.PinNumber = dataReceived[3];
                     response.Value = dataReceived[4];
+                    continue;
                 }
                 _receivedAction(response);
             }
