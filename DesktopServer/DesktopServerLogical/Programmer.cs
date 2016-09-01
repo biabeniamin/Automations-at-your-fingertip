@@ -48,6 +48,8 @@ namespace DesktopServerLogical
                     _serial.Write(registerPinActions);
                 }
             }
+            /*Request registerPinActionsEnded = new Request(RequestTypes.PortActionsRegister, 0);
+            _serial.Write(registerPinActionsEnded);*/
         }
         private void RegisterActions()
         {
@@ -67,12 +69,18 @@ namespace DesktopServerLogical
                 }
             }
         }
+        private void SendCommandToPrint()
+        {
+            Request r = new Request(RequestTypes.PrintEeprom, 0);
+            _serial.Write(r);
+        }
         public void Program()
         {
             Initializing();
             RegisterDevices();
             RegisterPins();
             RegisterActions();
+            SendCommandToPrint();
         }
 
         
