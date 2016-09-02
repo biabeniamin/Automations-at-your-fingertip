@@ -61,15 +61,15 @@ namespace DesktopServerLogical
             while (_port.BytesToRead>0)
             {
                 string line = _port.ReadLine();
-                if(_prog)
-                {
-                    int i = 54;
-                }
                 for (int i = 0; i < 6; i++)
                 {
                     dataReceived[i] = line[i] - 48;
                 }
                 ResponseTypes ResponseType = (ResponseTypes)Enum.Parse(typeof(ResponseTypes), dataReceived[1].ToString());
+                if (_prog)
+                {
+                    int i = 54;
+                }
                 Response response = new Response(dataReceived[0], ResponseType);
                 response.FromAddress = dataReceived[2];
                 if (ResponseType == ResponseTypes.DeviceRegister)

@@ -4,7 +4,7 @@
 SoftwareSerial mySerial(10, 11);
 #define address 0
 int y[] = {9, 5, 6, 8};
-int x[5];
+int x[6];
 int triggerPin = 9;
 int progCurrentDev = 0;
 int progCurrentPort = 0;
@@ -17,7 +17,6 @@ int actions[40][4];
 void loadSettingsFromEeprom()
 {
   deviceCount = EEPROM.read(0);
-  portCount = 0;
   actionCount = 0;
   int lastPinCount = 0;
   for (int i = 0; i < deviceCount; ++i)
@@ -25,7 +24,7 @@ void loadSettingsFromEeprom()
     devices[i][0] = EEPROM.read(i * 2 + 1);
     devices[i][1] = EEPROM.read(i * 2 + 2) + lastPinCount;
     lastPinCount += devices[i][1];
-    portCount += devices[i][1];
+    portCount = devices[i][1];
   }
   int lastActionsCount = 0;
   for (int i = 0 ; i < portCount; i++)
@@ -34,14 +33,14 @@ void loadSettingsFromEeprom()
     pins[i][1] = EEPROM.read(deviceCount * 2 + i * 3 + 2) + lastActionsCount;
     lastActionsCount = pins[i][1];
     pins[i][2] = EEPROM.read(deviceCount * 2 + i * 3 + 3);
-    actionCount += pins[i][1];
+    actionCount = pins[i][1];
   }
   for (int i = 0 ; i < actionCount; i++)
   {
-    actions[i][0] = EEPROM.read(deviceCount * 2 + portCount * 3 + 5 * i + 1);
-    actions[i][1] = EEPROM.read(deviceCount * 2 + portCount * 3 + 5 * i + 2);
-    actions[i][2] = EEPROM.read(deviceCount * 2 + portCount * 3 + 5 * i + 3);
-    actions[i][3] = EEPROM.read(deviceCount * 2 + portCount * 3 + 5 * i + 4);
+    actions[i][0] = EEPROM.read(deviceCount * 2 + portCount * 3 + 4 * i + 1);
+    actions[i][1] = EEPROM.read(deviceCount * 2 + portCount * 3 + 4 * i + 2);
+    actions[i][2] = EEPROM.read(deviceCount * 2 + portCount * 3 + 4 * i + 3);
+    actions[i][3] = EEPROM.read(deviceCount * 2 + portCount * 3 + 4 * i + 4);
   }
   /*for (int i = 0 ; i < portCount; i++)
     {
@@ -49,28 +48,47 @@ void loadSettingsFromEeprom()
     Serial.print(pins[i][1]);
     Serial.print(pins[i][2]);
     Serial.print(" ");
-    }*/
-  /*for (int i = 0 ; i < deviceCount; i++)
+    }*//*
+  for (int i = 0 ; i < actionCount; i++)
     {
-    Serial.print(devices[i][0]);
-    Serial.print(devices[i][1]);
-    Serial.print(" ");
+    Serial.print(actions[i][0]);
+    Serial.print(actions[i][1]);
+    Serial.print(actions[i][2]);
+    Serial.print(actions[i][3]);
+    Serial.print(" --");
     }*/
   //Serial.println(" ");
 }
 void executeAction(int actionId)
 {
-  /*Serial.print(actions[actionId][0]);
-    Serial.print(actions[actionId][1]);
-    Serial.print(actions[actionId][2]);
-    Serial.print(actions[actionId][3]);
-    Serial.println(" ");*/
+  //1 8 2 0
+  //1 0 8 2 0 0
+  int actionCommand[]={actions[actionId][0],0,actions[actionId][1],actions[actionId][2],0,0};
+  if(actionCommand[3]==3)
+  {
+    delay(actions[actionId][3]*1000);
+  }
+  else
+  {
+    sendCommandViaMax(actionCommand);
+  }
+  Serial.print(actionCommand[0]);
+  Serial.print(" ");
+  Serial.print(actionCommand[1]);
+  Serial.print(" ");
+  Serial.print(actionCommand[2]);
+  Serial.print(" ");
+  Serial.print(actionCommand[3]);
+  Serial.print(" ");
+  Serial.print(actionCommand[4]);
+  Serial.print(" ");
+  Serial.print(actionCommand[5]);
+  Serial.print(" ");
+  Serial.print(" ");
+  Serial.println(" ");
 }
 void pinTriggered(int deviceId, int pinNumber)
 {
-  Serial.print(deviceId);
-  Serial.print("   ");
-  Serial.println(pinNumber);
   for (int i = 0; i < deviceCount; ++i)
   {
     if (devices[i][0] == deviceId)
@@ -113,7 +131,7 @@ void setup()
   Serial.begin(9600);
   pinMode(triggerPin, OUTPUT);
   digitalWrite(triggerPin, LOW);
-  //loadSettingsFromEeprom();
+  loadSettingsFromEeprom();
 }
 int readOneByteMax()
 {
@@ -135,11 +153,11 @@ void sendCommandViaMax(int bytes[])
   for (int i = 0; i < 6; ++i)
   {
     writeByteMax(bytes[i]);
-    Serial.print("    ");
+    /*Serial.print("    ");
     Serial.print(bytes[i]);
-    Serial.print("    ");
+    Serial.print("    ");*/
   }
-  Serial.println("    ");
+  //Serial.println("    ");
   digitalWrite(triggerPin, LOW);
   delay(1);
 }
@@ -186,19 +204,17 @@ void checkMax()
             Serial.print(x[i]);
             //Serial.print(" ");
           }
+          Serial.println();
           if (x[1] == 2)
           {
-            pinTriggered(x[1], x[3]);
+            pinTriggered(x[2], x[3]);
           }
-          Serial.println();
         }
       }
     }
   }
 }
-/*int pins[10][4];
-
-  int test=0;*/
+int portCountS=0,deviceCountS=0,actionCountS=0;
 void checkSerial()
 {
 
@@ -222,25 +238,27 @@ void checkSerial()
           }
           EEPROM.write(0, x[2]);
           progCurrentPort = 0;
-          deviceCount = 0;
+          portCountS=0;
+          deviceCountS = 0;
+          actionCountS=0;
           break;
         case 3:
-          EEPROM.write(deviceCount * 2 + 1, x[2]);
-          EEPROM.write(deviceCount * 2 + 2, x[3]);
-          deviceCount++;
+          EEPROM.write(deviceCountS * 2 + 1, x[2]);
+          EEPROM.write(deviceCountS * 2 + 2, x[3]);
+          deviceCountS++;
           break;
         case 4:
-          EEPROM.write(deviceCount * 2 + portCount * 3 + 1, x[3]);
-          EEPROM.write(deviceCount * 2 + portCount * 3 + 2, x[4]);
-          EEPROM.write(deviceCount * 2 + portCount * 3 + 3, x[5]);
-          portCount++;
+          EEPROM.write(deviceCountS * 2 + portCountS * 3 + 1, x[3]);
+          EEPROM.write(deviceCountS * 2 + portCountS * 3 + 2, x[4]);
+          EEPROM.write(deviceCountS * 2 + portCountS * 3 + 3, x[5]);
+          portCountS++;
           break;
         case 5:
-          EEPROM.write(deviceCount * 2 + portCount * 3 + actionCount * 4 + 1, x[2]);
-          EEPROM.write(deviceCount * 2 + portCount * 3 + actionCount * 4 + 2, x[3]);
-          EEPROM.write(deviceCount * 2 + portCount * 3 + actionCount * 4 + 3, x[4]);
-          EEPROM.write(deviceCount * 2 + portCount * 3 + actionCount * 4 + 4, x[5]);
-          actionCount++;
+          EEPROM.write(deviceCountS * 2 + portCountS * 3 + actionCountS * 4 + 1, x[2]);
+          EEPROM.write(deviceCountS * 2 + portCountS * 3 + actionCountS * 4 + 2, x[3]);
+          EEPROM.write(deviceCountS * 2 + portCountS * 3 + actionCountS * 4 + 3, x[4]);
+          EEPROM.write(deviceCountS * 2 + portCountS * 3 + actionCountS * 4 + 4, x[5]);
+          actionCountS++;
           break;
         case 6:
           /*for (int i = 0 ; i < 50; i++)

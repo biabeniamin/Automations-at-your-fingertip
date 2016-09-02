@@ -30,7 +30,7 @@ void loop() {
           
   
   Serial.println();
-  while(1);`
+  while(1);
 
   /***
     Advance to the next address, when at the end restart at the beginning.
