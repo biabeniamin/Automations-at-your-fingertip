@@ -110,10 +110,10 @@ void sendCommandViaMax(int bytes[])
   for (int i = 0; i < 6; ++i)
   {
     mySerial.write(48 + bytes[i]);
-    Serial.print(bytes[i]);
-    Serial.print("    ");
+    /*Serial.print(bytes[i]);
+    Serial.print("    ");*/
   }
-  Serial.println("    ");
+  //Serial.println("    ");
   digitalWrite(triggerPin, LOW);
   delay(1);
 }
@@ -205,11 +205,11 @@ void checkEncj()
       {
         int com[]={0,2,address,i,1,0};
         sendCommandViaMax(com);
-        Serial.print(0);
+        /*Serial.print(0);
         Serial.print(2);
         Serial.print(address);
         Serial.print(i);
-        Serial.print(1);
+        Serial.print(1);*/
       }
     }
     memcpy_P(ether.tcpOffset(), page, sizeof page);
@@ -219,11 +219,11 @@ void checkEncj()
 void loop() {
   checkMax();
   checkEncj();
-  if(Serial.available()>0)
+  /*if(Serial.available()>0)
   {
     registerInLan();
     int afas=Serial.read();
-  }
+  }*/
   /*for(int i=0;i<inputPinsCount;++i)
   {
     int value=digitalRead(inputPins[i]);
