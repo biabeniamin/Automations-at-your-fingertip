@@ -66,27 +66,12 @@ void executeAction(int actionId)
   int actionCommand[]={actions[actionId][0],0,actions[actionId][1],actions[actionId][2],0,0};
   if(actionCommand[3]==3)
   {
-    Serial.println(actions[actionId][3]*1000);
     delay(actions[actionId][3]*1000);
   }
   else
   {
     sendCommandViaMax(actionCommand);
   }
-  Serial.print(actionCommand[0]);
-  Serial.print(" ");
-  Serial.print(actionCommand[1]);
-  Serial.print(" ");
-  Serial.print(actionCommand[2]);
-  Serial.print(" ");
-  Serial.print(actionCommand[3]);
-  Serial.print(" ");
-  Serial.print(actionCommand[4]);
-  Serial.print(" ");
-  Serial.print(actionCommand[5]);
-  Serial.print(" ");
-  Serial.print(" ");
-  Serial.println(" ");
 }
 void pinTriggered(int deviceId, int pinNumber)
 {
