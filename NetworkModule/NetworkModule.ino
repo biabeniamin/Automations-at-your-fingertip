@@ -38,8 +38,8 @@ int masterAddress = 0;
 int deviceType = 3;
 #define inputPinsCount 5
 int inputPins[inputPinsCount]={1,2,3,4,5};
-#define outputPinsCount 1
-int outputPins[outputPinsCount]={8};
+#define outputPinsCount 0
+int outputPins[outputPinsCount]={};
 void registerInLan()
 {
   //toAddress,typeOfResponse(0-register,1-PinRegister),fromAddress,type(0-master,1-relay,2-keyboard,3-network)
