@@ -25,7 +25,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <ListView x:Name="listView_Copy1" HorizontalAlignment="Left" Height="236" Margin="350,73,0,0" VerticalAlignment="Top" Width="356" ItemsSource="{Binding SelectedItem.Actions, ElementName=listViewPins}">
+        <ListView x:Name="listView_Copy1" HorizontalAlignment="Left" Height="236" Margin="350,73,0,0" VerticalAlignment="Top" Width="421" ItemsSource="{Binding SelectedItem.Actions, ElementName=listViewPins}">
             <ListView.View>
                 <GridView x:Name="GridViewPins1">
                     <GridViewColumn Width="150" Header="Action">
@@ -50,6 +50,14 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
+                    <GridViewColumn Width="50">
+                        <GridViewColumn.Header>Delete</GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Width="30" Content="X" Command="{Binding RemoveCommand}"></Button>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
@@ -68,8 +76,8 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Command="{Binding SaveActionCommand}" Content="Save action" HorizontalAlignment="Left" Margin="720,103,0,0" VerticalAlignment="Top" Width="74"/>
-        <Button Command="{Binding LoadActionCommand}" Content="Load action" HorizontalAlignment="Left" Margin="720,128,0,0" VerticalAlignment="Top" Width="74"/>
+        <Button Command="{Binding SaveActionCommand}" Content="Save action" HorizontalAlignment="Left" Margin="776,97,0,0" VerticalAlignment="Top" Width="74"/>
+        <Button Command="{Binding LoadActionCommand}" Content="Load action" HorizontalAlignment="Left" Margin="776,122,0,0" VerticalAlignment="Top" Width="74"/>
         <Button Command="{Binding LoadDevicesCommand}" Content="Load devices" HorizontalAlignment="Left" Margin="901,47,0,0" VerticalAlignment="Top" Width="97"/>
         <Button Command="{Binding ProgramActionsCommand}" Content="Program actions" HorizontalAlignment="Left" Margin="901,73,0,0" VerticalAlignment="Top" Width="97"/>
 

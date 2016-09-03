@@ -34,7 +34,8 @@ namespace DesktopServerLogical
             {
                 int deviceId = Convert.ToInt32(reader[0]);
                 int pinId = Convert.ToInt32(reader[1]);
-                RemoteAction action = new RemoteAction(Helpers.GetPin(Helpers.GetDevice(devices, deviceId), pinId),(ActionTypes)Enum.Parse(typeof(ActionTypes),reader[2].ToString()));
+                Pin pin = Helpers.GetPin(Helpers.GetDevice(devices, deviceId), pinId);
+                RemoteAction action = new RemoteAction(pin,(ActionTypes)Enum.Parse(typeof(ActionTypes),reader[2].ToString()),pin);
                 action.Value = Convert.ToInt32(reader[3]);
                 actions.Add(action);
             }

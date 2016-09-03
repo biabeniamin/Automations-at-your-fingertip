@@ -98,6 +98,22 @@ namespace DesktopServerLogical
                 });
             }
         }
+        public void RemoveAction(Pin pin,RemoteAction action)
+        {
+            for (int i = 0; i < _devices.Count; i++)
+            {
+                if(_devices[i].Address==pin.Owner.Address)
+                {
+                    for (int j = 0; j < _devices[i].Pins.Count; j++)
+                    {
+                        if(_devices[i].Pins[j].PinNumber==pin.PinNumber)
+                        {
+                            _devices[i].Pins[j].Actions.Remove(action);
+                        }
+                    }
+                }
+            }
+        }
         private void LoadNextDevice(Response response)
         {
             if(response.FromAddress<4)

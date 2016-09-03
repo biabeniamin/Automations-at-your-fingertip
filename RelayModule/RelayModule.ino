@@ -1,17 +1,17 @@
 //relay module
-#include <SoftwareSerial.h>
-SoftwareSerial mySerial(10, 11);
+#include<SoftwareSerial.h>
+SoftwareSerial serial(0,1);
 int y[] = {9, 5, 6, 8};
 int x[5];
 int address = 2;
-int triggerPin = 9;
+int triggerPin = A3;
 int masterAddress = 0;
 //type(0-master,1-relay,2-keyboard,3-network)
 int deviceType = 1;
 int inputPinsCount=1;
-int inputPins[1]={5};
+int inputPins[1]={8};
 int outputPinsCount=1;
-int outputPins[1]={8};
+int outputPins[1]={9};
 void registerInLan()
 {
   //toAddress,typeOfResponse(0-register,1-PinRegister),fromAddress,type(0-master,1-relay,2-keyboard,3-network)
@@ -49,8 +49,7 @@ void registerInLan()
 }
 void setup()
 {
-  Serial.begin(9600);
-  mySerial.begin(9600);
+  serial.begin(9600);
   pinMode(triggerPin, OUTPUT);
   digitalWrite(triggerPin, LOW);
   registerInLan();
@@ -66,19 +65,15 @@ void setup()
 void sendCommandViaMax(int bytes[])
 {
   digitalWrite(triggerPin, HIGH);
-  delay(1);
-  mySerial.write(y[0] + 48);
-  mySerial.write(y[1] + 48);
-  mySerial.write(y[2] + 48);
-  mySerial.write(y[3] + 48);
-  //mySerial.write(48+bytes[1]);
+  delay(100);
+  serial.write(y[0] + 48);
+  serial.write(y[1] + 48);
+  serial.write(y[2] + 48);
+  serial.write(y[3] + 48);
   for (int i = 0; i < 6; ++i)
   {
-    mySerial.write(48 + bytes[i]);
-    Serial.print(bytes[i]);
-    Serial.print("    ");
+    serial.write(48 + bytes[i]);
   }
-  Serial.println("    ");
   digitalWrite(triggerPin, LOW);
   delay(1);
 }
@@ -94,16 +89,16 @@ void sendOneByteViaMax(int address, int byte)
 }
 void checkMax()
 {
-  if (mySerial.available() > 9)
+  if (serial.available() > 9)
   {
     
-    while (mySerial.available())
+    while (serial.available())
     {
       for (int i = 0; i < 3; ++i)
       {
         x[i] = x[i + 1];
       }
-      x[3] = mySerial.read() - 48;
+      x[3] = serial.read() - 48;
       bool isOk = true;
       for (int i = 0; i < 4; ++i)
       {
@@ -116,7 +111,7 @@ void checkMax()
       {
         for (int i = 0; i < 6; ++i)
         {
-          x[i] = mySerial.read() - 48;
+          x[i] = serial.read() - 48;
         }
         if (x[0] == address)
         {
@@ -146,12 +141,6 @@ void checkMax()
                 registerInLan();
               break;
           }
-          for (int i = 0; i < 6; ++i)
-          {
-            Serial.print(x[i]);
-            Serial.print(" ");
-          }
-          Serial.println();
         }
       }
     }
@@ -159,11 +148,6 @@ void checkMax()
 }
 void loop() {
   checkMax();
-  if(Serial.available()>0)
-  {
-    registerInLan();
-    int afas=Serial.read();
-  }
   for(int i=0;i<inputPinsCount;++i)
   {
     int value=digitalRead(inputPins[i]);

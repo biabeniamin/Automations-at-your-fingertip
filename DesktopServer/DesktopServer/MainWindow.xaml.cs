@@ -125,6 +125,7 @@ namespace DesktopServer
         private void ProgramActions()
         {
             _controller.ProgramMaster();
+            MessageBox.Show("Programare terminata!");
         }
         private void LoadDevices()
         {
@@ -132,26 +133,40 @@ namespace DesktopServer
         }
         private void SaveAction()
         {
-            _saves.AddSave(SelectedPin.Actions, "test");
+            if (SelectedPin != null)
+                _saves.AddSave(SelectedPin.Actions, "test");
         }
         private void LoadAction()
         {
-            SelectedPin.Actions = _saves.LoadActions("test", _controller.Devices);
+            if (SelectedPin != null)
+            {
+                SelectedPin.Actions = _saves.LoadActions("test", _controller.Devices);
+                for (int i = 0; i < SelectedPin.Actions.Count; i++)
+                {
+                    SelectedPin.Actions[i].RemoveAction = _controller.RemoveAction;
+                    SelectedPin.Actions[i].OwnerPin = SelectedPin;
+                }
+            }
         }
         private void AddAction()
         {
-            SelectedPin.Actions.Add(new RemoteAction(SelectedPin,ActionTypes.TurnOn));
+            if (SelectedPin != null)
+            {
+                RemoteAction action = new RemoteAction(SelectedPin, ActionTypes.TurnOn, SelectedPin);
+                action.RemoveAction = _controller.RemoveAction;
+                SelectedPin.Actions.Add(action);
+            }
         }
         private void button_Click(object sender, RoutedEventArgs e)
         {
             //_controller.Devices.Clear();
-            Request r = new Request(RequestTypes.ValueChange, 1);
+            /*Request r = new Request(RequestTypes.ValueChange, 1);
             Device d = new Device(1, DeviceTypes.Relay);
             Pin p = new Pin(d, 8, PinTypes.Output);
             r.Pin = p;
-            RemoteAction ra = new RemoteAction(p, ActionTypes.Switch);
+            RemoteAction ra = new RemoteAction(p, ActionTypes.Switch,p);
             r.PinAction = ra;
-            _controller._serial.Write(r);
+            _controller._serial.Write(r);*/
         }
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged(string name)
@@ -159,5 +174,7 @@ namespace DesktopServer
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
+
+        
     }
 }
