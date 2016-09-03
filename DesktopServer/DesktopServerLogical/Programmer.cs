@@ -32,6 +32,7 @@ namespace DesktopServerLogical
                 registerPorts.Value1 = _devices[i].Address;
                 registerPorts.Value2 = _devices[i].InputPins.Count;
                 _serial.Write(registerPorts);
+                System.Threading.Thread.Sleep(100);
             }
         }
         private void RegisterPins()
@@ -46,6 +47,7 @@ namespace DesktopServerLogical
                     registerPinActions.Value3 = _devices[i].InputPins[j].Actions.Count;
                     registerPinActions.Value4 = _devices[i].InputPins[j].Repeats;
                     _serial.Write(registerPinActions);
+                    System.Threading.Thread.Sleep(100);
                 }
             }
             /*Request registerPinActionsEnded = new Request(RequestTypes.PortActionsRegister, 0);
@@ -65,6 +67,7 @@ namespace DesktopServerLogical
                         registerAction.Value3 = (int)(_devices[i].InputPins[j].Actions[k].Type);
                         registerAction.Value4 = _devices[i].InputPins[j].Actions[k].Value;
                         _serial.Write(registerAction);
+                        System.Threading.Thread.Sleep(100);
                     }
                 }
             }
