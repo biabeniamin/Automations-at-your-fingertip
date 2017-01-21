@@ -121,11 +121,11 @@ void setup()
 }
 int readOneByteMax()
 {
-  return mySerial.read() - 48;
+  return mySerial.read();
 }
 void writeByteMax(int value)
 {
-  mySerial.write(value + 48);
+  mySerial.write(value );
 }
 void sendCommandViaMax(int bytes[])
 {
@@ -153,6 +153,16 @@ void sendOneByteViaMax(int toAddress, int byte)
   x[1] = byte;
   x[2] = 0;
   x[3] = 0;
+  x[4] = 0;
+  x[5] = 0;
+  sendCommandViaMax(x);
+}
+void sendOneBigByteViaMax(int toAddress, int byte)
+{
+  x[0] = toAddress;
+  x[1] = 99;
+  x[2] = byte/256;
+  x[3] = byte%256;
   x[4] = 0;
   x[5] = 0;
   sendCommandViaMax(x);
@@ -259,6 +269,8 @@ void checkSerial()
 
 void loop()
 {
+  sendOneBigByteViaMax(1,32767 );
+  return;
   checkMax();
   checkSerial();
   /*int test[]={1,0,8,2,0,0};
