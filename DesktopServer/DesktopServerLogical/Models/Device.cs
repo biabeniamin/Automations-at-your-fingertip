@@ -31,7 +31,7 @@ namespace DesktopServerLogical.Models
             {
                 return new ObservableCollection<Pin>(_pins.Where<Pin>((p) =>
                 {
-                    if (p.Type == PinTypes.Input)
+                    if (p.Type == PinTypes.Input || p.Type == PinTypes.Analog)
                         return true;
                     return false;
                 }).ToList<Pin>());

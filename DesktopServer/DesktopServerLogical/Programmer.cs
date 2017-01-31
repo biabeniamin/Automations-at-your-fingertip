@@ -46,6 +46,8 @@ namespace DesktopServerLogical
                     registerPinActions.Value2 = _devices[i].InputPins[j].PinNumber;
                     registerPinActions.Value3 = _devices[i].InputPins[j].Actions.Count;
                     registerPinActions.Value4 = _devices[i].InputPins[j].Repeats;
+                    if (_devices[i].InputPins[j].Type == PinTypes.Analog)
+                        registerPinActions.Value5 = _devices[i].InputPins[j].TriggeredValue;
                     _serial.Write(registerPinActions);
                     System.Threading.Thread.Sleep(100);
                 }

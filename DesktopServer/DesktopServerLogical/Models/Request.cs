@@ -17,6 +17,13 @@ namespace DesktopServerLogical.Models
         private int _value2=0;
         private int _value3=0;
         private int _value4=0;
+        private int _value5=0;
+
+        public int Value5
+        {
+            get { return _value5; }
+            set { _value5 = value; }
+        }
 
         public int Value4
         {

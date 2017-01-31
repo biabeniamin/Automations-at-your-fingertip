@@ -1,17 +1,20 @@
 //relay module
+#define ASCIIVALUES 0
 #include<SoftwareSerial.h>
-SoftwareSerial serial(0,1);
+SoftwareSerial serial(10,11);
 int y[] = {9, 5, 6, 8};
 int x[5];
 int address = 2;
-int triggerPin = A3;
+int triggerPin = 9;
 int masterAddress = 0;
 //type(0-master,1-relay,2-keyboard,3-network)
 int deviceType = 1;
 int inputPinsCount=1;
 int inputPins[1]={8};
 int outputPinsCount=1;
-int outputPins[1]={9};
+int outputPins[1]={7};
+int analogPinsCount=1;
+int analogPins[1]={5};
 void registerInLan()
 {
   //toAddress,typeOfResponse(0-register,1-PinRegister),fromAddress,type(0-master,1-relay,2-keyboard,3-network)
@@ -25,6 +28,16 @@ void registerInLan()
     data[2]=address;
     data[3]=outputPins[i];
     data[4]=1;
+    data[5]=0;
+    sendCommandViaMax(data);
+  }
+  for(int i=0;i<analogPinsCount;++i)
+  {
+    data[0]=masterAddress;
+    data[1]=1;
+    data[2]=address;
+    data[3]=analogPins[i];
+    data[4]=2;
     data[5]=0;
     sendCommandViaMax(data);
   }
@@ -50,6 +63,7 @@ void registerInLan()
 void setup()
 {
   serial.begin(9600);
+  Serial.begin(9600);
   pinMode(triggerPin, OUTPUT);
   digitalWrite(triggerPin, LOW);
   registerInLan();
@@ -62,20 +76,39 @@ void setup()
     pinMode(outputPins[i],OUTPUT);
   }
 }
+void writeByteMax(int value)
+{
+#if ASCIIVALUES==1
+  Serial.print(value);
+  serial.write(value+48);
+#else
+  Serial.print(value);
+  serial.write(value);
+#endif
+}
+int readByteMax()
+{
+  #if ASCIIVALUES==1
+    return serial.read()-48;
+  #else
+    return serial.read();
+  #endif
+}
 void sendCommandViaMax(int bytes[])
 {
   digitalWrite(triggerPin, HIGH);
   delay(100);
-  serial.write(y[0] + 48);
-  serial.write(y[1] + 48);
-  serial.write(y[2] + 48);
-  serial.write(y[3] + 48);
+  writeByteMax(y[0]);
+  writeByteMax(y[1]);
+  writeByteMax(y[2]);
+  writeByteMax(y[3]);
   for (int i = 0; i < 6; ++i)
   {
-    serial.write(48 + bytes[i]);
+    writeByteMax( bytes[i]);
   }
   digitalWrite(triggerPin, LOW);
   delay(1);
+  Serial.println();
 }
 void sendOneByteViaMax(int address, int byte)
 {
@@ -98,7 +131,7 @@ void checkMax()
       {
         x[i] = x[i + 1];
       }
-      x[3] = serial.read() - 48;
+      x[3] = readByteMax();
       bool isOk = true;
       for (int i = 0; i < 4; ++i)
       {
@@ -111,13 +144,19 @@ void checkMax()
       {
         for (int i = 0; i < 6; ++i)
         {
-          x[i] = serial.read() - 48;
+          x[i] = readByteMax();
         }
         if (x[0] == address)
         {
+          Serial.println("int2");
+          Serial.print(x[0]);
+          Serial.print(x[1]);
+          Serial.print(x[2]);
+          Serial.println(x[3]);
           switch(x[1])
           {
             case 0:
+            
               switch(x[3])
               {
                 case 0:
