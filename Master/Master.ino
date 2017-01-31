@@ -2,8 +2,8 @@
 
 #include <SoftwareSerial.h>
 #define ASCIIVALUES 0
-SoftwareSerial mySerial(10, 11);
 #define address 0
+SoftwareSerial mySerial(10, 11);
 int y[] = {9, 5, 6, 8};
 int x[6];
 int triggerPin = 9;
@@ -15,11 +15,37 @@ int actionCount = 0;
 int devices[10][2];
 int pins[20][5];
 int actions[40][5];
+void setTriggerLimit(int devAddress,int pinNumber,int value)
+{
+  int val[]={devAddress,2,pinNumber,value,0,0,0};
+  sendCommandViaMax(val);
+  mySerial.print("trig limit ");
+  mySerial.print(devAddress);
+  mySerial.print(pinNumber);
+  mySerial.println(value);
+}
+void sendAnalogTriggerLimit()
+{
+  int pinStart = 0;
+  for (int i = 0; i < deviceCount; ++i)
+  {
+    int pinEnd = devices[i][1];
+    for (int j = pinStart; j < pinEnd; ++j)
+    {
+      if (pins[j][3]>0)
+      {
+        setTriggerLimit(devices[i][0],pins[j][0],pins[j][3]);
+      }
+    }
+    pinStart+=pinEnd;
+  }
+
+}
 void loadSettingsFromEeprom()
 {
   deviceCount = EEPROM.read(0);
   Serial.println("dev count:");
-    Serial.println(deviceCount);
+  Serial.println(deviceCount);
   actionCount = 0;
   int lastPinCount = 0;
   for (int i = 0; i < deviceCount; ++i)
@@ -30,7 +56,7 @@ void loadSettingsFromEeprom()
     portCount = devices[i][1];
   }
   Serial.println("dev 1 pin count:");
-    Serial.println(devices[0][1]);
+  Serial.println(devices[0][1]);
   int lastActionsCount = 0;
   for (int i = 0 ; i < portCount; i++)
   {
@@ -56,6 +82,9 @@ void loadSettingsFromEeprom()
     actions[i][3] = EEPROM.read(deviceCount * 2 + portCount * 4 + 4 * i + 4);
     actions[i][4] = EEPROM.read(deviceCount * 2 + portCount * 4 + 4 * i + 5);
   }
+
+  //send analogLimit
+  sendAnalogTriggerLimit();
   /*Serial.println("dev 1 pin 2 act count:");
     Serial.print(actionCount);
     Serial.print(actions[0][0]);
@@ -173,8 +202,8 @@ void sendCommandViaMax(int bytes[])
   {
     writeByteMax(bytes[i]);
     /*Serial.print("    ");
-    Serial.print(bytes[i]);
-    Serial.print("    ");*/
+      Serial.print(bytes[i]);
+      Serial.print("    ");*/
   }
   //Serial.println("    ");
   digitalWrite(triggerPin, LOW);
@@ -294,10 +323,12 @@ void checkSerial()
           deviceCountS++;
           break;
         case 4:
+          mySerial.println("pin");
           EEPROM.write(deviceCountS * 2 + portCountS * 4 + 1, commandReceived[3]);
           EEPROM.write(deviceCountS * 2 + portCountS * 4 + 2, commandReceived[4]);
           EEPROM.write(deviceCountS * 2 + portCountS * 4 + 3, commandReceived[5]);
           EEPROM.write(deviceCountS * 2 + portCountS * 4 + 4, commandReceived[6]);
+          mySerial.println(commandReceived[6]);
           portCountS++;
           break;
         case 5:
