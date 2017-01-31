@@ -16,6 +16,13 @@ namespace DesktopServerLogical.Models
         private PinTypes _type;
         private ObservableCollection<RemoteAction> _actions;
         private int _repeats=1;
+        private int _triggeredValue=1;
+
+        public int TriggeredValue
+        {
+            get { return _triggeredValue; }
+            set { _triggeredValue = value; }
+        }
 
         public int Repeats
         {
@@ -26,6 +33,13 @@ namespace DesktopServerLogical.Models
         public bool AllowAction
         {
             get { return PinTypes.Input==_type; }
+        }
+        public bool AllowTriggeredValue
+        {
+            get
+            {
+                return PinTypes.Analog == _type;
+            }
         }
 
 

@@ -18,7 +18,7 @@ namespace DesktopServerLogical
         public Serial(Action<Response> receivedAction)
         {
             _receivedAction = receivedAction;
-            _port = new SerialPort("COM6");
+            _port = new SerialPort("COM5");
             _port.DtrEnable = true;
             _port.RtsEnable = true;
             _port.Open();
@@ -53,6 +53,7 @@ namespace DesktopServerLogical
                 _port.Write(request.Value2.ToString());
                 _port.Write(request.Value3.ToString());
                 _port.Write(request.Value4.ToString());
+                _port.Write(request.Value5.ToString());
             }
         }
         private void _port_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -61,6 +62,9 @@ namespace DesktopServerLogical
             while (_port.BytesToRead>0)
             {
                 string line = _port.ReadLine();
+                if (line.Length < 6)
+                    continue;
+                System.Diagnostics.Debug.WriteLine("in:"+line);
                 for (int i = 0; i < 6; i++)
                 {
                     dataReceived[i] = line[i] - 48;
