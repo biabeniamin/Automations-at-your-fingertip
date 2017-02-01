@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Globalization;
 
 namespace DesktopServer
 {
@@ -34,6 +35,13 @@ namespace DesktopServer
         private Saves _saves;
         private DelegateCommand _loadDevicesCommand;
         private DelegateCommand _programActionsCommand;
+        private DelegateCommand _activeLowActionCommand;
+
+        public DelegateCommand AddActiveLowActionCommand
+        {
+            get { return _activeLowActionCommand; }
+            set { _activeLowActionCommand = value; }
+        }
 
         public DelegateCommand ProgramActionsCommand
         {
@@ -116,6 +124,7 @@ namespace DesktopServer
             _controller = new Controller(App.Current.Dispatcher);
             DataContext = this;
             AddActionCommand = new DelegateCommand(AddAction);
+            AddActiveLowActionCommand= new DelegateCommand(AddActiveLowAction);
             SaveActionCommand = new DelegateCommand(SaveAction);
             LoadActionCommand = new DelegateCommand(LoadAction);
             LoadDevicesCommand = new DelegateCommand(LoadDevices);
@@ -131,10 +140,10 @@ namespace DesktopServer
         private void LoadDevices()
         {
             _controller.LoadDevices();
-            _controller.Devices.Add(new Device(2, DeviceTypes.Relay));
+            /*_controller.Devices.Add(new Device(2, DeviceTypes.Relay));
             _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 5, PinTypes.Analog));
             _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0],8, PinTypes.Input));
-            _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 7, PinTypes.Output));
+            _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 7, PinTypes.Output));*/
         }
         private void SaveAction()
         {
@@ -162,6 +171,15 @@ namespace DesktopServer
                 SelectedPin.Actions.Add(action);
             }
         }
+        private void AddActiveLowAction()
+        {
+            if (SelectedPin != null)
+            {
+                RemoteAction action = new RemoteAction(SelectedPin, ActionTypes.TurnOn, SelectedPin);
+                action.RemoveAction = _controller.RemoveAction;
+                SelectedPin.ActiveLowActions.Add(action);
+            }
+        }
         private void button_Click(object sender, RoutedEventArgs e)
         {
             //_controller.Devices.Clear();
@@ -181,5 +199,20 @@ namespace DesktopServer
         }
 
         
+    }
+    public class DoubleApproximator : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string valueAsString = value.ToString();
+            if (valueAsString.Length > 1)
+                valueAsString = valueAsString.Substring(0, 1);
+            return valueAsString;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return 2.2;
+        }
     }
 }

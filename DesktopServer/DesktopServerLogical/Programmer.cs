@@ -45,6 +45,7 @@ namespace DesktopServerLogical
                     registerPinActions.Value1 = _devices[i].Address;
                     registerPinActions.Value2 = _devices[i].InputPins[j].PinNumber;
                     registerPinActions.Value3 = _devices[i].InputPins[j].Actions.Count;
+                    registerPinActions.Value3 += _devices[i].InputPins[j].ActiveLowActions.Count;
                     registerPinActions.Value4 = _devices[i].InputPins[j].Repeats;
                     if (_devices[i].InputPins[j].Type == PinTypes.Analog)
                         registerPinActions.Value5 = _devices[i].InputPins[j].TriggeredValue;
@@ -57,10 +58,12 @@ namespace DesktopServerLogical
         }
         private void RegisterActions()
         {
+            
             for (int i = 0; i < _devices.Count; i++)
             {
                 for (int j = 0; j < _devices[i].InputPins.Count; j++)
                 {
+                    //write active on high actions
                     for (int k = 0; k < _devices[i].InputPins[j].Actions.Count; k++)
                     {
                         Request registerAction = new Request(RequestTypes.ActionRegister, 0);
@@ -68,6 +71,18 @@ namespace DesktopServerLogical
                         registerAction.Value2 = _devices[i].InputPins[j].Actions[k].Pin.PinNumber;
                         registerAction.Value3 = (int)(_devices[i].InputPins[j].Actions[k].Type);
                         registerAction.Value4 = _devices[i].InputPins[j].Actions[k].Value;
+                        _serial.Write(registerAction);
+                        System.Threading.Thread.Sleep(100);
+                    }
+                    //write actiove on low actions
+                    for (int k = 0; k < _devices[i].InputPins[j].ActiveLowActions.Count; k++)
+                    {
+                        Request registerAction = new Request(RequestTypes.ActionRegister, 0);
+                        registerAction.Value1 = _devices[i].InputPins[j].ActiveLowActions[k].Pin.Owner.Address;
+                        registerAction.Value2 = _devices[i].InputPins[j].ActiveLowActions[k].Pin.PinNumber;
+                        registerAction.Value3 = (int)(_devices[i].InputPins[j].ActiveLowActions[k].Type);
+                        registerAction.Value4 = _devices[i].InputPins[j].ActiveLowActions[k].Value;
+                        registerAction.Value5 = 1;
                         _serial.Write(registerAction);
                         System.Threading.Thread.Sleep(100);
                     }
