@@ -14,7 +14,7 @@ int inputPins[1] = {8};
 int outputPinsCount = 1;
 int outputPins[1] = {7};
 int analogPinsCount = 1;
-int analogPins[1] = {5};
+int analogPins[1] = {0};
 int analogTriggeredValue[] = {7};
 int isAnalogTriggered[]={1};
 void registerInLan()
@@ -200,12 +200,14 @@ void checkMax()
 }
 void checkAnalogPins()
 {
-  Serial.print("trig val");
-  Serial.println(isAnalogTriggered[0]);
   for (int i = 0; i < analogPinsCount; ++i)
   {
     int value=map(analogRead(A0-analogPins[i]),0,1024,0,9);
-    //Serial.println(value);
+    Serial.print(value);
+    Serial.print(" ");
+    Serial.print(isAnalogTriggered[i]);
+    Serial.print(" ");
+    Serial.println(analogTriggeredValue[i]);
     if(value>analogTriggeredValue[i] && isAnalogTriggered[i]==0)
     {
       int data[6] = {masterAddress, 2, address, inputPins[i], value, 0};
@@ -216,6 +218,8 @@ void checkAnalogPins()
     }
     else if(value<=analogTriggeredValue[i] && isAnalogTriggered[i]==1)
     {
+      int data[6] = {masterAddress, 2, address, inputPins[i], value, 1};
+      sendCommandViaMax(data);
       isAnalogTriggered[i]=0;
       Serial.println("agb");
     }

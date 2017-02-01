@@ -15,8 +15,9 @@ namespace DesktopServerLogical.Models
         private int _pinNumber;
         private PinTypes _type;
         private ObservableCollection<RemoteAction> _actions;
+        private ObservableCollection<RemoteAction> _activeLowActions;
         private int _repeats=1;
-        private int _triggeredValue=1;
+        private int _triggeredValue=5;
 
         public int TriggeredValue
         {
@@ -51,7 +52,15 @@ namespace DesktopServerLogical.Models
                 _actions = value;
             }
         }
-        
+        public ObservableCollection<RemoteAction> ActiveLowActions
+        {
+            get { return _activeLowActions; }
+            set
+            {
+                _activeLowActions = value;
+            }
+        }
+
         public PinTypes Type
         {
             get { return _type; }
@@ -72,6 +81,7 @@ namespace DesktopServerLogical.Models
             _pinNumber = pinNumber;
             _type = type;
             _actions = new ObservableCollection<RemoteAction>();
+            _activeLowActions = new ObservableCollection<RemoteAction>();
         }
         public override string ToString()
         {

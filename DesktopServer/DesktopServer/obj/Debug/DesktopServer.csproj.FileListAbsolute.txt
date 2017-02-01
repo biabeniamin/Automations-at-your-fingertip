@@ -30,3 +30,4 @@ D:\Beni\Grepit\DesktopServer\DesktopServer\obj\Debug\MainWindow.baml
 D:\Beni\Grepit\DesktopServer\DesktopServer\obj\Debug\DesktopServer.g.resources
 D:\Beni\Grepit\DesktopServer\DesktopServer\obj\Debug\DesktopServer.Properties.Resources.resources
 D:\Beni\Grepit\DesktopServer\DesktopServer\obj\Debug\DesktopServer.csproj.GenerateResource.Cache
+D:\Beni\Grepit\DesktopServer\DesktopServer\obj\Debug\GeneratedInternalTypeHelper.g.cs
