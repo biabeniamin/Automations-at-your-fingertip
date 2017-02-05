@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DesktopServer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="368.892" Width="1017.188">
+        Title="MainWindow" Height="368.892" Width="1412.885">
     <Window.Resources>
         <local:DoubleApproximator x:Key="DoubleConvertor"></local:DoubleApproximator>
     </Window.Resources>
@@ -18,7 +18,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="901,21,0,0" VerticalAlignment="Top" Width="98" Click="button_Click"/>
+        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="784,72,0,0" VerticalAlignment="Top" Width="98" Click="button_Click"/>
         <ListView x:Name="listViewPins" HorizontalAlignment="Left" Height="133" Margin="165,36,0,0" VerticalAlignment="Top" Width="180" ItemsSource="{Binding SelectedItem.InputPins,ElementName=listView}" SelectedItem="{Binding SelectedPin}">
             <ListView.View>
                 <GridView x:Name="GridViewPins">
@@ -82,8 +82,8 @@
         </ListView>
         <Button Command="{Binding SaveActionCommand}" Content="Save action" HorizontalAlignment="Left" Margin="784,15,0,0" VerticalAlignment="Top" Width="74"/>
         <Button Command="{Binding LoadActionCommand}" Content="Load action" HorizontalAlignment="Left" Margin="784,40,0,0" VerticalAlignment="Top" Width="74"/>
-        <Button Command="{Binding LoadDevicesCommand}" Content="Load devices" HorizontalAlignment="Left" Margin="901,47,0,0" VerticalAlignment="Top" Width="97"/>
-        <Button Command="{Binding ProgramActionsCommand}" Content="Program actions" HorizontalAlignment="Left" Margin="901,73,0,0" VerticalAlignment="Top" Width="97"/>
+        <Button Command="{Binding LoadDevicesCommand}" Content="Load devices" HorizontalAlignment="Left" Margin="784,98,0,0" VerticalAlignment="Top" Width="97"/>
+        <Button Command="{Binding ProgramActionsCommand}" Content="Program actions" HorizontalAlignment="Left" Margin="784,124,0,0" VerticalAlignment="Top" Width="97"/>
         <Slider x:Name="slider" Value="{Binding SelectedItem.TriggeredValue, ElementName=listViewPins}" HorizontalAlignment="Left" Margin="539,41,0,0" VerticalAlignment="Top" Width="103" SmallChange="2" IsEnabled="{Binding SelectedItem.AllowTriggeredValue, ElementName=listViewPins}" LargeChange="2" Maximum="9"/>
         <Label x:Name="label3" Content="{Binding Value, Converter={StaticResource DoubleConvertor}, ElementName=slider}" HorizontalAlignment="Left" Margin="647,34,0,0" VerticalAlignment="Top"/>
         <ListView x:Name="listView_Copy" HorizontalAlignment="Left" Height="87" Margin="354,236,0,-4" VerticalAlignment="Top" Width="421" ItemsSource="{Binding SelectedItem.ActiveLowActions, ElementName=listViewPins}">
@@ -121,6 +121,18 @@
             </ListView.View>
         </ListView>
         <Button Command="{Binding AddActiveLowActionCommand}" x:Name="button1_Copy" Content="Add" HorizontalAlignment="Left" Margin="775,303,0,0" VerticalAlignment="Top" Width="74"/>
+        <Grid x:Name="grid" HorizontalAlignment="Left" Height="294" Margin="932,15,0,0" VerticalAlignment="Top" Width="464"/>
+        <ListView x:Name="listView_Copy2" HorizontalAlignment="Left" Height="142" VerticalAlignment="Top" Width="100" Margin="782,156,0,0">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+            <Button Content="TriggeredPin" Click="button2_Click"/>
+            <Button Content="For" Click="button2_Click"/>
+            <Button Content="Switch" Click="button2_Click"/>
+            <Button Content="Delay" Click="button2_Click"/>
+        </ListView>
 
     </Grid>
 </Window>
