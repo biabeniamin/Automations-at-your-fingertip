@@ -8,3 +8,8 @@ D:\Beni\Grepit\DesktopServer\DesktopServerLogical\bin\Debug\DesktopServerLogical
 D:\Beni\Grepit\DesktopServer\DesktopServerLogical\obj\Debug\DesktopServerLogical.csprojResolveAssemblyReference.cache
 D:\Beni\Grepit\DesktopServer\DesktopServerLogical\obj\Debug\DesktopServerLogical.dll
 D:\Beni\Grepit\DesktopServer\DesktopServerLogical\obj\Debug\DesktopServerLogical.pdb
+C:\Workspace\Grepit\DesktopServer\DesktopServerLogical\obj\Debug\DesktopServerLogical.csprojResolveAssemblyReference.cache
+C:\Workspace\Grepit\DesktopServer\DesktopServerLogical\obj\Debug\DesktopServerLogical.dll
+C:\Workspace\Grepit\DesktopServer\DesktopServerLogical\obj\Debug\DesktopServerLogical.pdb
+C:\Workspace\Grepit\DesktopServer\DesktopServerLogical\bin\Debug\DesktopServerLogical.dll
+C:\Workspace\Grepit\DesktopServer\DesktopServerLogical\bin\Debug\DesktopServerLogical.pdb
