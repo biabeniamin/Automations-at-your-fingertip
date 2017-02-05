@@ -36,7 +36,8 @@ namespace DesktopServer
         private DelegateCommand _loadDevicesCommand;
         private DelegateCommand _programActionsCommand;
         private DelegateCommand _activeLowActionCommand;
-
+        private List<BlockControl> _buttonControls;
+        bool isDown = false;
         public DelegateCommand AddActiveLowActionCommand
         {
             get { return _activeLowActionCommand; }
@@ -102,15 +103,10 @@ namespace DesktopServer
             get { return _addActionCommand; }
             set { _addActionCommand = value; }
         }
-
-
-
-
         public ObservableCollection<Device> Devices
         {
             get { return _controller.Devices; }
         }
-
         public Array AvailableActions
         {
             get
@@ -130,6 +126,7 @@ namespace DesktopServer
             LoadDevicesCommand = new DelegateCommand(LoadDevices);
             ProgramActionsCommand = new DelegateCommand(ProgramActions);
             _saves = new Saves();
+            _buttonControls = new List<BlockControl>();
             LoadDevices();
         }
         private void ProgramActions()
@@ -197,8 +194,78 @@ namespace DesktopServer
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
+        private BlockControl GenerateNewBlock(Point location, BlockType type)
+        {
+            BlockControl block = BlockGenerator.GenerateNewBlock(location, type);
+            block.Block.PreviewMouseDown += button_PreviewMouseDown;
+            block.Block.PreviewMouseMove += button_PreviewMouseMove;
+            block.Block.PreviewMouseUp += button_PreviewMouseUp;
+            return block;
+        }
 
-        
+        private BlockControl AddNewButton(Point location, BlockType type)
+        {
+            BlockControl b = GenerateNewBlock(location, type);
+            grid.Children.Add(b.Block);
+            _buttonControls.Add(b);
+            return b;
+        }
+        private void button2_Click(object sender, RoutedEventArgs e)
+        {
+            Button b = sender as Button;
+            string text = b.Content.ToString();
+            if (text == "TriggeredPin")
+                AddNewButton(new Point(0, 0), BlockType.PinTriggered);
+            else if (text == "For")
+                AddNewButton(new Point(0, 0), BlockType.For);
+            if (text == "Switch")
+                AddNewButton(new Point(0, 0), BlockType.SwitchAction);
+            if (text == "Delay")
+                AddNewButton(new Point(0, 0), BlockType.DelayAction);
+            //
+        }
+        private void button_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+            isDown = true;
+
+        }
+
+        private void button_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (isDown == true)
+            {
+                UIElement b = sender as UIElement;
+                BlockControl bC = Helpers.GetBlockControl(b, _buttonControls);
+                TranslateTransform t = new TranslateTransform();
+                Point pp = Mouse.GetPosition(grid);
+                t.X = pp.X - 25;
+                t.Y = pp.Y - 25;
+                b.RenderTransform = t;
+                for (int i = 0; i < bC.Childs.Count; i++)
+                {
+                    TranslateTransform tt = new TranslateTransform();
+                    tt.X = t.X + Helpers.GetWidthOfElement(b) * (i + 1);
+                    tt.Y = t.Y;
+                    bC.Childs[i].Block.RenderTransform = tt;
+                }
+
+            }
+        }
+        private void button_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            UIElement b = sender as UIElement;
+            BlockControl bC = Helpers.GetBlockControl(b, _buttonControls);
+            BlockControl underButton = Helpers.GetIndexOfIntersectedItem(grid, bC, _buttonControls);
+            if (underButton != null)
+            {
+                underButton.AddSubBlockControl(bC);
+                _buttonControls.Remove(bC);
+            }
+            if (bC != null)
+                label.Content = bC.Childs.Count;
+            isDown = false;
+        }
     }
     public class DoubleApproximator : IValueConverter
     {
