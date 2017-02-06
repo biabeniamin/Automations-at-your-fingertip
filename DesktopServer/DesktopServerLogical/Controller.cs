@@ -17,6 +17,30 @@ namespace DesktopServerLogical
         public Serial _serial;
         private Dispatcher _dispatcher;
         private ObservableCollection<Device> _devices;
+        public ObservableCollection<Pin> OutputPins
+        {
+            get
+            {
+                List<Pin> pins = new List<Pin>();
+                for (int i = 0; i < Devices.Count; i++)
+                {
+                    pins.AddRange(Devices[i].OutputPins.ToList<Pin>());
+                }
+                return new ObservableCollection<Pin>(pins);
+            }
+        }
+        public ObservableCollection<Pin> InputPins
+        {
+            get
+            {
+                List<Pin> pins = new List<Pin>();
+                for (int i = 0; i < Devices.Count; i++)
+                {
+                    pins.AddRange(Devices[i].InputPins.ToList<Pin>());
+                }
+                return new ObservableCollection<Pin>(pins);
+            }
+        }
         public ObservableCollection<Device> Devices
         {
             get { return _devices; }

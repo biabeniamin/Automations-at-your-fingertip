@@ -36,7 +36,7 @@ namespace DesktopServer
         private DelegateCommand _loadDevicesCommand;
         private DelegateCommand _programActionsCommand;
         private DelegateCommand _activeLowActionCommand;
-        private List<BlockControl> _buttonControls;
+        private List<BlockControl> _blockControls;
         bool isDown = false;
         public DelegateCommand AddActiveLowActionCommand
         {
@@ -65,12 +65,14 @@ namespace DesktopServer
         {
             get
             {
-                List<Pin> pins = new List<Pin>();
-                for (int i = 0; i < _controller.Devices.Count; i++)
-                {
-                    pins.AddRange(_controller.Devices[i].OutputPins.ToList<Pin>());
-                }
-                return new ObservableCollection<Pin>(pins);
+                return _controller.OutputPins;
+            }
+        }
+        public ObservableCollection<Pin> InputPins
+        {
+            get
+            {
+                return _controller.InputPins;
             }
         }
         public DelegateCommand SaveActionCommand
@@ -126,7 +128,7 @@ namespace DesktopServer
             LoadDevicesCommand = new DelegateCommand(LoadDevices);
             ProgramActionsCommand = new DelegateCommand(ProgramActions);
             _saves = new Saves();
-            _buttonControls = new List<BlockControl>();
+            _blockControls = new List<BlockControl>();
             LoadDevices();
         }
         private void ProgramActions()
@@ -141,6 +143,8 @@ namespace DesktopServer
             _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 5, PinTypes.Analog));
             _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0],8, PinTypes.Input));
             _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 7, PinTypes.Output));
+            _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 9, PinTypes.Output));
+            _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 4, PinTypes.Output));
         }
         private void SaveAction()
         {
@@ -207,7 +211,7 @@ namespace DesktopServer
         {
             BlockControl b = GenerateNewBlock(location, type);
             grid.Children.Add(b.Block);
-            _buttonControls.Add(b);
+            _blockControls.Add(b);
             return b;
         }
         private void button2_Click(object sender, RoutedEventArgs e)
@@ -236,7 +240,7 @@ namespace DesktopServer
             if (isDown == true)
             {
                 UIElement b = sender as UIElement;
-                BlockControl bC = Helpers.GetBlockControl(b, _buttonControls);
+                BlockControl bC = Helpers.GetBlockControl(b, _blockControls);
                 TranslateTransform t = new TranslateTransform();
                 Point pp = Mouse.GetPosition(grid);
                 t.X = pp.X - 25;
@@ -255,16 +259,30 @@ namespace DesktopServer
         private void button_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
             UIElement b = sender as UIElement;
-            BlockControl bC = Helpers.GetBlockControl(b, _buttonControls);
-            BlockControl underButton = Helpers.GetIndexOfIntersectedItem(grid, bC, _buttonControls);
+            BlockControl bC = Helpers.GetBlockControl(b, _blockControls);
+            BlockControl underButton = Helpers.GetIndexOfIntersectedItem(grid, bC, _blockControls);
             if (underButton != null)
             {
                 underButton.AddSubBlockControl(bC);
-                _buttonControls.Remove(bC);
+                _blockControls.Remove(bC);
+            }
+            else if(_blockControls.Contains(bC)==false)
+            {
+                //_buttonControls.Add(bC);
             }
             if (bC != null)
                 label.Content = bC.Childs.Count;
             isDown = false;
+        }
+
+        private void button2_Click_1(object sender, RoutedEventArgs e)
+        {
+            for (int i = 0; i < _blockControls.Count; i++)
+            {
+                Pin pin = (Pin)_blockControls[i].GetValue();
+                BlockAnalyzer.Analyze(pin, _blockControls[i]);
+                //MessageBox.Show(_blockControls[i].GetValue().ToString());
+            }
         }
     }
     public class DoubleApproximator : IValueConverter
