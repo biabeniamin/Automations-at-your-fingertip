@@ -279,8 +279,7 @@ namespace DesktopServer
         {
             for (int i = 0; i < _blockControls.Count; i++)
             {
-                Pin pin = (Pin)_blockControls[i].GetValue();
-                BlockAnalyzer.Analyze(pin, _blockControls[i]);
+                BlockAnalyzer.Analyze(_blockControls[i]);
                 //MessageBox.Show(_blockControls[i].GetValue().ToString());
             }
         }

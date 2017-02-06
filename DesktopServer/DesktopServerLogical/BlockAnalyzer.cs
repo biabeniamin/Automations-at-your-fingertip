@@ -10,20 +10,31 @@ namespace DesktopServerLogical
 {
     public static class BlockAnalyzer
     {
-        private static void AnalyzeBlock(Pin pin,BlockControl blockControl)
+        private static void AnalyzeBlock(Pin ownerPin,BlockControl blockControl)
         {
             RemoteAction action = null;
-            switch(blockControl.Type)
+            Pin pin = null;
+            switch (blockControl.Type)
             {
                 case BlockType.For:
-                    pin.Repeats = (int)blockControl.GetValue();
+                    pin.Repeats = Convert.ToInt32(blockControl.GetValue());
+                    break;
+                case BlockType.SwitchAction:
+                    pin = (Pin)blockControl.GetValue();
+                    action = new RemoteAction(ownerPin, ActionTypes.Switch, pin);
+                    pin.Actions.Add(action);
                     break;
             }
             //return action;
         }
-        public static void Analyze(Pin pin,BlockControl blockControl)
+        public static void Analyze(BlockControl blockControl)
         {
-            AnalyzeBlock(pin,blockControl);
+            Pin pin = (Pin)blockControl.GetValue();
+            AnalyzeBlock(pin, blockControl);
+            for (int i = 0; i < blockControl.Childs.Count; i++)
+            {
+                AnalyzeBlock(pin, blockControl.Childs[i]);
+            }
         }
     }
 }
