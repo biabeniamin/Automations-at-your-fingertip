@@ -14,6 +14,7 @@ namespace DesktopServerLogical
         {
             RemoteAction action = null;
             Pin pin = null;
+            int value;
             switch (blockControl.Type)
             {
                 case BlockType.For:
@@ -22,6 +23,12 @@ namespace DesktopServerLogical
                 case BlockType.SwitchAction:
                     pin = (Pin)blockControl.GetValue();
                     action = new RemoteAction(ownerPin, ActionTypes.Switch, pin);
+                    pin.Actions.Add(action);
+                    break;
+                case BlockType.DelayAction:
+                    value = Convert.ToInt32(blockControl.GetValue());
+                    action = new RemoteAction(ownerPin, ActionTypes.Delay, null);
+                    action.Value = value;
                     pin.Actions.Add(action);
                     break;
             }
