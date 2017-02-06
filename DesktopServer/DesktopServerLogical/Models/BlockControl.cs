@@ -66,6 +66,9 @@ namespace DesktopServerLogical.Models
             object value = null;
             switch (_type)
             {
+                case BlockType.PinTriggered:
+                    value = ((ComboBox)((Canvas)_block).Children[1]).SelectedItem;
+                    break;
                 case BlockType.For:
                     value = ((TextBox)((Canvas)_block).Children[1]).Text;
                     break;

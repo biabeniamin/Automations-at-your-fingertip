@@ -107,5 +107,13 @@ namespace DesktopServerLogical
         {
             return ((Canvas)element).Height;
         }
+        public static void SetButtonZIndex(BlockControl control,int index)
+        {
+            ((Canvas)control.Block).SetValue(Canvas.ZIndexProperty, index);
+            for (int i = 0; i < control.Childs.Count; i++)
+            {
+                SetButtonZIndex(control.Childs[i], index + 1);
+            }
+        }
     }
 }

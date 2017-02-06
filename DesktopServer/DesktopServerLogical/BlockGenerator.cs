@@ -7,7 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace DesktopServerLogical
 {
@@ -36,13 +38,39 @@ namespace DesktopServerLogical
             b.HorizontalAlignment = HorizontalAlignment.Left;
             return b;
         }
+        public static Polygon GenerateEndConnector()
+        {
+            Polygon pol = new Polygon();
+            pol.Points.Add(new Point(100, 0));
+            pol.Points.Add(new Point(150, 0));
+            pol.Points.Add(new Point(100, 50));
+            pol.Points.Add(new Point(150, 100));
+            pol.Points.Add(new Point(100, 100));
+            pol.Fill = new SolidColorBrush(Color.FromRgb(0, 0, 255));
+            return pol;
+        }
+        public static Polygon GenerateBeginConnector()
+        {
+            Polygon pol = new Polygon();
+            pol.Points.Add(new Point(0, 0));
+            pol.Points.Add(new Point(-50, 50));
+            pol.Points.Add(new Point(0, 100));
+            pol.Fill = new SolidColorBrush(Color.FromRgb(0, 0, 255));
+            return pol;
+        }
         public static BlockControl GeneratePinTriggeredBlock(Point location)
         {
             BlockControl control;
-            Canvas b = (Canvas)GenerateBlock(location, new Size(100, 100), Color.FromRgb(255, 0, 0));
+            Canvas b = (Canvas)GenerateBlock(location, new Size(150, 100), Color.FromRgb(255, 0, 0));
             Label label = GenerateBlockControlItem<Label>(new Point(10, 10), new Size(80, 80));
             label.Content = "Pin triggered";
             b.Children.Add(label);
+            ComboBox comboBox = GenerateBlockControlItem<ComboBox>(new Point(5, 35), new Size(90, 25));
+            Binding binding = new Binding("InputPins");
+            comboBox.SetBinding(ComboBox.ItemsSourceProperty, binding);
+            b.Children.Add(comboBox);
+            b.Children.Add(GenerateEndConnector());
+            b.Children.Add(GenerateBeginConnector());
             control = new BlockControl(b, BlockType.PinTriggered);
             return control;
         }
@@ -56,6 +84,8 @@ namespace DesktopServerLogical
             TextBox textBox = GenerateBlockControlItem<TextBox>(new Point(5, 35), new Size(90, 60));
             textBox.Text = "1";
             b.Children.Add(textBox);
+            b.Children.Add(GenerateEndConnector());
+            b.Children.Add(GenerateBeginConnector());
             control = new BlockControl(b, BlockType.For);
             return control;
         }
@@ -68,6 +98,8 @@ namespace DesktopServerLogical
             b.Children.Add(label);
             TextBox textBox = GenerateBlockControlItem<TextBox>(new Point(5, 35), new Size(90, 60));
             b.Children.Add(textBox);
+            b.Children.Add(GenerateEndConnector());
+            b.Children.Add(GenerateBeginConnector());
             control = new BlockControl(b, BlockType.DelayAction);
             return control;
         }
@@ -79,8 +111,11 @@ namespace DesktopServerLogical
             label.Content = "Switch";
             b.Children.Add(label);
             ComboBox comboBox = GenerateBlockControlItem<ComboBox>(new Point(5, 35), new Size(90, 25));
-            comboBox.Items.Add("2-7");
+            Binding binding = new Binding("OutputPins");
+            comboBox.SetBinding(ComboBox.ItemsSourceProperty, binding);
             b.Children.Add(comboBox);
+            b.Children.Add(GenerateEndConnector());
+            b.Children.Add(GenerateBeginConnector());
             control = new BlockControl(b, BlockType.SwitchAction);
             return control;
         }
