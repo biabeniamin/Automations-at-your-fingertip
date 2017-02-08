@@ -5,5 +5,10 @@
 /DesktopServer/DesktopServerLogical/bin
 /DesktopServer/DesktopServerLogical/obj
 /DesktopServer/DesktopServer/bin
-/DesktopServer/DesktopServer/obj
+DesktopServer/DesktopServer/obj/*
 /DesktopServer/DesktopServer/obj/Debug
+DesktopServer/DesktopServer/bin/Debug/DesktopServer.exe
+GrepitRemoteController/.vs/
+GrepitRemoteController/GrepitRemoteController/obj/*
+GrepitRemoteController/GrepitRemoteController/bin/*
+GrepitRemoteController/GrepitRemoteController/GrepitRemoteController.csproj.user
