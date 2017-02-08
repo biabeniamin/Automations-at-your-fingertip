@@ -234,7 +234,24 @@ namespace DesktopServer
             isDown = true;
 
         }
-
+        private int MoveSubBlocks(BlockControl block,Point point)
+        {
+            TranslateTransform t = new TranslateTransform();
+            t.X = point.X;
+            t.Y = point.Y;
+            block.Block.RenderTransform = t;
+            int count = 0;
+            for (int i = 0; i < block.Childs.Count; i++)
+            {
+                TranslateTransform tt = new TranslateTransform();
+                tt.X = t.X + Helpers.GetWidthOfElement(block.Block) * (i + 1+count);
+                tt.Y = t.Y;
+                block.Childs[i].Block.RenderTransform = tt;
+                count++;
+                count+=MoveSubBlocks(block.Childs[i], new Point(tt.X, tt.Y));
+            }
+            return count;
+        }
         private void button_PreviewMouseMove(object sender, MouseEventArgs e)
         {
             if (isDown == true)
@@ -243,16 +260,7 @@ namespace DesktopServer
                 BlockControl bC = Helpers.GetBlockControl(b, _blockControls);
                 TranslateTransform t = new TranslateTransform();
                 Point pp = Mouse.GetPosition(grid);
-                t.X = pp.X - 25;
-                t.Y = pp.Y - 25;
-                b.RenderTransform = t;
-                for (int i = 0; i < bC.Childs.Count; i++)
-                {
-                    TranslateTransform tt = new TranslateTransform();
-                    tt.X = t.X + Helpers.GetWidthOfElement(b) * (i + 1);
-                    tt.Y = t.Y;
-                    bC.Childs[i].Block.RenderTransform = tt;
-                }
+                MoveSubBlocks(bC, new Point(pp.X-25, pp.Y-25));
 
             }
         }
@@ -260,10 +268,13 @@ namespace DesktopServer
         {
             UIElement b = sender as UIElement;
             BlockControl bC = Helpers.GetBlockControl(b, _blockControls);
-            BlockControl underButton = Helpers.GetIndexOfIntersectedItem(grid, bC, _blockControls);
-            if (underButton != null)
+            BlockControl overButton = Helpers.GetIntersectedBlock(grid, bC, _blockControls);
+            if (overButton != null)
             {
-                underButton.AddSubBlockControl(bC);
+                if(bC.Parent!=null)
+                bC.Parent.Childs.Remove(bC);
+                bC.Parent = overButton;
+                overButton.AddSubBlockControl(bC);
                 _blockControls.Remove(bC);
             }
             else if(_blockControls.Contains(bC)==false)

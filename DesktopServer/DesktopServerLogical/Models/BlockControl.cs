@@ -16,6 +16,13 @@ namespace DesktopServerLogical.Models
         private List<BlockControl> _childs;
         private BlockType _type;
         private string _value;
+        private BlockControl _parent;
+
+        public BlockControl Parent
+        {
+            get { return _parent; }
+            set { _parent = value; }
+        }
 
         public string Value
         {
@@ -40,13 +47,24 @@ namespace DesktopServerLogical.Models
             get { return _block; }
             set { _block = value; }
         }
-        public BlockControl(UIElement b, BlockType type)
-            : this(b, new List<BlockControl>(), type)
+        public BlockControl(BlockControl parent, UIElement b, BlockType type)
+            : this(parent, b, new List<BlockControl>(), type)
         {
 
         }
-        public BlockControl(UIElement b, List<BlockControl> childs, BlockType type)
+        public BlockControl(UIElement b, BlockType type)
+            : this(null, b, new List<BlockControl>(), type)
         {
+
+        }
+        public BlockControl(UIElement b, BlockType type, List<BlockControl> childs)
+            : this(null, b, childs, type)
+        {
+
+        }
+        public BlockControl(BlockControl parent,UIElement b, List<BlockControl> childs, BlockType type)
+        {
+            _parent = parent;
             _block = b;
             _childs = childs;
             _type = type;

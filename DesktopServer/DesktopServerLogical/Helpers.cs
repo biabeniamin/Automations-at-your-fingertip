@@ -83,7 +83,7 @@ namespace DesktopServerLogical
             }
             return null;
         }
-        public static BlockControl GetIndexOfIntersectedItem(Visual v, BlockControl b, List<BlockControl> controls)
+        public static BlockControl GetIntersectedBlock(Visual v, BlockControl b, List<BlockControl> controls)
         {
             if (b == null)
                 return null;
@@ -93,7 +93,7 @@ namespace DesktopServerLogical
                     continue;
                 if (b.doesIntersectsWith(controls[i], v))
                     return controls[i];
-                BlockControl subItems = GetIndexOfIntersectedItem(v, b, controls[i].Childs);
+                BlockControl subItems = GetIntersectedBlock(v, b, controls[i].Childs);
                 if (subItems != null)
                     return subItems;
             }
