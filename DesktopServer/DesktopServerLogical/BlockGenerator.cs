@@ -77,7 +77,7 @@ namespace DesktopServerLogical
         public static BlockControl GenerateForBlock(Point location)
         {
             BlockControl control;
-            Canvas b = (Canvas)GenerateBlock(location, new Size(100, 100), Color.FromRgb(0, 0, 255));
+            Canvas b = (Canvas)GenerateBlock(location, new Size(150, 100), Color.FromRgb(0, 0, 255));
             Label label = GenerateBlockControlItem<Label>(new Point(5, 5), new Size(90, 25));
             label.Content = "Repeats";
             b.Children.Add(label);
@@ -92,7 +92,7 @@ namespace DesktopServerLogical
         public static BlockControl GenerateDelayBlock(Point location)
         {
             BlockControl control;
-            Canvas b = (Canvas)GenerateBlock(location, new Size(100, 100), Color.FromRgb(0, 0, 255));
+            Canvas b = (Canvas)GenerateBlock(location, new Size(150, 100), Color.FromRgb(0, 0, 255));
             Label label = GenerateBlockControlItem<Label>(new Point(5, 5), new Size(90, 25));
             label.Content = "Delay";
             b.Children.Add(label);
@@ -106,7 +106,7 @@ namespace DesktopServerLogical
         public static BlockControl GenerateSwitchActionBlock(Point location)
         {
             BlockControl control;
-            Canvas b = (Canvas)GenerateBlock(location, new Size(100, 100), Color.FromRgb(0, 0, 255));
+            Canvas b = (Canvas)GenerateBlock(location, new Size(150, 100), Color.FromRgb(0, 0, 255));
             Label label = GenerateBlockControlItem<Label>(new Point(5, 5), new Size(90, 25));
             label.Content = "Switch";
             b.Children.Add(label);

@@ -18,7 +18,7 @@ namespace DesktopServerLogical
         public DatabaseOperations()
         {
             _connection = new OleDbConnection("Provider=Microsoft.Ace.Oledb.12.0;Data Source=db.accdb");
-            _connection.Open();
+            //_connection.Open();
         }
         public OleDbDataReader GetReader(string query)
         {
