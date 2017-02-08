@@ -22,8 +22,8 @@ namespace DesktopServerLogical
                     break;
                 case BlockType.SwitchAction:
                     pin = (Pin)blockControl.GetValue();
-                    action = new RemoteAction(ownerPin, ActionTypes.Switch, pin);
-                    pin.Actions.Add(action);
+                    action = new RemoteAction(pin, ActionTypes.Switch, ownerPin);
+                    ownerPin.Actions.Add(action);
                     break;
                 case BlockType.DelayAction:
                     value = Convert.ToInt32(blockControl.GetValue());
