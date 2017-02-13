@@ -10,11 +10,11 @@ namespace DesktopServerLogical.Enums
     {
         PinTriggered = 0,
         For = 1,
-        Bigger = 2,
-        Smaller = 3,
         SwitchAction,
         TurnOffAction,
         TurnOnAction,
-        DelayAction
+        DelayAction,
+        PositiveAnalogTriggered,
+        NegativeAnalogTriggered,
     }
 }

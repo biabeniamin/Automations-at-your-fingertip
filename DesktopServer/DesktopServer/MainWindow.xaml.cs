@@ -38,6 +38,14 @@ namespace DesktopServer
         private DelegateCommand _activeLowActionCommand;
         private List<BlockControl> _blockControls;
         bool isDown = false;
+        private DelegateCommand _addBlockCommand;
+
+        public DelegateCommand AddBlockCommand
+        {
+            get { return _addBlockCommand; }
+            set { _addBlockCommand = value; }
+        }
+
         public DelegateCommand AddActiveLowActionCommand
         {
             get { return _activeLowActionCommand; }
@@ -116,6 +124,16 @@ namespace DesktopServer
                 return Enum.GetValues(typeof(ActionTypes));
             }
         }
+        public ObservableCollection<string> BlockTypes
+        {
+            get
+            {
+                ObservableCollection<string> list = new ObservableCollection<string>();
+                foreach (BlockType type in Enum.GetValues(typeof(BlockType)))
+                    list.Add(type.ToString());
+                return list;
+            }
+        }
         public MainWindow()
         {
             InitializeComponent();
@@ -127,6 +145,7 @@ namespace DesktopServer
             LoadActionCommand = new DelegateCommand(LoadAction);
             LoadDevicesCommand = new DelegateCommand(LoadDevices);
             ProgramActionsCommand = new DelegateCommand(ProgramActions);
+            AddBlockCommand = new DelegateCommand(AddBlockAction);
             _saves = new Saves();
             _blockControls = new List<BlockControl>();
             LoadDevices();
@@ -214,19 +233,10 @@ namespace DesktopServer
             _blockControls.Add(b);
             return b;
         }
-        private void button2_Click(object sender, RoutedEventArgs e)
+        private void AddBlockAction(object parameter)
         {
-            Button b = sender as Button;
-            string text = b.Content.ToString();
-            if (text == "TriggeredPin")
-                AddNewButton(new Point(0, 0), BlockType.PinTriggered);
-            else if (text == "For")
-                AddNewButton(new Point(0, 0), BlockType.For);
-            if (text == "Switch")
-                AddNewButton(new Point(0, 0), BlockType.SwitchAction);
-            if (text == "Delay")
-                AddNewButton(new Point(0, 0), BlockType.DelayAction);
-            //
+            BlockType type = (BlockType)Enum.Parse(typeof(BlockType), parameter.ToString());
+            AddNewButton(new Point(0, 0), type);
         }
         private void button_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -277,9 +287,10 @@ namespace DesktopServer
                 overButton.AddSubBlockControl(bC);
                 _blockControls.Remove(bC);
             }
-            else if(_blockControls.Contains(bC)==false)
+            else if(bC.Parent!=null)
             {
-                //_buttonControls.Add(bC);
+                bC.Parent.Childs.Remove(bC);
+                _blockControls.Add(bC);
             }
             if (bC != null)
                 label.Content = bC.Childs.Count;

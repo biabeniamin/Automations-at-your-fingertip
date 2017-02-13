@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DesktopServer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="368.892" Width="1412.885">
+        Title="MainWindow" Height="684.345" Width="1412.885">
     <Window.Resources>
         <local:DoubleApproximator x:Key="DoubleConvertor"></local:DoubleApproximator>
     </Window.Resources>
@@ -121,17 +121,19 @@
             </ListView.View>
         </ListView>
         <Button Command="{Binding AddActiveLowActionCommand}" x:Name="button1_Copy" Content="Add" HorizontalAlignment="Left" Margin="775,303,0,0" VerticalAlignment="Top" Width="74"/>
-        <Grid x:Name="grid" HorizontalAlignment="Left" Height="294" Margin="932,15,0,0" VerticalAlignment="Top" Width="464"/>
-        <ListView x:Name="listView_Copy2" HorizontalAlignment="Left" Height="142" VerticalAlignment="Top" Width="100" Margin="782,156,0,0">
+        <Grid x:Name="grid" HorizontalAlignment="Left" Height="294" Margin="26,328,0,0" VerticalAlignment="Top" Width="1331"/>
+        <ListView x:Name="listView_Copy2" HorizontalAlignment="Left" Height="268" VerticalAlignment="Top" Width="190" Margin="992,15,0,0" ItemsSource="{Binding BlockTypes}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn/>
+                    <GridViewColumn>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="{Binding}" Command="{Binding DataContext.AddBlockCommand,ElementName=MainGrid}" CommandParameter="{Binding}"></Button>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
-            <Button Content="TriggeredPin" Click="button2_Click"/>
-            <Button Content="For" Click="button2_Click"/>
-            <Button Content="Switch" Click="button2_Click"/>
-            <Button Content="Delay" Click="button2_Click"/>
         </ListView>
         <Button x:Name="button2" Content="Button" HorizontalAlignment="Left" Margin="881,34,0,0" VerticalAlignment="Top" Width="75" Click="button2_Click_1"/>
 
