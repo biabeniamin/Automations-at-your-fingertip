@@ -85,6 +85,8 @@ namespace DesktopServerLogical.Models
             switch (_type)
             {
                 case BlockType.PinTriggered:
+                case BlockType.PositiveAnalogTriggered:
+                case BlockType.NegativeAnalogTriggered:
                     value = ((ComboBox)((Canvas)_block).Children[1]).SelectedItem;
                     break;
                 case BlockType.For:
@@ -92,6 +94,18 @@ namespace DesktopServerLogical.Models
                     break;
                 case BlockType.SwitchAction:
                     value = ((ComboBox)((Canvas)_block).Children[1]).SelectedItem;
+                    break;
+            }
+            return value;
+        }
+        public object GetSecondValue()
+        {
+            object value = null;
+            switch (_type)
+            {
+                case BlockType.PositiveAnalogTriggered:
+                case BlockType.NegativeAnalogTriggered:
+                    value = ((TextBox)((Canvas)_block).Children[2]).Text;
                     break;
             }
             return value;

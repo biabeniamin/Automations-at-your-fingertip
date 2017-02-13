@@ -74,6 +74,31 @@ namespace DesktopServerLogical
             control = new BlockControl(b, BlockType.PinTriggered);
             return control;
         }
+        public static BlockControl GenerateAnalogTriggeredBlock(Point location,BlockType type)
+        {
+            BlockControl control;
+            Canvas b = (Canvas)GenerateBlock(location, new Size(150, 100), Color.FromRgb(255, 0, 0));
+            Label label = GenerateBlockControlItem<Label>(new Point(10, 10), new Size(80, 80));
+            if (type == BlockType.PositiveAnalogTriggered)
+                label.Content = "Pos An. trigg.";
+            else if (type == BlockType.NegativeAnalogTriggered)
+                label.Content = "Neg An. trigg.";
+            else
+            {
+                System.Diagnostics.Debug.WriteLine($"Trying to create an analog pin with diff. type!{type}");
+            }
+            b.Children.Add(label);
+            ComboBox comboBox = GenerateBlockControlItem<ComboBox>(new Point(5, 35), new Size(90, 25));
+            Binding binding = new Binding("InputPins");
+            comboBox.SetBinding(ComboBox.ItemsSourceProperty, binding);
+            b.Children.Add(comboBox);
+            TextBox textBox = GenerateBlockControlItem<TextBox>(new Point(5, 65), new Size(90, 30));
+            b.Children.Add(textBox);
+            b.Children.Add(GenerateEndConnector());
+            b.Children.Add(GenerateBeginConnector());
+            control = new BlockControl(b, type);
+            return control;
+        }
         public static BlockControl GenerateForBlock(Point location)
         {
             BlockControl control;
@@ -103,12 +128,21 @@ namespace DesktopServerLogical
             control = new BlockControl(b, BlockType.DelayAction);
             return control;
         }
-        public static BlockControl GenerateSwitchActionBlock(Point location)
+        public static BlockControl GeneratePinActionBlock(Point location,BlockType type)
         {
             BlockControl control;
             Canvas b = (Canvas)GenerateBlock(location, new Size(150, 100), Color.FromRgb(0, 0, 255));
             Label label = GenerateBlockControlItem<Label>(new Point(5, 5), new Size(90, 25));
-            label.Content = "Switch";
+            if (type == BlockType.SwitchAction)
+                label.Content = "Switch";
+            else if (type == BlockType.TurnOnAction)
+                label.Content = "Turn On";
+            else if (type == BlockType.TurnOffAction)
+                label.Content = "Turn OFF";
+            else
+            {
+                System.Diagnostics.Debug.WriteLine($"Trying to create an pin action with diff. type!{type}");
+            }
             b.Children.Add(label);
             ComboBox comboBox = GenerateBlockControlItem<ComboBox>(new Point(5, 35), new Size(90, 25));
             Binding binding = new Binding("OutputPins");
@@ -128,10 +162,16 @@ namespace DesktopServerLogical
                     element = GenerateForBlock(point);
                     break;
                 case BlockType.SwitchAction:
-                    element = GenerateSwitchActionBlock(point);
+                case BlockType.TurnOnAction:
+                case BlockType.TurnOffAction:
+                    element = GeneratePinActionBlock(point,type);
                     break;
                 case BlockType.DelayAction:
                     element = GenerateDelayBlock(point);
+                    break;
+                case BlockType.PositiveAnalogTriggered:
+                case BlockType.NegativeAnalogTriggered:
+                    element = GenerateAnalogTriggeredBlock(point,type);
                     break;
                 case BlockType.PinTriggered:
                 default:
