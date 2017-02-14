@@ -53,8 +53,10 @@ void LanCommunication::SendCommand(int bytes[COMMUNICATION_BYTE_COUNT])
 	_writeVerificationBytes();
 	for (int i = 0; i < COMMUNICATION_BYTE_COUNT; i++)
 	{
+		Serial.print(bytes[i]);
 		_writeByte(bytes[i]);
 	}
+	Serial.println("");
 	_deactivateMax();
 }
 void LanCommunication::SendByte(int address, int byte)
