@@ -195,7 +195,6 @@ void writeByteMax(int value)
 }
 void sendCommandViaMax(int bytes[])
 {
-  Serial.println("print");
   digitalWrite(triggerPin, HIGH);
   delay(1);
   writeByteMax(9);
@@ -238,7 +237,7 @@ void sendOneBigByteViaMax(int toAddress, int byte)
 int testBuffer[4];
 void checkMax()
 {
-  if (mySerial.available() > 8)
+  if (mySerial.available() > 9)
   {
     while (mySerial.available() > 0)
     {
@@ -256,7 +255,7 @@ void checkMax()
         }
       }
       int waitCount = 0;
-      if (mySerial.available() < 5)
+      if (mySerial.available() < 6)
       {
         delay(10);
         /*if(waitCount>0)
