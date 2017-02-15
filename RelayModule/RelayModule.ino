@@ -15,6 +15,8 @@ int analogTriggeredValue[] = {4};
 void writeLan(int byte)
 {
   serial.write(byte);
+  /*Serial.print(byte);
+  Serial.print("-");*/
 }
 int readLan()
 {

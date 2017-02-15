@@ -85,32 +85,6 @@ void loadSettingsFromEeprom()
 
   //send analogLimit
   sendAnalogTriggerLimit();
-  /*Serial.println("dev 1 pin 2 act count:");
-    Serial.print(actionCount);
-    Serial.print(actions[0][0]);
-    Serial.print(actions[0][1]);
-    Serial.print(actions[0][2]);
-    Serial.print(actions[0][3]);
-    Serial.print(actions[0][4]);
-    Serial.println();*/
-
-  /*for (int i = 0 ; i < portCount; i++)
-    {
-    Serial.print(pins[i][0]);
-    Serial.print(pins[i][1]);
-    Serial.print(pins[i][2]);
-    Serial.print(" ");
-    }*/
-    
-  /*for (int i = 0 ; i < actionCount; i++)
-  {
-  Serial.print(actions[i][0]);
-  Serial.print(actions[i][1]);
-  Serial.print(actions[i][2]);
-  Serial.print(actions[i][3]);
-  Serial.print(actions[i][4]);
-  Serial.print(" --");
-  }*/
   //Serial.println(" ");
 }
 void executeAction(int actionId)
@@ -118,8 +92,6 @@ void executeAction(int actionId)
   //1 8 2 0
   //1 0 8 2 0 0
   int actionCommand[] = {actions[actionId][0], 0, actions[actionId][1], actions[actionId][2], 0, 0};
-  Serial.print("address");
-  Serial.println(actionId);
   if (actionCommand[3] == 3)
   {
     delay(actions[actionId][3] * 1000);
@@ -147,13 +119,17 @@ void pinTriggered(int deviceId, int pinNumber,int actionType)
       {
         if (pins[j][0] == pinNumber)
         {
+         // Serial.println("pin founded");
           int actionEnd = actionStart + pins[j][1];
+          //Serial.println(pins[j][2]);
           for (int k = 0; k < pins[j][2]; ++k)
           {
+            
             for (int l = actionStart; l < actionEnd; ++l)
             {
               if(actions[l][4]==actionType)
               {
+                //Serial.println("action");
                 executeAction(l);
               }
             }
@@ -265,6 +241,7 @@ void checkMax()
       }
       if (isOk && mySerial.available() > 5)
       {
+        
         for (int i = 0; i < 6; ++i)
         {
           x[i] = readOneByteMax();
@@ -358,6 +335,9 @@ void checkSerial()
 
 void loop()
 {
+ /*executeAction(0);
+  delay(1000);
+  return;*/
   checkMax();
   checkSerial();
   /*int test[]={1,0,8,2,0,0};

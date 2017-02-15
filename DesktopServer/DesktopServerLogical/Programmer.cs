@@ -44,6 +44,7 @@ namespace DesktopServerLogical
                     Request registerPinActions = new Request(RequestTypes.PortActionsRegister, 0);
                     registerPinActions.Value1 = _devices[i].Address;
                     registerPinActions.Value2 = _devices[i].InputPins[j].PinNumber;
+                    //same value 2 fields
                     registerPinActions.Value3 = _devices[i].InputPins[j].Actions.Count;
                     registerPinActions.Value3 += _devices[i].InputPins[j].ActiveLowActions.Count;
                     registerPinActions.Value4 = _devices[i].InputPins[j].Repeats;
