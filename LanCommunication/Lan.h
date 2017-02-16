@@ -12,6 +12,7 @@ public:
 	void CheckMessages();
 	void CheckAnalogPins();
 	void CheckInputPins();
+	void InputPinTriggered(int, int);
 	~Lan();
 
 private:

@@ -24,9 +24,12 @@ void Lan::SetPins(int *inputPinsCount, int *inputPins, int *outputPinsCount, int
 	{
 		_isAnalogTriggered[i] = 1;
 	}
-	for (int i = 0; i < *_inputPinsCount; ++i)
+	if (_deviceType != 3)
 	{
-		pinMode(_inputPins[i], INPUT_PULLUP);
+		for (int i = 0; i < *_inputPinsCount; ++i)
+		{
+			pinMode(_inputPins[i], INPUT_PULLUP);
+		}
 	}
 	for (int i = 0; i < *_outputPinsCount; ++i)
 	{
@@ -163,6 +166,11 @@ void Lan::CheckAnalogPins()
 		}
 	}
 }
+void Lan::InputPinTriggered(int pin, int value)
+{
+	int data[6] = { MASTER_ADDRESS, 2, _address, pin, value, 0 };
+	_lanComm->SendCommand(data);
+}
 void Lan::CheckInputPins()
 {
 	for (int i = 0; i < *_inputPinsCount; ++i)
@@ -170,10 +178,10 @@ void Lan::CheckInputPins()
 		int value = digitalRead(_inputPins[i]);
 		if (value == 0)
 		{
+			//Serial.println("trig");
 			//masterAddress,respondType,fromAddress,pinNumber,value
-			int data[6] = { MASTER_ADDRESS, 2, _address, _inputPins[i], value, 0 };
-			_lanComm->SendCommand(data);
-			delay(500);
+			InputPinTriggered(_inputPins[i], value);
+			delay(1000);
 		}
 	}
 }

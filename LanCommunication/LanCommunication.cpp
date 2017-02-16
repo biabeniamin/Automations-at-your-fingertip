@@ -57,6 +57,7 @@ void LanCommunication::SendCommand(int bytes[COMMUNICATION_BYTE_COUNT])
 		_writeByte(bytes[i]);
 	}
 	Serial.println("");
+	delay(1);
 	_deactivateMax();
 }
 void LanCommunication::SendByte(int address, int byte)
