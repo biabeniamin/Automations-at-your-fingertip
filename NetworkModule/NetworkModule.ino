@@ -1,10 +1,11 @@
-//relay module
+//NetworkModule
 #define ADDRESS 1
 #define TRIGGERED_PIN 9
-#define DEVICE_TYPE 1
-//#include<SoftwareSerial.h>
+#define DEVICE_TYPE 3
+#include<SoftwareSerial.h>
+#include <EtherCard.h>
 #include <Lan.h>
-//SoftwareSerial serial(10, 11);
+SoftwareSerial serial(10, 11);
 int inputPinsCount = 1;
 int inputPins[1] = {8};
 int outputPinsCount = 1;
@@ -14,29 +15,78 @@ int analogPins[1] = {0};
 int analogTriggeredValue[] = {4};
 void writeLan(int byte)
 {
-  Serial1.write(byte);
+  serial.write(byte);
 }
 int readLan()
 {
-  return Serial1.read();
+  return serial.read();
 }
 int countLan()
 {
-  return Serial1.available();
+  return serial.available();
 }
-Lan *lan;
+Lan lan(ADDRESS,DEVICE_TYPE,TRIGGERED_PIN, &writeLan, &readLan, &countLan);
+static byte myip[] = { 192, 168, 0, 108 };
+static byte gwip[] = { 192, 168, 0, 1 };
+static byte mymac[] = { 0x74, 0x69, 0x69, 0x2D, 0x30, 0x31 };
+byte Ethernet::buffer[500];
+const char page[] PROGMEM =
+  "HTTP/1.0 503 Service Unavailable\r\n"
+  "Content-Type: text/html\r\n"
+  "Retry-After: 600\r\n"
+  "\r\n"
+  "<html>"
+  "<head><title>"
+  "Automations for everyone"
+  "</title></head>"
+  "<body>"
+  "<H1>Automations for everyone</H1>"
+  "<a href='?cmd=1'><button>1</button></a> "
+  "<a href='?cmd=2'><button>2</button></a> "
+  "<a href='?cmd=3'><button>3</button></a> "
+  "<a href='?cmd=4'><button>4</button></a> "
+  "<a href='?cmd=5'><button>5</button></a> "
+  "<a href='?cmd=6'><button>6</button></a> "
+
+
+  "</body>"
+  "</html>"
+  ;
+void setupEncj()
+{
+  if (ether.begin(sizeof Ethernet::buffer, mymac, 8) == 0)
+    Serial.println( "Failed to access Ethernet controller");
+  ether.staticSetup(myip, gwip);
+}
 void setup()
 {
-  delay(500);
-  Serial1.begin(9600);
   Serial.begin(9600);
-  lan=new Lan(ADDRESS,DEVICE_TYPE,TRIGGERED_PIN, &writeLan, &readLan, &countLan);
-  lan->SetPins(&inputPinsCount,inputPins,&outputPinsCount,outputPins,&analogPinsCount,analogPins,analogTriggeredValue);
-  lan->Register();
-  
+  serial.begin(9600);
+  lan.SetPins(&inputPinsCount,inputPins,&outputPinsCount,outputPins,&analogPinsCount,analogPins,analogTriggeredValue);
+  lan.Register();
+  setupEncj();
 }
-void loop() {
-  lan->CheckMessages();
-  lan->CheckAnalogPins();
-  lan->CheckInputPins();
+void checkEncj()
+{
+  word pos = ether.packetLoop(ether.packetReceive());
+  char* request = "GET /?cmd=1 ";
+  if (pos)
+  {
+    char* data = (char *) Ethernet::buffer + pos;
+    for (int i = 0; i < 10; ++i)
+    {
+      request[10] = i + 48;
+      if (strncmp(request, data, strlen(request)) == 0)
+      {
+        lan.InputPinTriggered(i,1);
+      }
+    }
+    memcpy_P(ether.tcpOffset(), page, sizeof page);
+    ether.httpServerReply(sizeof page - 1);
+  }
+}
+void loop()
+{
+  lan.CheckMessages();
+  checkEncj();
 }
