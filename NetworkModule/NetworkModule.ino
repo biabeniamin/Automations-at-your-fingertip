@@ -29,7 +29,7 @@ Lan lan(ADDRESS,DEVICE_TYPE,TRIGGERED_PIN, &writeLan, &readLan, &countLan);
 static byte myip[] = { 192, 168, 0, 108 };
 static byte gwip[] = { 192, 168, 0, 1 };
 static byte mymac[] = { 0x74, 0x69, 0x69, 0x2D, 0x30, 0x31 };
-byte Ethernet::buffer[500];
+byte Ethernet::buffer[1000];
 const char page[] PROGMEM =
   "HTTP/1.0 503 Service Unavailable\r\n"
   "Content-Type: text/html\r\n"
@@ -38,9 +38,12 @@ const char page[] PROGMEM =
   "<html>"
   "<head><title>"
   "Automations for everyone"
-  "</title></head>"
-  "<body>"
-  "<H1>Automations for everyone</H1>"
+  "</title>"
+  "<style>button {width:70px;height:70px;background-color:#F2D8C2;}</style>"
+  "</head>"
+  "<body style='background-color: #20448c;'>"
+  "<div style='margin:auto;width:50%;text-align:center;background-color:#517EA6;padding:20px;'>"
+  "<h1>Automations for everyone</h1>"
   "<a href='?cmd=1'><button>1</button></a> "
   "<a href='?cmd=2'><button>2</button></a> "
   "<a href='?cmd=3'><button>3</button></a> "
@@ -48,7 +51,7 @@ const char page[] PROGMEM =
   "<a href='?cmd=5'><button>5</button></a> "
   "<a href='?cmd=6'><button>6</button></a> "
 
-
+  "</div>"
   "</body>"
   "</html>"
   ;
