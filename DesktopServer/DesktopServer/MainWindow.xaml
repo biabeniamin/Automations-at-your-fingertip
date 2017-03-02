@@ -121,7 +121,7 @@
             </ListView.View>
         </ListView>
         <Button Command="{Binding AddActiveLowActionCommand}" x:Name="button1_Copy" Content="Add" HorizontalAlignment="Left" Margin="775,303,0,0" VerticalAlignment="Top" Width="74"/>
-        <Grid x:Name="grid" HorizontalAlignment="Left" Height="294" Margin="26,328,0,0" VerticalAlignment="Top" Width="1331"/>
+        <ItemsControl  ItemsSource="{Binding DisplayedBlocks}" x:Name="grid"  HorizontalAlignment="Left" Height="261" Margin="165,361,0,0" VerticalAlignment="Top" Width="1192"/>
         <ListView x:Name="listView_Copy2" HorizontalAlignment="Left" Height="268" VerticalAlignment="Top" Width="190" Margin="992,15,0,0" ItemsSource="{Binding BlockTypes}">
             <ListView.View>
                 <GridView>

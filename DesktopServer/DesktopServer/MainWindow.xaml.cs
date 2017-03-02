@@ -26,6 +26,8 @@ namespace DesktopServer
     /// </summary>
     public partial class MainWindow : Window,INotifyPropertyChanged
     {
+        
+
         private Controller _controller;
         private DelegateCommand _addActionCommand;
         private Pin _selectedPin;
@@ -36,34 +38,50 @@ namespace DesktopServer
         private DelegateCommand _loadDevicesCommand;
         private DelegateCommand _programActionsCommand;
         private DelegateCommand _activeLowActionCommand;
-        private List<BlockControl> _blockControls;
         bool isDown = false;
         private DelegateCommand _addBlockCommand;
-
+        public ObservableCollection<UIElement> DisplayedBlocks
+        {
+            get
+            {
+                ObservableCollection<UIElement> elements = new ObservableCollection<UIElement>();
+                if (IsAPinSelected)
+                {
+                    foreach (BlockControl control in SelectedPin.BlockControls)
+                        elements.Add(control.Block);
+                }
+                return elements;
+            }
+        }
+        public bool IsAPinSelected
+        {
+            get
+            {
+                if (SelectedPin != null)
+                    return true;
+                return false;
+            }
+        }
         public DelegateCommand AddBlockCommand
         {
             get { return _addBlockCommand; }
             set { _addBlockCommand = value; }
         }
-
         public DelegateCommand AddActiveLowActionCommand
         {
             get { return _activeLowActionCommand; }
             set { _activeLowActionCommand = value; }
         }
-
         public DelegateCommand ProgramActionsCommand
         {
             get { return _programActionsCommand; }
             set { _programActionsCommand = value; }
         }
-
         public DelegateCommand LoadDevicesCommand
         {
             get { return _loadDevicesCommand; }
             set { _loadDevicesCommand = value; }
         }
-
         public DelegateCommand LoadActionCommand
         {
             get { return _loadActionCommand; }
@@ -88,7 +106,6 @@ namespace DesktopServer
             get { return _saveActionCommand; }
             set { _saveActionCommand = value; }
         }
-
         public Pin SelectedPin
         {
             get { return _selectedPin; }
@@ -96,6 +113,7 @@ namespace DesktopServer
             {
                 _selectedPin = value;
                 OnPropertyChanged("SelectedPin");
+                OnPropertyChanged("DisplayedBlocks");
             }
         }
         public Device SelectedDevice
@@ -107,7 +125,6 @@ namespace DesktopServer
                 OnPropertyChanged("SelectedDevice");
             }
         }
-
         public DelegateCommand AddActionCommand
         {
             get { return _addActionCommand; }
@@ -147,7 +164,6 @@ namespace DesktopServer
             ProgramActionsCommand = new DelegateCommand(ProgramActions);
             AddBlockCommand = new DelegateCommand(AddBlockAction);
             _saves = new Saves();
-            _blockControls = new List<BlockControl>();
             LoadDevices();
         }
         private void ProgramActions()
@@ -157,13 +173,13 @@ namespace DesktopServer
         }
         private void LoadDevices()
         {
-            _controller.LoadDevices();
-            /*_controller.Devices.Add(new Device(2, DeviceTypes.Relay));
+            //_controller.LoadDevices();
+            _controller.Devices.Add(new Device(2, DeviceTypes.Relay));
             _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 5, PinTypes.Analog));
             _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0],8, PinTypes.Input));
             _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 7, PinTypes.Output));
             _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 9, PinTypes.Output));
-            _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 4, PinTypes.Output));*/
+            _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 4, PinTypes.Output));
         }
         private void SaveAction()
         {
@@ -229,18 +245,23 @@ namespace DesktopServer
         private BlockControl AddNewButton(Point location, BlockType type)
         {
             BlockControl b = GenerateNewBlock(location, type);
-            grid.Children.Add(b.Block);
-            _blockControls.Add(b);
+            //grid.Children.Add(b.Block);
+            SelectedPin.BlockControls.Add(b);
+            OnPropertyChanged("DisplayedBlocks");
             return b;
         }
         private void AddBlockAction(object parameter)
         {
-            BlockType type = (BlockType)Enum.Parse(typeof(BlockType), parameter.ToString());
-            AddNewButton(new Point(0, 0), type);
+            if (IsAPinSelected)
+            {
+                BlockType type = (BlockType)Enum.Parse(typeof(BlockType), parameter.ToString());
+                AddNewButton(new Point(0, 0), type);
+            }
         }
+        Point pos;
         private void button_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            pos = Mouse.GetPosition(grid);
             isDown = true;
 
         }
@@ -267,7 +288,7 @@ namespace DesktopServer
             if (isDown == true)
             {
                 UIElement b = sender as UIElement;
-                BlockControl bC = Helpers.GetBlockControl(b, _blockControls);
+                BlockControl bC = Helpers.GetBlockControl(b, SelectedPin.BlockControls);
                 TranslateTransform t = new TranslateTransform();
                 Point pp = Mouse.GetPosition(grid);
                 MoveSubBlocks(bC, new Point(pp.X-25, pp.Y-25));
@@ -277,20 +298,20 @@ namespace DesktopServer
         private void button_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
             UIElement b = sender as UIElement;
-            BlockControl bC = Helpers.GetBlockControl(b, _blockControls);
-            BlockControl overButton = Helpers.GetIntersectedBlock(grid, bC, _blockControls);
+            BlockControl bC = Helpers.GetBlockControl(b, SelectedPin.BlockControls);
+            BlockControl overButton = Helpers.GetIntersectedBlock(grid, bC, SelectedPin.BlockControls);
             if (overButton != null)
             {
                 if(bC.Parent!=null)
                 bC.Parent.Childs.Remove(bC);
                 bC.Parent = overButton;
                 overButton.AddSubBlockControl(bC);
-                _blockControls.Remove(bC);
+                SelectedPin.BlockControls.Remove(bC);
             }
             else if(bC.Parent!=null)
             {
                 bC.Parent.Childs.Remove(bC);
-                _blockControls.Add(bC);
+                SelectedPin.BlockControls.Add(bC);
             }
             if (bC != null)
                 label.Content = bC.Childs.Count;
@@ -299,9 +320,9 @@ namespace DesktopServer
 
         private void button2_Click_1(object sender, RoutedEventArgs e)
         {
-            for (int i = 0; i < _blockControls.Count; i++)
+            for (int i = 0; i < SelectedPin.BlockControls.Count; i++)
             {
-                BlockAnalyzer.Analyze(_blockControls[i]);
+                BlockAnalyzer.Analyze(SelectedPin.BlockControls[i]);
                 //MessageBox.Show(_blockControls[i].GetValue().ToString());
             }
         }

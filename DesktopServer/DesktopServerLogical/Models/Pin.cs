@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace DesktopServerLogical.Models
 {
@@ -18,6 +19,12 @@ namespace DesktopServerLogical.Models
         private ObservableCollection<RemoteAction> _activeLowActions;
         private int _repeats=1;
         private int _triggeredValue=5;
+        private List<BlockControl> _blockControls;
+        public List<BlockControl> BlockControls
+        {
+            get { return _blockControls; }
+            set { _blockControls = value; }
+        }
 
         public int TriggeredValue
         {
@@ -82,6 +89,7 @@ namespace DesktopServerLogical.Models
             _type = type;
             _actions = new ObservableCollection<RemoteAction>();
             _activeLowActions = new ObservableCollection<RemoteAction>();
+            _blockControls = new List<BlockControl>();
         }
         public override string ToString()
         {
