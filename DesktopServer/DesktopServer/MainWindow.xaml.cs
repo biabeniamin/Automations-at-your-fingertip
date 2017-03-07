@@ -94,7 +94,7 @@ namespace DesktopServer
                     _selectedPin.Blocks = new List<UIElement>();
                     foreach (UIElement element in grid.Children)
                         _selectedPin.Blocks.Add(element);
-                    //AnalyzeBlocksForPin(_selectedPin);
+                    AnalyzeBlocksForPin(_selectedPin);
                 }
                 _selectedPin = value;
                 if (_selectedPin != null)
@@ -174,6 +174,9 @@ namespace DesktopServer
             _controller.Devices[0].Pins.Add(oPin);
             Pin pin = new Pin(_controller.Devices[0], 8, PinTypes.Input);
             pin.Actions.Add(new RemoteAction(oPin, ActionTypes.Switch, pin));
+            RemoteAction del = new RemoteAction(oPin, ActionTypes.Delay, null);
+            del.Value = 5;
+            pin.Actions.Add(del);
             _controller.Devices[0].Pins.Add(pin);
             
             _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 9, PinTypes.Output));
@@ -247,6 +250,10 @@ namespace DesktopServer
                 case ActionTypes.Switch:
                     block = GenerateNewBlock(location, BlockType.SwitchAction);
                     ((ComboBox)((Canvas)block.Block).Children[1]).SelectedItem = action.Pin;
+                    break;
+                case ActionTypes.Delay:
+                    block = GenerateNewBlock(location, BlockType.DelayAction);
+                    ((TextBox)((Canvas)block.Block).Children[1]).Text = action.Value.ToString();
                     break;
             }
             return block;
@@ -334,12 +341,6 @@ namespace DesktopServer
             {
                 UIElement b = sender as UIElement;
                 BlockControl bC = Helpers.GetBlockControl(b, _blockControls);
-                if(bC.Parent!=null)
-                {
-                    bC.Parent.Childs.Remove(bC);
-                    _blockControls.Add(bC);
-                    bC.Parent = null;
-                }
                 TranslateTransform t = new TranslateTransform();
                 Point pp = Mouse.GetPosition(grid);
                 MoveSubBlocks(bC, new Point(pp.X-25, pp.Y-25));
