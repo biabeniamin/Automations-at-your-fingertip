@@ -37,6 +37,7 @@ namespace DesktopServer
         private DelegateCommand _programActionsCommand;
         private DelegateCommand _activeLowActionCommand;
         private List<BlockControl> _blockControls;
+        private bool _wasModifiedUsingBlocks = false;
         bool isDown = false;
         private DelegateCommand _addBlockCommand;
         public DelegateCommand AddBlockCommand
@@ -90,20 +91,15 @@ namespace DesktopServer
             {
                 if (_selectedPin != null)
                 {
-                    _selectedPin.BlockControls = _blockControls;
-                    _selectedPin.Blocks = new List<UIElement>();
-                    foreach (UIElement element in grid.Children)
-                        _selectedPin.Blocks.Add(element);
-                    AnalyzeBlocksForPin(_selectedPin);
+                    if(_wasModifiedUsingBlocks)
+                        AnalyzeBlocksForPin(_selectedPin);
                 }
+                _wasModifiedUsingBlocks = false;
                 _selectedPin = value;
                 if (_selectedPin != null)
                 {
-                    //_blockControls = _selectedPin.BlockControls;
                     _blockControls.Clear();
                     grid.Children.Clear();
-                    /*foreach (UIElement element in _selectedPin.Blocks)
-                        grid.Children.Add(element);*/
                 }
                 GenerateBlocksForPin(_selectedPin);
                 OnPropertyChanged("SelectedPin");
@@ -251,6 +247,14 @@ namespace DesktopServer
                     block = GenerateNewBlock(location, BlockType.SwitchAction);
                     ((ComboBox)((Canvas)block.Block).Children[1]).SelectedItem = action.Pin;
                     break;
+                case ActionTypes.TurnOn:
+                    block = GenerateNewBlock(location, BlockType.TurnOnAction);
+                    ((ComboBox)((Canvas)block.Block).Children[1]).SelectedItem = action.Pin;
+                    break;
+                case ActionTypes.TurnOff:
+                    block = GenerateNewBlock(location, BlockType.TurnOffAction);
+                    ((ComboBox)((Canvas)block.Block).Children[1]).SelectedItem = action.Pin;
+                    break;
                 case ActionTypes.Delay:
                     block = GenerateNewBlock(location, BlockType.DelayAction);
                     ((TextBox)((Canvas)block.Block).Children[1]).Text = action.Value.ToString();
@@ -266,23 +270,43 @@ namespace DesktopServer
             parent.AddSubBlockControl(block);
             return block;
         }
+        private void GenerateAllChildBlocks(Pin pin,Point location,BlockControl parent)
+        {
+            BlockControl last = parent;
+            if (parent.Type == BlockType.NegativeAnalogTriggered)
+            {
+                foreach (RemoteAction action in pin.ActiveLowActions)
+                {
+                    location = new Point(location.X + ((Canvas)parent.Block).Width, location.Y);
+                    last = GenerateSubBlocksForAction(action, last, location);
+                }
+            }
+            else
+            {
+                foreach (RemoteAction action in pin.Actions)
+                {
+                    location = new Point(location.X + ((Canvas)parent.Block).Width, location.Y);
+                    last = GenerateSubBlocksForAction(action, last, location);
+                }
+            }
+        }
         private void GenerateBlocksForPin(Pin pin)
         {
-            switch(pin.Type)
+            BlockControl parent;
+            switch (pin.Type)
             {
                 case PinTypes.Input:
                     Point location = new Point(-25, 0);
-                    BlockControl parent=AddNewButton(location, BlockType.PinTriggered,pin);
-                    BlockControl last = parent;
-                    foreach (RemoteAction action in pin.Actions)
-                    {
-                        location = new Point(location.X + ((Canvas)parent.Block).Width, location.Y);
-                        last=GenerateSubBlocksForAction(action,last, location);
-                    }
+                    parent=AddNewButton(location, BlockType.PinTriggered,pin);
+                    GenerateAllChildBlocks(pin, location, parent);
                     break;
                 case PinTypes.Analog:
-                    AddNewButton(new Point(-25, 0), BlockType.PositiveAnalogTriggered);
-                    AddNewButton(new Point(-25, 150), BlockType.NegativeAnalogTriggered);
+                    Point posLocation = new Point(-25, 0);
+                    parent = AddNewButton(posLocation, BlockType.PositiveAnalogTriggered, pin);
+                    GenerateAllChildBlocks(pin, posLocation, parent);
+                    posLocation = new Point(-25, 150);
+                    parent = AddNewButton(posLocation, BlockType.NegativeAnalogTriggered, pin);
+                    GenerateAllChildBlocks(pin, posLocation, parent);
                     break;
             }
         }
@@ -302,6 +326,11 @@ namespace DesktopServer
             {
                 case BlockType.PinTriggered:
                     ((ComboBox)((Canvas)b.Block).Children[1]).SelectedItem = arg;
+                    break;
+                case BlockType.PositiveAnalogTriggered:
+                case BlockType.NegativeAnalogTriggered:
+                    ((ComboBox)((Canvas)b.Block).Children[1]).SelectedItem = arg;
+                    ((TextBox)((Canvas)b.Block).Children[2]).Text= ((Pin)arg).TriggeredValue.ToString();
                     break;
             }
             return b;
@@ -339,6 +368,7 @@ namespace DesktopServer
         {
             if (isDown == true)
             {
+                _wasModifiedUsingBlocks = true;
                 UIElement b = sender as UIElement;
                 BlockControl bC = Helpers.GetBlockControl(b, _blockControls);
                 TranslateTransform t = new TranslateTransform();
@@ -373,9 +403,9 @@ namespace DesktopServer
         private void AnalyzeBlocksForPin(Pin pin)
         {
             pin.ClearActions();
-            for (int i = 0; i < pin.BlockControls.Count; i++)
+            for (int i = 0; i < _blockControls.Count; i++)
             {
-                BlockAnalyzer.Analyze(pin.BlockControls[i]);
+                BlockAnalyzer.Analyze(_blockControls[i]);
                 //MessageBox.Show(_blockControls[i].GetValue().ToString());
             }
         }
@@ -386,9 +416,9 @@ namespace DesktopServer
                 foreach (Pin pin in device.InputPins)
                 {
                     pin.ClearActions();
-                    for (int i = 0; i < pin.BlockControls.Count; i++)
+                    for (int i = 0; i < _blockControls.Count; i++)
                     {
-                        BlockAnalyzer.Analyze(pin.BlockControls[i]);
+                        BlockAnalyzer.Analyze(_blockControls[i]);
                         //MessageBox.Show(_blockControls[i].GetValue().ToString());
                     }
                 }

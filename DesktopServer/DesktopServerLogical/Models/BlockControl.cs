@@ -93,6 +93,8 @@ namespace DesktopServerLogical.Models
                     value = ((TextBox)((Canvas)_block).Children[1]).Text;
                     break;
                 case BlockType.SwitchAction:
+                case BlockType.TurnOnAction:
+                case BlockType.TurnOffAction:
                     value = ((ComboBox)((Canvas)_block).Children[1]).SelectedItem;
                     break;
                 case BlockType.DelayAction:
