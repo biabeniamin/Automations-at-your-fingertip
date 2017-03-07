@@ -6,6 +6,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace DesktopServerLogical.Models
 {
@@ -18,19 +20,28 @@ namespace DesktopServerLogical.Models
         private ObservableCollection<RemoteAction> _activeLowActions;
         private int _repeats=1;
         private int _triggeredValue=5;
-
+        private List<UIElement> _blocks;
+        private List<BlockControl> _blockControls;
+        public List<BlockControl> BlockControls
+        {
+            get { return _blockControls; }
+            set { _blockControls = value; }
+        }
+        public List<UIElement> Blocks
+        {
+            get { return _blocks; }
+            set { _blocks = value; }
+        }
         public int TriggeredValue
         {
             get { return _triggeredValue; }
             set { _triggeredValue = value; }
         }
-
         public int Repeats
         {
             get { return _repeats; }
             set { _repeats = value; }
         }
-
         public bool AllowAction
         {
             get { return PinTypes.Input==_type; }
@@ -42,8 +53,6 @@ namespace DesktopServerLogical.Models
                 return PinTypes.Analog == _type;
             }
         }
-
-
         public ObservableCollection<RemoteAction> Actions
         {
             get { return _actions; }
@@ -60,17 +69,14 @@ namespace DesktopServerLogical.Models
                 _activeLowActions = value;
             }
         }
-
         public PinTypes Type
         {
             get { return _type; }
         }
-
         public int PinNumber
         {
             get { return _pinNumber; }
         }
-
         public Device Owner
         {
             get { return _owner; }
@@ -82,6 +88,13 @@ namespace DesktopServerLogical.Models
             _type = type;
             _actions = new ObservableCollection<RemoteAction>();
             _activeLowActions = new ObservableCollection<RemoteAction>();
+            _blocks = new List<UIElement>();
+            _blockControls = new List<BlockControl>();
+        }
+        public void ClearActions()
+        {
+            _actions.Clear();
+            _activeLowActions.Clear();
         }
         public override string ToString()
         {
