@@ -55,7 +55,7 @@ namespace DesktopServerLogical
                         value = Convert.ToInt32(blockControl.GetValue());
                         action = new RemoteAction(ownerPin, ActionTypes.Delay, null);
                         action.Value = value;
-                        pin.Actions.Add(action);
+                        ownerPin.Actions.Add(action);
                         break;
                 }
             }
@@ -68,10 +68,14 @@ namespace DesktopServerLogical
         public static void Analyze(BlockControl blockControl)
         {
             Pin pin = (Pin)blockControl.GetValue();
-            AnalyzeBlock(pin,null, blockControl);
+            Analyze(blockControl, blockControl, pin);
+        }
+        private static void Analyze(BlockControl ownerBlock,BlockControl blockControl,Pin pin)
+        {
+            AnalyzeBlock(pin, ownerBlock, blockControl);
             for (int i = 0; i < blockControl.Childs.Count; i++)
             {
-                AnalyzeBlock(pin,blockControl, blockControl.Childs[i]);
+                Analyze(ownerBlock, blockControl.Childs[i], pin);
             }
         }
     }
