@@ -99,11 +99,13 @@ namespace DesktopServer
                 _selectedPin = value;
                 if (_selectedPin != null)
                 {
-                    _blockControls = _selectedPin.BlockControls;
+                    //_blockControls = _selectedPin.BlockControls;
+                    _blockControls.Clear();
                     grid.Children.Clear();
-                    foreach (UIElement element in _selectedPin.Blocks)
-                        grid.Children.Add(element);
+                    /*foreach (UIElement element in _selectedPin.Blocks)
+                        grid.Children.Add(element);*/
                 }
+                GenerateBlocksForPin(_selectedPin);
                 OnPropertyChanged("SelectedPin");
             }
         }
@@ -233,12 +235,64 @@ namespace DesktopServer
             block.Block.PreviewMouseUp += button_PreviewMouseUp;
             return block;
         }
-
+        private BlockControl GenerateBlockForAction(RemoteAction action,Point location)
+        {
+            BlockControl block=null;
+            switch (action.Type)
+            {
+                case ActionTypes.Switch:
+                    block = GenerateNewBlock(location, BlockType.SwitchAction);
+                    ((ComboBox)((Canvas)block.Block).Children[1]).SelectedItem = action.Pin;
+                    break;
+            }
+            return block;
+        }
+        private BlockControl GenerateSubBlocksForAction(RemoteAction action,BlockControl parent,Point location)
+        {
+            BlockControl block = GenerateBlockForAction(action, location);
+            grid.Children.Add(block.Block);
+            block.Parent = parent;
+            parent.AddSubBlockControl(block);
+            return block;
+        }
+        private void GenerateBlocksForPin(Pin pin)
+        {
+            switch(pin.Type)
+            {
+                case PinTypes.Input:
+                    Point location = new Point(-25, 0);
+                    BlockControl parent=AddNewButton(location, BlockType.PinTriggered,pin);
+                    BlockControl last = parent;
+                    foreach (RemoteAction action in pin.Actions)
+                    {
+                        location = new Point(location.X + ((Canvas)parent.Block).Width, location.Y);
+                        last=GenerateSubBlocksForAction(action,last, location);
+                    }
+                    break;
+                case PinTypes.Analog:
+                    AddNewButton(new Point(-25, 0), BlockType.PositiveAnalogTriggered);
+                    AddNewButton(new Point(-25, 150), BlockType.NegativeAnalogTriggered);
+                    break;
+            }
+        }
         private BlockControl AddNewButton(Point location, BlockType type)
         {
             BlockControl b = GenerateNewBlock(location, type);
             grid.Children.Add(b.Block);
             _blockControls.Add(b);
+            return b;
+        }
+        private BlockControl AddNewButton(Point location, BlockType type,object arg)
+        {
+            BlockControl b = GenerateNewBlock(location, type);
+            grid.Children.Add(b.Block);
+            _blockControls.Add(b);
+            switch(type)
+            {
+                case BlockType.PinTriggered:
+                    ((ComboBox)((Canvas)b.Block).Children[1]).SelectedItem = arg;
+                    break;
+            }
             return b;
         }
         private void AddBlockAction(object parameter)
@@ -262,7 +316,7 @@ namespace DesktopServer
             for (int i = 0; i < block.Childs.Count; i++)
             {
                 TranslateTransform tt = new TranslateTransform();
-                tt.X = t.X + Helpers.GetWidthOfElement(block.Block) * (i + 1+count);
+                tt.X = t.X + Helpers.GetWidthOfElement(block.Block) * (i + count);
                 tt.Y = t.Y;
                 block.Childs[i].Block.RenderTransform = tt;
                 count++;

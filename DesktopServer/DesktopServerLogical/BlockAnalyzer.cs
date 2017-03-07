@@ -2,6 +2,7 @@
 using DesktopServerLogical.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,45 +16,52 @@ namespace DesktopServerLogical
             RemoteAction action = null;
             Pin pin = null;
             int value;
-            switch (blockControl.Type)
+            try
             {
-                case BlockType.PositiveAnalogTriggered:
-                case BlockType.NegativeAnalogTriggered:
-                    ownerPin.TriggeredValue = Convert.ToInt32(blockControl.GetSecondValue());
-                    break;
-                case BlockType.For:
-                    pin.Repeats = Convert.ToInt32(blockControl.GetValue());
-                    break;
-                case BlockType.SwitchAction:
-                    pin = (Pin)blockControl.GetValue();
-                    action = new RemoteAction(pin, ActionTypes.Switch, ownerPin);
-                    if (ownerBlock.Type == BlockType.NegativeAnalogTriggered)
-                        ownerPin.ActiveLowActions.Add(action);
-                    else
-                        ownerPin.Actions.Add(action);
-                    break;
-                case BlockType.TurnOnAction:
-                    pin = (Pin)blockControl.GetValue();
-                    action = new RemoteAction(pin, ActionTypes.TurnOn, ownerPin);
-                    if (ownerBlock.Type == BlockType.NegativeAnalogTriggered)
-                        ownerPin.ActiveLowActions.Add(action);
-                    else
-                        ownerPin.Actions.Add(action);
-                    break;
-                case BlockType.TurnOffAction:
-                    pin = (Pin)blockControl.GetValue();
-                    action = new RemoteAction(pin, ActionTypes.TurnOff, ownerPin);
-                    if (ownerBlock.Type == BlockType.NegativeAnalogTriggered)
-                        ownerPin.ActiveLowActions.Add(action);
-                    else
-                        ownerPin.Actions.Add(action);
-                    break;
-                case BlockType.DelayAction:
-                    value = Convert.ToInt32(blockControl.GetValue());
-                    action = new RemoteAction(ownerPin, ActionTypes.Delay, null);
-                    action.Value = value;
-                    pin.Actions.Add(action);
-                    break;
+                switch (blockControl.Type)
+                {
+                    case BlockType.PositiveAnalogTriggered:
+                    case BlockType.NegativeAnalogTriggered:
+                        ownerPin.TriggeredValue = Convert.ToInt32(blockControl.GetSecondValue());
+                        break;
+                    case BlockType.For:
+                        pin.Repeats = Convert.ToInt32(blockControl.GetValue());
+                        break;
+                    case BlockType.SwitchAction:
+                        pin = (Pin)blockControl.GetValue();
+                        action = new RemoteAction(pin, ActionTypes.Switch, ownerPin);
+                        if (ownerBlock.Type == BlockType.NegativeAnalogTriggered)
+                            ownerPin.ActiveLowActions.Add(action);
+                        else
+                            ownerPin.Actions.Add(action);
+                        break;
+                    case BlockType.TurnOnAction:
+                        pin = (Pin)blockControl.GetValue();
+                        action = new RemoteAction(pin, ActionTypes.TurnOn, ownerPin);
+                        if (ownerBlock.Type == BlockType.NegativeAnalogTriggered)
+                            ownerPin.ActiveLowActions.Add(action);
+                        else
+                            ownerPin.Actions.Add(action);
+                        break;
+                    case BlockType.TurnOffAction:
+                        pin = (Pin)blockControl.GetValue();
+                        action = new RemoteAction(pin, ActionTypes.TurnOff, ownerPin);
+                        if (ownerBlock.Type == BlockType.NegativeAnalogTriggered)
+                            ownerPin.ActiveLowActions.Add(action);
+                        else
+                            ownerPin.Actions.Add(action);
+                        break;
+                    case BlockType.DelayAction:
+                        value = Convert.ToInt32(blockControl.GetValue());
+                        action = new RemoteAction(ownerPin, ActionTypes.Delay, null);
+                        action.Value = value;
+                        pin.Actions.Add(action);
+                        break;
+                }
+            }
+            catch(Exception ee)
+            {
+                Debug.WriteLine($"Was an error when tryed to analyze this block{ee.Message}");
             }
             //return action;
         }
