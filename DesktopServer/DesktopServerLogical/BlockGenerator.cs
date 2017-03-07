@@ -33,7 +33,11 @@ namespace DesktopServerLogical
             b.Background = new SolidColorBrush(color);
             b.Width = size.Width;
             b.Height = size.Height;
-            b.Margin = new Thickness(location.X, location.Y, 0, 0);
+            //b.Margin = new Thickness(location.X, location.Y, 0, 0);
+            TranslateTransform t = new TranslateTransform();
+            t.X = location.X;
+            t.Y = location.Y;
+            b.RenderTransform = t;
             b.VerticalAlignment = VerticalAlignment.Top;
             b.HorizontalAlignment = HorizontalAlignment.Left;
             return b;
