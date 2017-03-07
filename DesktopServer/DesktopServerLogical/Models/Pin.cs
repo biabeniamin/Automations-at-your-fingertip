@@ -20,18 +20,6 @@ namespace DesktopServerLogical.Models
         private ObservableCollection<RemoteAction> _activeLowActions;
         private int _repeats=1;
         private int _triggeredValue=5;
-        private List<UIElement> _blocks;
-        private List<BlockControl> _blockControls;
-        public List<BlockControl> BlockControls
-        {
-            get { return _blockControls; }
-            set { _blockControls = value; }
-        }
-        public List<UIElement> Blocks
-        {
-            get { return _blocks; }
-            set { _blocks = value; }
-        }
         public int TriggeredValue
         {
             get { return _triggeredValue; }
@@ -88,8 +76,6 @@ namespace DesktopServerLogical.Models
             _type = type;
             _actions = new ObservableCollection<RemoteAction>();
             _activeLowActions = new ObservableCollection<RemoteAction>();
-            _blocks = new List<UIElement>();
-            _blockControls = new List<BlockControl>();
         }
         public void ClearActions()
         {

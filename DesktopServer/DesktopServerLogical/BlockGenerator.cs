@@ -154,7 +154,7 @@ namespace DesktopServerLogical
             b.Children.Add(comboBox);
             b.Children.Add(GenerateEndConnector());
             b.Children.Add(GenerateBeginConnector());
-            control = new BlockControl(b, BlockType.SwitchAction);
+            control = new BlockControl(b, type);
             return control;
         }
         public static BlockControl GenerateNewBlock(Point point, BlockType type)
