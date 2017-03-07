@@ -39,31 +39,26 @@ namespace DesktopServer
         private List<BlockControl> _blockControls;
         bool isDown = false;
         private DelegateCommand _addBlockCommand;
-
         public DelegateCommand AddBlockCommand
         {
             get { return _addBlockCommand; }
             set { _addBlockCommand = value; }
         }
-
         public DelegateCommand AddActiveLowActionCommand
         {
             get { return _activeLowActionCommand; }
             set { _activeLowActionCommand = value; }
         }
-
         public DelegateCommand ProgramActionsCommand
         {
             get { return _programActionsCommand; }
             set { _programActionsCommand = value; }
         }
-
         public DelegateCommand LoadDevicesCommand
         {
             get { return _loadDevicesCommand; }
             set { _loadDevicesCommand = value; }
         }
-
         public DelegateCommand LoadActionCommand
         {
             get { return _loadActionCommand; }
@@ -88,13 +83,27 @@ namespace DesktopServer
             get { return _saveActionCommand; }
             set { _saveActionCommand = value; }
         }
-
         public Pin SelectedPin
         {
             get { return _selectedPin; }
             set
             {
+                if (_selectedPin != null)
+                {
+                    _selectedPin.BlockControls = _blockControls;
+                    _selectedPin.Blocks = new List<UIElement>();
+                    foreach (UIElement element in grid.Children)
+                        _selectedPin.Blocks.Add(element);
+                    AnalyzeBlocksForPin(_selectedPin);
+                }
                 _selectedPin = value;
+                if (_selectedPin != null)
+                {
+                    _blockControls = _selectedPin.BlockControls;
+                    grid.Children.Clear();
+                    foreach (UIElement element in _selectedPin.Blocks)
+                        grid.Children.Add(element);
+                }
                 OnPropertyChanged("SelectedPin");
             }
         }
@@ -107,7 +116,6 @@ namespace DesktopServer
                 OnPropertyChanged("SelectedDevice");
             }
         }
-
         public DelegateCommand AddActionCommand
         {
             get { return _addActionCommand; }
@@ -157,13 +165,13 @@ namespace DesktopServer
         }
         private void LoadDevices()
         {
-            _controller.LoadDevices();
-            /*_controller.Devices.Add(new Device(2, DeviceTypes.Relay));
+            //_controller.LoadDevices();
+            _controller.Devices.Add(new Device(2, DeviceTypes.Relay));
             _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 5, PinTypes.Analog));
             _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0],8, PinTypes.Input));
             _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 7, PinTypes.Output));
             _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 9, PinTypes.Output));
-            _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 4, PinTypes.Output));*/
+            _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 4, PinTypes.Output));
         }
         private void SaveAction()
         {
@@ -271,7 +279,6 @@ namespace DesktopServer
                 TranslateTransform t = new TranslateTransform();
                 Point pp = Mouse.GetPosition(grid);
                 MoveSubBlocks(bC, new Point(pp.X-25, pp.Y-25));
-
             }
         }
         private void button_PreviewMouseUp(object sender, MouseButtonEventArgs e)
@@ -297,12 +304,28 @@ namespace DesktopServer
             isDown = false;
         }
 
+        private void AnalyzeBlocksForPin(Pin pin)
+        {
+            pin.ClearActions();
+            for (int i = 0; i < pin.BlockControls.Count; i++)
+            {
+                BlockAnalyzer.Analyze(pin.BlockControls[i]);
+                //MessageBox.Show(_blockControls[i].GetValue().ToString());
+            }
+        }
         private void button2_Click_1(object sender, RoutedEventArgs e)
         {
-            for (int i = 0; i < _blockControls.Count; i++)
+            foreach (Device device in Devices)
             {
-                BlockAnalyzer.Analyze(_blockControls[i]);
-                //MessageBox.Show(_blockControls[i].GetValue().ToString());
+                foreach (Pin pin in device.InputPins)
+                {
+                    pin.ClearActions();
+                    for (int i = 0; i < pin.BlockControls.Count; i++)
+                    {
+                        BlockAnalyzer.Analyze(pin.BlockControls[i]);
+                        //MessageBox.Show(_blockControls[i].GetValue().ToString());
+                    }
+                }
             }
         }
     }
