@@ -94,7 +94,7 @@ namespace DesktopServer
                     _selectedPin.Blocks = new List<UIElement>();
                     foreach (UIElement element in grid.Children)
                         _selectedPin.Blocks.Add(element);
-                    AnalyzeBlocksForPin(_selectedPin);
+                    //AnalyzeBlocksForPin(_selectedPin);
                 }
                 _selectedPin = value;
                 if (_selectedPin != null)
@@ -170,8 +170,12 @@ namespace DesktopServer
             //_controller.LoadDevices();
             _controller.Devices.Add(new Device(2, DeviceTypes.Relay));
             _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 5, PinTypes.Analog));
-            _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0],8, PinTypes.Input));
-            _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 7, PinTypes.Output));
+            Pin oPin = new Pin(_controller.Devices[0], 7, PinTypes.Output);
+            _controller.Devices[0].Pins.Add(oPin);
+            Pin pin = new Pin(_controller.Devices[0], 8, PinTypes.Input);
+            pin.Actions.Add(new RemoteAction(oPin, ActionTypes.Switch, pin));
+            _controller.Devices[0].Pins.Add(pin);
+            
             _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 9, PinTypes.Output));
             _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 4, PinTypes.Output));
         }
@@ -316,7 +320,7 @@ namespace DesktopServer
             for (int i = 0; i < block.Childs.Count; i++)
             {
                 TranslateTransform tt = new TranslateTransform();
-                tt.X = t.X + Helpers.GetWidthOfElement(block.Block) * (i + count);
+                tt.X = t.X + Helpers.GetWidthOfElement(block.Block) * (i+1 + count);
                 tt.Y = t.Y;
                 block.Childs[i].Block.RenderTransform = tt;
                 count++;
@@ -330,6 +334,12 @@ namespace DesktopServer
             {
                 UIElement b = sender as UIElement;
                 BlockControl bC = Helpers.GetBlockControl(b, _blockControls);
+                if(bC.Parent!=null)
+                {
+                    bC.Parent.Childs.Remove(bC);
+                    _blockControls.Add(bC);
+                    bC.Parent = null;
+                }
                 TranslateTransform t = new TranslateTransform();
                 Point pp = Mouse.GetPosition(grid);
                 MoveSubBlocks(bC, new Point(pp.X-25, pp.Y-25));
@@ -352,6 +362,7 @@ namespace DesktopServer
             {
                 bC.Parent.Childs.Remove(bC);
                 _blockControls.Add(bC);
+                bC.Parent = null;
             }
             if (bC != null)
                 label.Content = bC.Childs.Count;
