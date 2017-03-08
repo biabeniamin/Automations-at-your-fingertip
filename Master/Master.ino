@@ -150,6 +150,10 @@ void pinTriggered(int deviceId, int pinNumber,int actionType)
           int actionEnd = actionStart + pins[j][1];
           for (int k = 0; k < pins[j][2]; ++k)
           {
+            Serial.print("action start:");
+            Serial.print(actionStart);
+            Serial.print("action end:");
+            Serial.print(actionEnd);
             for (int l = actionStart; l < actionEnd; ++l)
             {
               if(actions[l][4]==actionType)
@@ -355,9 +359,27 @@ void checkSerial()
     }
   }
 }
+/*
+ * 11100
+21100
+31100
+41100
+51100
+01150
+82100
 
+ */
 void loop()
 {
+  /*for(int i=0;i<7;i++)
+  {
+    for(int j=0;j<5;++j)
+    {
+      Serial.print(pins[i][j]);
+    }
+    Serial.println();
+  }
+  while(1);*/
   checkMax();
   checkSerial();
   /*int test[]={1,0,8,2,0,0};

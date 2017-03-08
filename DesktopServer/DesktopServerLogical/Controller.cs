@@ -145,8 +145,8 @@ namespace DesktopServerLogical
         }
         public void LoadDevices()
         {
-            //LoadDevice(1);
-            LoadDevice(2);
+            LoadDevice(1);
+            //LoadDevice(2);
         }
         private void LoadDevice(int id)
         {
