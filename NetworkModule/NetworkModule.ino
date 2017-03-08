@@ -6,11 +6,11 @@
 #include <EtherCard.h>
 #include <Lan.h>
 SoftwareSerial serial(10, 11);
-int inputPinsCount = 1;
-int inputPins[1] = {8};
-int outputPinsCount = 1;
+int inputPinsCount = 5;
+int inputPins[5] = {1,2,3,4,5};
+int outputPinsCount = 0;
 int outputPins[1] = {7};
-int analogPinsCount = 1;
+int analogPinsCount = 0;
 int analogPins[1] = {0};
 int analogTriggeredValue[] = {4};
 void writeLan(int byte)
