@@ -25,7 +25,7 @@ namespace DesktopServerLogical
                         ownerPin.TriggeredValue = Convert.ToInt32(blockControl.GetSecondValue());
                         break;
                     case BlockType.For:
-                        pin.Repeats = Convert.ToInt32(blockControl.GetValue());
+                        ownerPin.Repeats = Convert.ToInt32(blockControl.GetValue());
                         break;
                     case BlockType.SwitchAction:
                         pin = (Pin)blockControl.GetValue();
