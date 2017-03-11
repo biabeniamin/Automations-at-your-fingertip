@@ -163,8 +163,8 @@ namespace DesktopServer
         }
         private void LoadDevices()
         {
-            _controller.LoadDevices();
-            /*_controller.Devices.Add(new Device(2, DeviceTypes.Relay));
+            //_controller.LoadDevices();
+            _controller.Devices.Add(new Device(2, DeviceTypes.Relay));
             _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 5, PinTypes.Analog));
             Pin oPin = new Pin(_controller.Devices[0], 7, PinTypes.Output);
             _controller.Devices[0].Pins.Add(oPin);
@@ -176,7 +176,7 @@ namespace DesktopServer
             _controller.Devices[0].Pins.Add(pin);
             
             _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 9, PinTypes.Output));
-            _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 4, PinTypes.Output));*/
+            _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 4, PinTypes.Output));
         }
         private void SaveAction()
         {

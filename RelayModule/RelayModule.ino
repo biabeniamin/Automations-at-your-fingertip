@@ -27,8 +27,10 @@ int countLan()
 Lan lan(ADDRESS,DEVICE_TYPE,TRIGGERED_PIN, &writeLan, &readLan, &countLan);
 void setup()
 {
+  pinMode(8,INPUT_PULLUP);
   serial.begin(9600);
   Serial.begin(9600);
+  delay(1000);
   lan.SetPins(&inputPinsCount,inputPins,&outputPinsCount,outputPins,&analogPinsCount,analogPins,analogTriggeredValue);
   lan.Register();
   
