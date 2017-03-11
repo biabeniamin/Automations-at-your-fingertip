@@ -115,5 +115,16 @@ namespace DesktopServerLogical.Models
             }
             return value;
         }
+        public Point GetPosition()
+        {
+            return new Point(((Canvas)_block).RenderTransform.Value.OffsetX, ((Canvas)_block).RenderTransform.Value.OffsetY);
+        }
+        public Point GetPositionOfChild()
+        {
+            Point location= GetPosition();
+            if (_parent != null)
+                location = new Point(location.X + Helpers.GetWidthOfElement(_block),location.Y);
+            return location;
+        }
     }
 }

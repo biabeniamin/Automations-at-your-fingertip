@@ -1,4 +1,5 @@
-﻿using DesktopServerLogical;
+﻿#define ADD_DEVICES
+using DesktopServerLogical;
 using DesktopServerLogical.Enums;
 using DesktopServerLogical.Models;
 using System;
@@ -100,8 +101,8 @@ namespace DesktopServer
                 {
                     _blockControls.Clear();
                     grid.Children.Clear();
+                    GenerateBlocksForPin(_selectedPin);
                 }
-                //GenerateBlocksForPin(_selectedPin);
                 OnPropertyChanged("SelectedPin");
             }
         }
@@ -158,12 +159,17 @@ namespace DesktopServer
         }
         private void ProgramActions()
         {
+            if (_selectedPin != null)
+            {
+                if (_wasModifiedUsingBlocks)
+                    AnalyzeBlocksForPin(_selectedPin);
+            }
             _controller.ProgramMaster();
             MessageBox.Show("Programare terminata!");
         }
         private void LoadDevices()
         {
-            //_controller.LoadDevices();
+#if ADD_DEVICES
             _controller.Devices.Add(new Device(2, DeviceTypes.Relay));
             _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 5, PinTypes.Analog));
             Pin oPin = new Pin(_controller.Devices[0], 7, PinTypes.Output);
@@ -177,6 +183,9 @@ namespace DesktopServer
             
             _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 9, PinTypes.Output));
             _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 4, PinTypes.Output));
+#else
+            _controller.LoadDevices();
+#endif
         }
         private void SaveAction()
         {
@@ -290,34 +299,48 @@ namespace DesktopServer
                 }
             }
         }
+        private BlockControl GenerateForBlock(ref Point location,BlockControl parent, Pin pin)
+        {
+            location = new Point(location.X + ((Canvas)parent.Block).Width, location.Y);
+            BlockControl forBlock= GenerateNewBlock(location, BlockType.For);
+            ((TextBox)((Canvas)forBlock.Block).Children[1]).Text = pin.Repeats.ToString();
+            grid.Children.Add(forBlock.Block);
+            forBlock.Parent = parent;
+            parent.AddSubBlockControl(forBlock);
+            return forBlock;
+        }
         private void GenerateBlocksForPin(Pin pin)
         {
             BlockControl parent;
+            BlockControl forBlock;
             switch (pin.Type)
             {
                 case PinTypes.Input:
                     Point location = new Point(-25, 0);
-                    parent=AddNewButton(location, BlockType.PinTriggered,pin);
-                    GenerateAllChildBlocks(pin, location, parent);
+                    parent=AddNewBlock(location, BlockType.PinTriggered,pin);
+                    forBlock=GenerateForBlock(ref location, parent, pin);
+                    GenerateAllChildBlocks(pin, location, forBlock);
                     break;
                 case PinTypes.Analog:
                     Point posLocation = new Point(-25, 0);
-                    parent = AddNewButton(posLocation, BlockType.PositiveAnalogTriggered, pin);
+                    parent = AddNewBlock(posLocation, BlockType.PositiveAnalogTriggered, pin);
+                    forBlock = GenerateForBlock(ref posLocation, parent, pin);
                     GenerateAllChildBlocks(pin, posLocation, parent);
                     posLocation = new Point(-25, 150);
-                    parent = AddNewButton(posLocation, BlockType.NegativeAnalogTriggered, pin);
+                    parent = AddNewBlock(posLocation, BlockType.NegativeAnalogTriggered, pin);
+                    forBlock = GenerateForBlock(ref posLocation, parent, pin);
                     GenerateAllChildBlocks(pin, posLocation, parent);
                     break;
             }
         }
-        private BlockControl AddNewButton(Point location, BlockType type)
+        private BlockControl AddNewBlock(Point location, BlockType type)
         {
             BlockControl b = GenerateNewBlock(location, type);
             grid.Children.Add(b.Block);
             _blockControls.Add(b);
             return b;
         }
-        private BlockControl AddNewButton(Point location, BlockType type,object arg)
+        private BlockControl AddNewBlock(Point location, BlockType type,object arg)
         {
             BlockControl b = GenerateNewBlock(location, type);
             grid.Children.Add(b.Block);
@@ -332,13 +355,16 @@ namespace DesktopServer
                     ((ComboBox)((Canvas)b.Block).Children[1]).SelectedItem = arg;
                     ((TextBox)((Canvas)b.Block).Children[2]).Text= ((Pin)arg).TriggeredValue.ToString();
                     break;
+                case BlockType.For:
+                    ((TextBox)((Canvas)b.Block).Children[1]).Text = ((Pin)arg).Repeats.ToString();
+                    break;
             }
             return b;
         }
         private void AddBlockAction(object parameter)
         {
             BlockType type = (BlockType)Enum.Parse(typeof(BlockType), parameter.ToString());
-            AddNewButton(new Point(0, 0), type);
+            AddNewBlock(new Point(0, 0), type);
         }
         private void button_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -388,6 +414,7 @@ namespace DesktopServer
                 bC.Parent = overButton;
                 overButton.AddSubBlockControl(bC);
                 _blockControls.Remove(bC);
+                MoveSubBlocks(bC, overButton.GetPositionOfChild());
             }
             else if(bC.Parent!=null)
             {
