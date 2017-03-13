@@ -16,6 +16,7 @@ int actionCount = 0;
 int devices[10][2];
 //pinNumber,actionCount,repeats,triggeredValue
 int pins[20][5];
+//ownerAddress,pinNumber,type,value,triggeredOnNeggativeValue
 int actions[40][5];
 void setTriggerLimit(int devAddress, int pinNumber, int value)
 {

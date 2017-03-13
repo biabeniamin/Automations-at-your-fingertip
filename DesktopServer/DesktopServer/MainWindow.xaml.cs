@@ -1,4 +1,4 @@
-﻿#define ADD_DEVICES
+﻿//#define ADD_DEVICES
 using DesktopServerLogical;
 using DesktopServerLogical.Enums;
 using DesktopServerLogical.Models;
