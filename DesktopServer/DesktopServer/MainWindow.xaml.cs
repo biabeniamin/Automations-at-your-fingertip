@@ -41,6 +41,18 @@ namespace DesktopServer
         private bool _wasModifiedUsingBlocks = false;
         bool isDown = false;
         private DelegateCommand _addBlockCommand;
+        private string _trashClosedPath = "Images/recyclePart.png";
+        private string _trashOpenPath = "Images/openRecyclePart.png";
+        private string _trashPath;
+        public string TrashPath
+        {
+            get { return _trashPath; }
+            set
+            {
+                _trashPath = value;
+                OnPropertyChanged("TrashPath");
+            }
+        }
         public DelegateCommand AddBlockCommand
         {
             get { return _addBlockCommand; }
@@ -146,6 +158,7 @@ namespace DesktopServer
             InitializeComponent();
             _controller = new Controller(App.Current.Dispatcher);
             DataContext = this;
+            TrashPath = _trashClosedPath;
             AddActionCommand = new DelegateCommand(AddAction);
             AddActiveLowActionCommand= new DelegateCommand(AddActiveLowAction);
             SaveActionCommand = new DelegateCommand(SaveAction);
@@ -372,7 +385,6 @@ namespace DesktopServer
             UIElement b = sender as UIElement;
             BlockControl bC = Helpers.GetBlockControl(b, _blockControls);
             Point locationOnBlock = Helpers.DifferencePoint(pp, bC.GetPosition());
-            label2.Content = locationOnBlock.ToString();
             if(locationOnBlock.X<0)
                 isDown = true;
         }
@@ -394,6 +406,22 @@ namespace DesktopServer
             }
             return count;
         }
+        private void RemoveBlock(BlockControl block)
+        {
+            if (block.Parent != null)
+            {
+                block.Parent.Childs.Remove(block);
+                foreach(BlockControl b in block.Childs)
+                    block.Parent.Childs.Add(b);
+                if(block.Parent.Parent!=null)
+                    MoveSubBlocks(block.Parent, block.Parent.Parent.GetPositionOfChild());
+            }
+            else
+            {
+                _blockControls.Remove(block);
+            }
+            grid.Children.Remove(block.Block);
+        }
         private void button_PreviewMouseMove(object sender, MouseEventArgs e)
         {
             if (isDown == true)
@@ -403,7 +431,12 @@ namespace DesktopServer
                 BlockControl bC = Helpers.GetBlockControl(b, _blockControls);
                 TranslateTransform t = new TranslateTransform();
                 Point pp = Mouse.GetPosition(grid);
-                MoveSubBlocks(bC, new Point(pp.X-25, pp.Y-25));
+                label2.Content = pp.ToString();
+                MoveSubBlocks(bC, new Point(pp.X, pp.Y-50));
+                if (Helpers.IsOverTrash(pp))
+                    TrashPath = _trashOpenPath;
+                else
+                    TrashPath = _trashClosedPath;
             }
         }
         private void button_PreviewMouseUp(object sender, MouseButtonEventArgs e)
@@ -411,7 +444,12 @@ namespace DesktopServer
             UIElement b = sender as UIElement;
             BlockControl bC = Helpers.GetBlockControl(b, _blockControls);
             BlockControl overButton = Helpers.GetIntersectedBlock(grid, bC, _blockControls);
-            if (overButton != null)
+            if(Helpers.IsOverTrash(bC.GetPosition()))
+            {
+                RemoveBlock(bC);
+                TrashPath = _trashClosedPath;
+            }
+            else if (overButton != null)
             {
                 if(bC.Parent!=null)
                 bC.Parent.Childs.Remove(bC);

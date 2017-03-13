@@ -119,5 +119,18 @@ namespace DesktopServerLogical
         {
             return new Point(p1.X - p2.X, p1.Y - p2.Y);
         }
+        public static bool IsOverTrash(Point p)
+        {
+            //1190,10 1350,290
+            if (p.X < 1190)
+                return false;
+            if (p.Y < 10)
+                return false;
+            if (p.X > 1350)
+                return false;
+            if (p.Y > 290)
+                return false;
+            return true;
+        }
     }
 }
