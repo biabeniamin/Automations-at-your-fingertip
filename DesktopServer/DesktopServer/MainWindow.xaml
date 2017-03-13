@@ -9,7 +9,7 @@
     <Window.Resources>
         <local:DoubleApproximator x:Key="DoubleConvertor"></local:DoubleApproximator>
     </Window.Resources>
-    <Grid x:Name="MainGrid">
+    <Grid x:Name="MainGrid" HorizontalAlignment="Left" Margin="0,0,0,0.4" Width="1406">
         <ListView x:Name="listView" HorizontalAlignment="Left" Height="268" Margin="10,41,0,0" VerticalAlignment="Top" Width="133" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
             <ListView.View>
                 <GridView>
@@ -136,6 +136,7 @@
             </ListView.View>
         </ListView>
         <Button x:Name="button2" Content="Button" HorizontalAlignment="Left" Margin="881,34,0,0" VerticalAlignment="Top" Width="75" Click="button2_Click_1"/>
+        <Image x:Name="image" HorizontalAlignment="Left" Height="100" Margin="858,236,0,0" VerticalAlignment="Top" Width="100" Source="Images/arrows.png"/>
 
     </Grid>
 </Window>

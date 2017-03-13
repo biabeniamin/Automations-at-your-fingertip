@@ -368,9 +368,13 @@ namespace DesktopServer
         }
         private void button_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-
-            isDown = true;
-
+            Point pp = Mouse.GetPosition(grid);
+            UIElement b = sender as UIElement;
+            BlockControl bC = Helpers.GetBlockControl(b, _blockControls);
+            Point locationOnBlock = Helpers.DifferencePoint(pp, bC.GetPosition());
+            label2.Content = locationOnBlock.ToString();
+            if(locationOnBlock.X<0)
+                isDown = true;
         }
         private int MoveSubBlocks(BlockControl block,Point point)
         {
