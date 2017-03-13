@@ -121,7 +121,8 @@
             </ListView.View>
         </ListView>
         <Button Command="{Binding AddActiveLowActionCommand}" x:Name="button1_Copy" Content="Add" HorizontalAlignment="Left" Margin="775,303,0,0" VerticalAlignment="Top" Width="74"/>
-        <Grid x:Name="grid" HorizontalAlignment="Left" Height="294" Margin="26,328,0,0" VerticalAlignment="Top" Width="1331"/>
+        <Image x:Name="image" HorizontalAlignment="Left" Height="294" Margin="1207,328,0,0" VerticalAlignment="Top" Width="176" Source="{Binding TrashPath}"/>
+        <Grid x:Name="grid" HorizontalAlignment="Left" Height="294" Margin="26,328,0,0" VerticalAlignment="Top" Width="1156"/>
         <ListView x:Name="listView_Copy2" HorizontalAlignment="Left" Height="268" VerticalAlignment="Top" Width="190" Margin="992,15,0,0" ItemsSource="{Binding BlockTypes}">
             <ListView.View>
                 <GridView>
@@ -136,7 +137,6 @@
             </ListView.View>
         </ListView>
         <Button x:Name="button2" Content="Button" HorizontalAlignment="Left" Margin="881,34,0,0" VerticalAlignment="Top" Width="75" Click="button2_Click_1"/>
-        <Image x:Name="image" HorizontalAlignment="Left" Height="100" Margin="858,236,0,0" VerticalAlignment="Top" Width="100" Source="Images/arrows.png"/>
 
     </Grid>
 </Window>
