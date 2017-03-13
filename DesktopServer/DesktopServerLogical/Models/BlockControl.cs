@@ -122,8 +122,7 @@ namespace DesktopServerLogical.Models
         public Point GetPositionOfChild()
         {
             Point location= GetPosition();
-            if (_parent != null)
-                location = new Point(location.X + Helpers.GetWidthOfElement(_block),location.Y);
+            location = new Point(location.X + Helpers.GetWidthOfElement(_block),location.Y);
             return location;
         }
     }
