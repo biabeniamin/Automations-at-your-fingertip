@@ -53,11 +53,24 @@ namespace DesktopServerLogical
             pol.Fill = new SolidColorBrush(Color.FromRgb(0, 0, 255));
             return pol;
         }
+        public static Polygon GenerateMarginBeginConnector()
+        {
+            int thick = 5;
+            Polygon margin = new Polygon();
+            margin.Points.Add(new Point(0, 0));
+            margin.Points.Add(new Point(-50, 50));
+            margin.Points.Add(new Point(0, 100));
+            margin.Points.Add(new Point(thick, 100));
+            margin.Points.Add(new Point(-50+ thick, 50));
+            margin.Points.Add(new Point(thick, 0));
+            margin.Fill = new SolidColorBrush(Color.FromRgb(255,240,36));
+            return margin;
+        }
         public static Polygon GenerateBeginConnector()
         {
             Polygon pol = new Polygon();
             pol.Points.Add(new Point(0, 0));
-            pol.Points.Add(new Point(-50, 50));
+            pol.Points.Add(new Point(-50,50));
             pol.Points.Add(new Point(0, 100));
             pol.Fill = new SolidColorBrush(Color.FromRgb(0, 0, 255));
             return pol;
@@ -75,6 +88,7 @@ namespace DesktopServerLogical
             b.Children.Add(comboBox);
             b.Children.Add(GenerateEndConnector());
             b.Children.Add(GenerateBeginConnector());
+            b.Children.Add(GenerateMarginBeginConnector());
             control = new BlockControl(b, BlockType.PinTriggered);
             return control;
         }
@@ -100,6 +114,7 @@ namespace DesktopServerLogical
             b.Children.Add(textBox);
             b.Children.Add(GenerateEndConnector());
             b.Children.Add(GenerateBeginConnector());
+            b.Children.Add(GenerateMarginBeginConnector());
             control = new BlockControl(b, type);
             return control;
         }
@@ -115,6 +130,7 @@ namespace DesktopServerLogical
             b.Children.Add(textBox);
             b.Children.Add(GenerateEndConnector());
             b.Children.Add(GenerateBeginConnector());
+            b.Children.Add(GenerateMarginBeginConnector());
             control = new BlockControl(b, BlockType.For);
             return control;
         }
@@ -129,6 +145,7 @@ namespace DesktopServerLogical
             b.Children.Add(textBox);
             b.Children.Add(GenerateEndConnector());
             b.Children.Add(GenerateBeginConnector());
+            b.Children.Add(GenerateMarginBeginConnector());
             control = new BlockControl(b, BlockType.DelayAction);
             return control;
         }
@@ -154,6 +171,7 @@ namespace DesktopServerLogical
             b.Children.Add(comboBox);
             b.Children.Add(GenerateEndConnector());
             b.Children.Add(GenerateBeginConnector());
+            b.Children.Add(GenerateMarginBeginConnector());
             control = new BlockControl(b, type);
             return control;
         }
