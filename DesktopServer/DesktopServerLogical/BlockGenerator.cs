@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace DesktopServerLogical
@@ -75,6 +76,18 @@ namespace DesktopServerLogical
             pol.Fill = new SolidColorBrush(Color.FromRgb(0, 0, 255));
             return pol;
         }
+        public static Image GeneratePositioningIcon()
+        {
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri($"{System.IO.Directory.GetCurrentDirectory()}\\Images\\arrows.png");
+            bitmap.EndInit();
+            Image image = new Image();
+            image.Source=bitmap;
+            TranslateTransform t = new TranslateTransform(-40, 32);
+            image.RenderTransform = t;
+            return image;
+        }
         public static BlockControl GeneratePinTriggeredBlock(Point location)
         {
             BlockControl control;
@@ -131,6 +144,7 @@ namespace DesktopServerLogical
             b.Children.Add(GenerateEndConnector());
             b.Children.Add(GenerateBeginConnector());
             b.Children.Add(GenerateMarginBeginConnector());
+            b.Children.Add(GeneratePositioningIcon());
             control = new BlockControl(b, BlockType.For);
             return control;
         }
@@ -146,6 +160,7 @@ namespace DesktopServerLogical
             b.Children.Add(GenerateEndConnector());
             b.Children.Add(GenerateBeginConnector());
             b.Children.Add(GenerateMarginBeginConnector());
+            b.Children.Add(GeneratePositioningIcon());
             control = new BlockControl(b, BlockType.DelayAction);
             return control;
         }
@@ -172,6 +187,7 @@ namespace DesktopServerLogical
             b.Children.Add(GenerateEndConnector());
             b.Children.Add(GenerateBeginConnector());
             b.Children.Add(GenerateMarginBeginConnector());
+            b.Children.Add(GeneratePositioningIcon());
             control = new BlockControl(b, type);
             return control;
         }
