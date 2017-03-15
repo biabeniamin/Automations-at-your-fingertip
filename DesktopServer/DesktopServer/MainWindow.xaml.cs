@@ -39,7 +39,8 @@ namespace DesktopServer
         private DelegateCommand _activeLowActionCommand;
         private List<BlockControl> _blockControls;
         private bool _wasModifiedUsingBlocks = false;
-        bool isDown = false;
+        private bool _isDown = false;
+        private BlockControl _movedBlock;
         private DelegateCommand _addBlockCommand;
         private string _trashClosedPath = "Images/recyclePart.png";
         private string _trashOpenPath = "Images/openRecyclePart.png";
@@ -366,7 +367,7 @@ namespace DesktopServer
                 case BlockType.PositiveAnalogTriggered:
                 case BlockType.NegativeAnalogTriggered:
                     ((ComboBox)((Canvas)b.Block).Children[1]).SelectedItem = arg;
-                    ((TextBox)((Canvas)b.Block).Children[2]).Text= ((Pin)arg).TriggeredValue.ToString();
+                    ((Slider)((Canvas)b.Block).Children[2]).Value= ((Pin)arg).TriggeredValue;
                     break;
                 case BlockType.For:
                     ((TextBox)((Canvas)b.Block).Children[1]).Text = ((Pin)arg).Repeats.ToString();
@@ -377,16 +378,17 @@ namespace DesktopServer
         private void AddBlockAction(object parameter)
         {
             BlockType type = (BlockType)Enum.Parse(typeof(BlockType), parameter.ToString());
-            AddNewBlock(new Point(0, 0), type);
+            AddNewBlock(new Point(950, 100), type);
         }
         private void button_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             Point pp = Mouse.GetPosition(grid);
             UIElement b = sender as UIElement;
             BlockControl bC = Helpers.GetBlockControl(b, _blockControls);
+            _movedBlock = bC;
             Point locationOnBlock = Helpers.DifferencePoint(pp, bC.GetPosition());
             if(locationOnBlock.X<0)
-                isDown = true;
+                _isDown = true;
         }
         private int MoveSubBlocks(BlockControl block,Point point)
         {
@@ -424,11 +426,16 @@ namespace DesktopServer
         }
         private void button_PreviewMouseMove(object sender, MouseEventArgs e)
         {
-            if (isDown == true)
+            if (_isDown == true)
             {
                 _wasModifiedUsingBlocks = true;
                 UIElement b = sender as UIElement;
                 BlockControl bC = Helpers.GetBlockControl(b, _blockControls);
+                if (bC != _movedBlock)
+                {
+                    _isDown = false;
+                    return;
+                }
                 TranslateTransform t = new TranslateTransform();
                 Point pp = Mouse.GetPosition(grid);
                 label2.Content = pp.ToString();
@@ -466,7 +473,7 @@ namespace DesktopServer
             }
             if (bC != null)
                 label.Content = bC.Childs.Count;
-            isDown = false;
+            _isDown = false;
         }
 
         private void AnalyzeBlocksForPin(Pin pin)

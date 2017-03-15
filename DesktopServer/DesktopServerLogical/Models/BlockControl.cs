@@ -110,7 +110,7 @@ namespace DesktopServerLogical.Models
             {
                 case BlockType.PositiveAnalogTriggered:
                 case BlockType.NegativeAnalogTriggered:
-                    value = ((TextBox)((Canvas)_block).Children[2]).Text;
+                    value = ((Slider)((Canvas)_block).Children[2]).Value;
                     break;
             }
             return value;

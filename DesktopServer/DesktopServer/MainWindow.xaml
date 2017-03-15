@@ -137,6 +137,7 @@
             </ListView.View>
         </ListView>
         <Button x:Name="button2" Content="Button" HorizontalAlignment="Left" Margin="881,34,0,0" VerticalAlignment="Top" Width="75" Click="button2_Click_1"/>
+        <Slider x:Name="slider1" HorizontalAlignment="Left" Margin="825,174,0,0" VerticalAlignment="Top" Height="14" Width="95" AutoToolTipPlacement="TopLeft"/>
 
     </Grid>
 </Window>

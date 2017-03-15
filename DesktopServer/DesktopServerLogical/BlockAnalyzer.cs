@@ -55,7 +55,10 @@ namespace DesktopServerLogical
                         value = Convert.ToInt32(blockControl.GetValue());
                         action = new RemoteAction(ownerPin, ActionTypes.Delay, null);
                         action.Value = value;
-                        ownerPin.Actions.Add(action);
+                        if(ownerBlock.Type == BlockType.NegativeAnalogTriggered)
+                            ownerPin.ActiveLowActions.Add(action);
+                        else
+                            ownerPin.Actions.Add(action);
                         break;
                 }
             }

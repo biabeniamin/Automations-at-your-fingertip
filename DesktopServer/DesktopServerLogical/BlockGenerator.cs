@@ -123,8 +123,15 @@ namespace DesktopServerLogical
             Binding binding = new Binding("InputPins");
             comboBox.SetBinding(ComboBox.ItemsSourceProperty, binding);
             b.Children.Add(comboBox);
-            TextBox textBox = GenerateBlockControlItem<TextBox>(new Point(5, 65), new Size(90, 30));
-            b.Children.Add(textBox);
+            /*TextBox textBox = GenerateBlockControlItem<TextBox>(new Point(5, 165), new Size(90, 10));
+            b.Children.Add(textBox);*/
+            Slider slider = GenerateBlockControlItem<Slider>(new Point(10, 65), new Size(80, 20));
+            slider.Minimum = 0;
+            slider.Maximum = 9;
+            slider.TickFrequency = 1;
+            slider.IsSnapToTickEnabled = true;
+            slider.AutoToolTipPlacement = System.Windows.Controls.Primitives.AutoToolTipPlacement.TopLeft;
+            b.Children.Add(slider);
             b.Children.Add(GenerateEndConnector());
             b.Children.Add(GenerateBeginConnector());
             b.Children.Add(GenerateMarginBeginConnector());
