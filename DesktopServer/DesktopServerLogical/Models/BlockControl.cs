@@ -125,5 +125,9 @@ namespace DesktopServerLogical.Models
             location = new Point(location.X + Helpers.GetWidthOfElement(_block),location.Y);
             return location;
         }
+        public override string ToString()
+        {
+            return Type.ToString();
+        }
     }
 }
