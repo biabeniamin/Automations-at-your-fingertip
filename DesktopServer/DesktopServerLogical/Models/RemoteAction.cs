@@ -17,6 +17,35 @@ namespace DesktopServerLogical.Models
         private Action<Pin, RemoteAction> _removeAction;
         private Pin _ownerPin;
 
+        public bool AllowPinSelection
+        {
+            get
+            {
+                bool allow = true; ;
+                switch (_type)
+                {
+                    case ActionTypes.Delay:
+                        allow = false;
+                        break;
+                }
+                return allow;
+            }
+        }
+        public bool AllowValue
+        {
+            get
+            {
+                bool allow = false ;
+                switch (_type)
+                {
+                    case ActionTypes.Delay:
+                        allow = true;
+                        break;
+                }
+                return allow;
+            }
+        }
+
         public Pin OwnerPin
         {
             get { return _ownerPin; }
