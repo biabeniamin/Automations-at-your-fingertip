@@ -38,7 +38,7 @@ namespace DesktopServer
         private DelegateCommand _programActionsCommand;
         private DelegateCommand _activeLowActionCommand;
         private List<BlockControl> _blockControls;
-        private bool _wasModifiedUsingBlocks = false;
+        private bool _wasBlockMoved = false;
         private bool _isDown = false;
         private BlockControl _movedBlock;
         private DelegateCommand _addBlockCommand;
@@ -108,7 +108,7 @@ namespace DesktopServer
                     /*if(_wasModifiedUsingBlocks)
                         AnalyzeBlocksForPin(_selectedPin);*/
                 }
-                _wasModifiedUsingBlocks = false;
+                _wasBlockMoved = false;
                 _selectedPin = value;
                 if (_selectedPin != null)
                 {
@@ -175,7 +175,7 @@ namespace DesktopServer
         {
             if (_selectedPin != null)
             {
-                if (_wasModifiedUsingBlocks)
+                if (_wasBlockMoved)
                     AnalyzeBlocksForPin(_selectedPin);
             }
             _controller.ProgramMaster();
@@ -382,6 +382,7 @@ namespace DesktopServer
         }
         private void button_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
+            _wasBlockMoved = false;
             Point pp = Mouse.GetPosition(grid);
             UIElement b = sender as UIElement;
             BlockControl bC = Helpers.GetBlockControl(b, _blockControls);
@@ -428,7 +429,7 @@ namespace DesktopServer
         {
             if (_isDown == true)
             {
-                _wasModifiedUsingBlocks = true;
+                _wasBlockMoved = true;
                 UIElement b = sender as UIElement;
                 BlockControl bC = Helpers.GetBlockControl(b, _blockControls);
                 if (bC != _movedBlock)
@@ -465,7 +466,7 @@ namespace DesktopServer
                 _blockControls.Remove(bC);
                 MoveSubBlocks(bC, overButton.GetPositionOfChild());
             }
-            else if(bC.Parent!=null)
+            else if(bC.Parent!=null && _wasBlockMoved) 
             {
                 bC.Parent.Childs.Remove(bC);
                 _blockControls.Add(bC);
