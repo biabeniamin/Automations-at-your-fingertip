@@ -70,8 +70,15 @@ namespace DesktopServerLogical
         }
         public static void Analyze(BlockControl blockControl)
         {
-            Pin pin = (Pin)blockControl.GetValue();
-            Analyze(blockControl, blockControl, pin);
+            try
+            {
+                Pin pin = (Pin)blockControl.GetValue();
+                Analyze(blockControl, blockControl, pin);
+            }
+            catch(Exception ee)
+            {
+                Debug.WriteLine($"Error when trying to analyze a parent block.{ee.Message}");
+            }
         }
         private static void Analyze(BlockControl ownerBlock,BlockControl blockControl,Pin pin)
         {

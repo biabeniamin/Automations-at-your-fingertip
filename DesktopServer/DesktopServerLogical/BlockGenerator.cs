@@ -163,6 +163,7 @@ namespace DesktopServerLogical
             label.Content = "Delay";
             b.Children.Add(label);
             TextBox textBox = GenerateBlockControlItem<TextBox>(new Point(5, 35), new Size(90, 60));
+            textBox.Text = "0";
             b.Children.Add(textBox);
             b.Children.Add(GenerateEndConnector());
             b.Children.Add(GenerateBeginConnector());

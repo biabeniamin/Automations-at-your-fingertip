@@ -34,14 +34,14 @@
                     <GridViewColumn Width="150" Header="Action">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <ComboBox IsEnabled="{Binding AllowAction}" ItemsSource="{Binding DataContext.AvailableActions, ElementName=MainGrid}" SelectedItem="{Binding Type}"/>
+                                <ComboBox ItemsSource="{Binding DataContext.AvailableActions, ElementName=MainGrid}" SelectedItem="{Binding Type}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn x:Name="sad1" Width="100" Header="Actioned Pin">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <ComboBox IsEnabled="{Binding AllowAction}" ItemsSource="{Binding DataContext.OutputPins, ElementName=MainGrid}" SelectedItem="{Binding Pin}"/>
+                                <ComboBox IsEnabled="{Binding AllowPinSelection}" ItemsSource="{Binding DataContext.OutputPins, ElementName=MainGrid}" SelectedItem="{Binding Pin}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -49,7 +49,7 @@
                         <GridViewColumn.Header>Value</GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Width="75" Text="{Binding Value}"></TextBox>
+                                <TextBox IsEnabled="{Binding AllowValue}" Width="75" Text="{Binding Value}"></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

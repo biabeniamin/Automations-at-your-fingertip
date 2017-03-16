@@ -105,8 +105,8 @@ namespace DesktopServer
             {
                 if (_selectedPin != null)
                 {
-                    if(_wasModifiedUsingBlocks)
-                        AnalyzeBlocksForPin(_selectedPin);
+                    /*if(_wasModifiedUsingBlocks)
+                        AnalyzeBlocksForPin(_selectedPin);*/
                 }
                 _wasModifiedUsingBlocks = false;
                 _selectedPin = value;
@@ -474,6 +474,7 @@ namespace DesktopServer
             if (bC != null)
                 label.Content = bC.Childs.Count;
             _isDown = false;
+            AnalyzeBlocksForPin(_selectedPin);
         }
 
         private void AnalyzeBlocksForPin(Pin pin)
