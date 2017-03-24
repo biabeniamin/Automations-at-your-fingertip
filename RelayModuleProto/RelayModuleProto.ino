@@ -1,10 +1,10 @@
 //relay module
 #define ADDRESS 3
-#define TRIGGERED_PIN 9
+#define TRIGGERED_PIN 2
 #define DEVICE_TYPE 1
 #include<SoftwareSerial.h>
 #include <Lan.h>
-SoftwareSerial serial(10, 11);
+SoftwareSerial serial(0,1);
 int inputPinsCount = 0;
 int inputPins[1] = {8};
 int outputPinsCount = 1;
@@ -29,7 +29,7 @@ void setup()
 {
   pinMode(8,INPUT_PULLUP);
   serial.begin(9600);
-  Serial.begin(9600);
+  //Serial.begin(9600);
   delay(1000);
   lan.SetPins(&inputPinsCount,inputPins,&outputPinsCount,outputPins,&analogPinsCount,analogPins,analogTriggeredValue);
   lan.Register();

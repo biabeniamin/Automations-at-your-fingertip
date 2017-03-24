@@ -47,19 +47,15 @@ void sendAnalogTriggerLimit()
 void loadSettingsFromEeprom()
 {
   deviceCount = EEPROM.read(0);
-  Serial.println("dev count:");
-  Serial.println(deviceCount);
   actionCount = 0;
   int lastPinCount = 0;
   for (int i = 0; i < deviceCount; ++i)
   {
     devices[i][0] = EEPROM.read(i * 2 + 1);
     devices[i][1] = EEPROM.read(i * 2 + 2) + lastPinCount;
-    lastPinCount += devices[i][1];
+    lastPinCount = devices[i][1];
     portCount = devices[i][1];
   }
-  Serial.println("dev 1 pin count:");
-  Serial.println(devices[0][1]);
   int lastActionsCount = 0;
   for (int i = 0 ; i < portCount; i++)
   {
@@ -69,11 +65,6 @@ void loadSettingsFromEeprom()
     pins[i][2] = EEPROM.read(deviceCount * 2 + i * 4 + 3);
     pins[i][3] = EEPROM.read(deviceCount * 2 + i * 4 + 4);
     actionCount = pins[i][1];
-    Serial.println("action");
-    Serial.print(pins[i][0]);
-    Serial.print(pins[i][1]);
-    Serial.print(pins[i][2]);
-    Serial.println(pins[i][3]);
   }
   /*Serial.println("dev 1 pin2:");
     Serial.println(pins[1][0]);*/
@@ -372,23 +363,33 @@ void checkSerial()
     }
   }
 }
-/*
-   11100
-  21100
-  31100
-  41100
-  51100
-  01150
-  82100
-
-*/
 void loop()
 {
-  /*for(int i=0;i<7;i++)
+  /*Serial.println("dev");
+  for(int i=0;i<4;i++)
+    {
+    for(int j=0;j<2;++j)
+    {
+      Serial.print(devices[i][j]);
+      Serial.print(" ");
+    }
+    Serial.println();
+    }
+    Serial.println(" pins");
+  for(int i=0;i<7;i++)
+    {
+    for(int j=0;j<4;++j)
+    {
+      Serial.print(pins[i][j]);
+    }
+    Serial.println();
+    }
+  Serial.println("actions");
+  for(int i=0;i<7;i++)
     {
     for(int j=0;j<5;++j)
     {
-      Serial.print(pins[i][j]);
+      Serial.print(actions[i][j]);
     }
     Serial.println();
     }
