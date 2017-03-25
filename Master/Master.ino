@@ -1,5 +1,5 @@
 #include <EEPROM.h>
-
+#include "LanCommunication.h"
 #include <SoftwareSerial.h>
 #define ASCIIVALUES 0
 #define address 0
@@ -18,10 +18,23 @@ int devices[10][2];
 int pins[20][5];
 //ownerAddress,pinNumber,type,value,triggeredOnNeggativeValue
 int actions[40][5];
+void writeLan(int byte)
+{
+  mySerial.write(byte);
+}
+int readLan()
+{
+  return mySerial.read();
+}
+int countLan()
+{
+  return mySerial.available();
+}
+LanCommunication lanCom(triggerPin, &writeLan, &readLan, &countLan);
 void setTriggerLimit(int devAddress, int pinNumber, int value)
 {
   int val[] = {devAddress, 2, pinNumber, value, 0, 0, 0};
-  sendCommandViaMax(val);
+  lanCom.SendCommand(val);
   mySerial.print("trig limit ");
   mySerial.print(devAddress);
   mySerial.print(pinNumber);
@@ -120,7 +133,7 @@ void executeAction(int actionId)
   }
   else
   {
-    sendCommandViaMax(actionCommand);
+    lanCom.SendCommand(actionCommand);
   }
 }
 void pinTriggered(int deviceId, int pinNumber, int actionType)
@@ -178,113 +191,25 @@ void setup()
   digitalWrite(triggerPin, LOW);
   loadSettingsFromEeprom();
 }
-int readOneByteMax()
-{
-  int value = mySerial.read();
-  //Serial.print(value);
-#if ASCIIVALUES==1
-  return value - 48;
-#else
-  return value;
-#endif
-}
-void writeByteMax(int value)
-{
-  //Serial.print(value);
-#if ASCIIVALUES==1
-  mySerial.write(value + 48);
-#else
-  mySerial.write(value);
-#endif
-}
-void sendCommandViaMax(int bytes[])
-{
-  digitalWrite(triggerPin, HIGH);
-  delay(1);
-  writeByteMax(9);
-  writeByteMax(5);
-  writeByteMax(6);
-  writeByteMax(8);
-  //mySerial.write(48+bytes[1]);
-  for (int i = 0; i < 6; ++i)
-  {
-    writeByteMax(bytes[i]);
-    /*Serial.print("    ");
-      Serial.print(bytes[i]);
-      Serial.print("    ");*/
-  }
-  //Serial.println("    ");
-  digitalWrite(triggerPin, LOW);
-  delay(1);
-  //Serial.println();
-}
-void sendOneByteViaMax(int toAddress, int byte)
-{
-  x[0] = toAddress;
-  x[1] = byte;
-  x[2] = 0;
-  x[3] = 0;
-  x[4] = 0;
-  x[5] = 0;
-  sendCommandViaMax(x);
-}
-void sendOneBigByteViaMax(int toAddress, int byte)
-{
-  x[0] = toAddress;
-  x[1] = 99;
-  x[2] = byte / 256;
-  x[3] = byte % 256;
-  x[4] = 0;
-  x[5] = 0;
-  sendCommandViaMax(x);
-}
 int testBuffer[4];
 void checkMax()
 {
-  if (mySerial.available() > 9)
+  if (lanCom.IsCommandAvailable())
   {
-    while (mySerial.available() > 0)
+    if (lanCom.ReadCommand())
     {
-      for (int i = 0; i < 3; ++i)
-      {
-        testBuffer[i] = testBuffer[i + 1];
-      }
-      testBuffer[3] = readOneByteMax();
-      bool isOk = true;
-      for (int i = 0; i < 4; ++i)
-      {
-        if (testBuffer[i] != y[i])
-        {
-          isOk = false;
-        }
-      }
-      int waitCount = 0;
-      if (mySerial.available() < 6)
-      {
-        delay(10);
-        /*if(waitCount>0)
-          {
-          break;
-          }*/
-      }
-      if (isOk && mySerial.available() > 5)
+      int *bytes=lanCom.GetLastCommand();
+      if (bytes[0] == address)
       {
         for (int i = 0; i < 6; ++i)
         {
-          x[i] = readOneByteMax();
+          Serial.print(bytes[i]);
+          //Serial.print(" ");
         }
-        if (x[0] == address)
+        Serial.println();
+        if (bytes[1] == 2)
         {
-          for (int i = 0; i < 6; ++i)
-          {
-            Serial.print(x[i]);
-            //Serial.print(" ");
-          }
-          Serial.println();
-          if (x[1] == 2)
-          {
-            pinTriggered(x[2], x[3], x[5]);
-          }
+          pinTriggered(bytes[2], bytes[3], bytes[5]);
         }
       }
     }
@@ -358,7 +283,7 @@ void checkSerial()
     }
     else
     {
-      sendCommandViaMax(commandReceived);
+      lanCom.SendCommand(commandReceived);
       delay(10);
     }
   }
@@ -366,7 +291,7 @@ void checkSerial()
 void loop()
 {
   /*Serial.println("dev");
-  for(int i=0;i<4;i++)
+    for(int i=0;i<4;i++)
     {
     for(int j=0;j<2;++j)
     {
@@ -376,7 +301,7 @@ void loop()
     Serial.println();
     }
     Serial.println(" pins");
-  for(int i=0;i<7;i++)
+    for(int i=0;i<7;i++)
     {
     for(int j=0;j<4;++j)
     {
@@ -384,8 +309,8 @@ void loop()
     }
     Serial.println();
     }
-  Serial.println("actions");
-  for(int i=0;i<7;i++)
+    Serial.println("actions");
+    for(int i=0;i<7;i++)
     {
     for(int j=0;j<5;++j)
     {
