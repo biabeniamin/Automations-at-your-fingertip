@@ -120,7 +120,7 @@ namespace DesktopServerLogical
             }
             b.Children.Add(label);
             ComboBox comboBox = GenerateBlockControlItem<ComboBox>(new Point(5, 35), new Size(90, 25));
-            Binding binding = new Binding("InputPins");
+            Binding binding = new Binding("AnalogPins");
             comboBox.SetBinding(ComboBox.ItemsSourceProperty, binding);
             b.Children.Add(comboBox);
             /*TextBox textBox = GenerateBlockControlItem<TextBox>(new Point(5, 165), new Size(90, 10));

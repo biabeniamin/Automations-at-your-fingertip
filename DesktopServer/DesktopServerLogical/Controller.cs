@@ -41,6 +41,18 @@ namespace DesktopServerLogical
                 return new ObservableCollection<Pin>(pins);
             }
         }
+        public ObservableCollection<Pin> AnalogPins
+        {
+            get
+            {
+                List<Pin> pins = new List<Pin>();
+                for (int i = 0; i < Devices.Count; i++)
+                {
+                    pins.AddRange(Devices[i].InputPins.Where(s=> s.Type==PinTypes.Analog).ToList<Pin>());
+                }
+                return new ObservableCollection<Pin>(pins);
+            }
+        }
         public ObservableCollection<Device> Devices
         {
             get { return _devices; }

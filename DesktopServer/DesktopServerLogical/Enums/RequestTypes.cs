@@ -14,6 +14,7 @@ namespace DesktopServerLogical.Enums
         DevicePortsRegister=3,
         PortActionsRegister=4,
         ActionRegister=5,
-        PrintEeprom=6
+        ConditionRegister=6,
+        PrintEeprom=7
     }
 }

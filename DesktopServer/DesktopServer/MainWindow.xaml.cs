@@ -93,6 +93,13 @@ namespace DesktopServer
                 return _controller.InputPins;
             }
         }
+        public ObservableCollection<Pin> AnalogPins
+        {
+            get
+            {
+                return _controller.AnalogPins;
+            }
+        }
         public DelegateCommand SaveActionCommand
         {
             get { return _saveActionCommand; }
@@ -151,6 +158,16 @@ namespace DesktopServer
                 ObservableCollection<string> list = new ObservableCollection<string>();
                 foreach (BlockType type in Enum.GetValues(typeof(BlockType)))
                     list.Add(type.ToString());
+                return list;
+            }
+        }
+        public ObservableCollection<ConditionType> ConditionTypes
+        {
+            get
+            {
+                ObservableCollection<ConditionType> list = new ObservableCollection<ConditionType>();
+                foreach (ConditionType type in Enum.GetValues(typeof(ConditionType)))
+                    list.Add(type);
                 return list;
             }
         }
