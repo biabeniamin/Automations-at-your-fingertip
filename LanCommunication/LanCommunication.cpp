@@ -1,4 +1,5 @@
 #include "LanCommunication.h"
+//#define DO_DEBUG
 LanCommunication::LanCommunication(int triggerPin, void(*writeFunct)(int), int(*readFunct)(), int(*countFunct)())
 {
 	_writeFunct = writeFunct;
@@ -53,11 +54,15 @@ void LanCommunication::SendCommand(int bytes[COMMUNICATION_BYTE_COUNT])
 	_writeVerificationBytes();
 	for (int i = 0; i < COMMUNICATION_BYTE_COUNT; i++)
 	{
+#ifdef DO_DEBUG
 		Serial.print(bytes[i]);
+#endif // DO_DEBUG
 		_writeByte(bytes[i]);
 	}
-	Serial.println("");
-	delay(1);
+#ifdef DO_DEBUG
+	Serial.println();
+#endif // DO_DEBUG
+	//delay(1);
 	_deactivateMax();
 }
 void LanCommunication::SendByte(int address, int byte)

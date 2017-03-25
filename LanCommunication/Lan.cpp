@@ -91,49 +91,42 @@ void Lan::CheckMessages()
 			int *bytes = _lanComm->GetLastCommand();
 			if (bytes[0] == _address)
 			{
-				Serial.println("int2");
-				Serial.print(bytes[0]);
-				Serial.print(bytes[1]);
-				Serial.print(bytes[2]);
-				Serial.println(bytes[3]);
 				switch (bytes[1])
 				{
-				case 0:
-
-					switch (bytes[3])
-					{
 					case 0:
-						digitalWrite(bytes[2], LOW);
+
+						switch (bytes[3])
+						{
+						case 0:
+							digitalWrite(bytes[2], LOW);
+							break;
+						case 1:
+							digitalWrite(bytes[2], HIGH);
+							break;
+						case 2:
+							int status = digitalRead(bytes[2]);
+							if (status == 1)
+								status = 0;
+							else
+								status = 1;
+							digitalWrite(bytes[2], status);
+							break;
+						}
 						break;
 					case 1:
-						digitalWrite(bytes[2], HIGH);
+						if (_address != 0)
+							delay(10);
+						Register();
 						break;
 					case 2:
-						int status = digitalRead(bytes[2]);
-						if (status == 1)
-							status = 0;
-						else
-							status = 1;
-						digitalWrite(bytes[2], status);
-						break;
-					}
-					break;
-				case 1:
-					if (_address != 0)
-						delay(10);
-					Register();
-					break;
-				case 2:
-					for (int i = 0; i < *_analogPinsCount; ++i)
-					{
-						if (_analogPins[i] == bytes[2])
+						for (int i = 0; i < *_analogPinsCount; ++i)
 						{
-							_analogTriggeredValue[i] = bytes[3];
-							Serial.println("limit setted");
-							Serial.println(bytes[3]);
+							if (_analogPins[i] == bytes[2])
+							{
+								_analogTriggeredValue[i] = bytes[3];
+							}
 						}
-					}
-					break;
+						break;
 				}
 			}
 		}
@@ -154,15 +147,12 @@ void Lan::CheckAnalogPins()
 			int data[6] = { MASTER_ADDRESS, 2, _address, _analogPins[i], value, 0 };
 			_lanComm->SendCommand(data);
 			_isAnalogTriggered[i] = 1;
-			Serial.println("anal pin trig");
-			Serial.println(value);
 		}
 		else if (value <= _analogTriggeredValue[i] && _isAnalogTriggered[i] == 1)
 		{
 			int data[6] = { MASTER_ADDRESS, 2, _address, _analogPins[i], value, 1 };
 			_lanComm->SendCommand(data);
 			_isAnalogTriggered[i] = 0;
-			Serial.println("agb");
 		}
 	}
 }
