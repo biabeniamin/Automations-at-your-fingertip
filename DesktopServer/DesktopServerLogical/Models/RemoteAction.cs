@@ -16,6 +16,12 @@ namespace DesktopServerLogical.Models
         private DelegateCommand _removeCommand;
         private Action<Pin, RemoteAction> _removeAction;
         private Pin _ownerPin;
+        private Condition _actionCondition;
+        public Condition ActionCondition
+        {
+            get { return _actionCondition; }
+            set { _actionCondition = value; }
+        }
 
         public bool AllowPinSelection
         {
@@ -95,6 +101,7 @@ namespace DesktopServerLogical.Models
             _type = type;
             _ownerPin = ownerPin;
             _removeCommand = new DelegateCommand(Delete);
+            ActionCondition = Condition.NoCondition();
         }
         private void Delete()
         {

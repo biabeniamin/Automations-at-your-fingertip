@@ -58,7 +58,6 @@ namespace DesktopServerLogical
         }
         private void RegisterActions()
         {
-            
             for (int i = 0; i < _devices.Count; i++)
             {
                 for (int j = 0; j < _devices[i].InputPins.Count; j++)
@@ -89,6 +88,43 @@ namespace DesktopServerLogical
                 }
             }
         }
+        private void RegisterConditions()
+        {
+            for (int i = 0; i < _devices.Count; i++)
+            {
+                for (int j = 0; j < _devices[i].InputPins.Count; j++)
+                {
+                    //write active on high actions
+                    for (int k = 0; k < _devices[i].InputPins[j].Actions.Count; k++)
+                    {
+                        Condition condition = _devices[i].InputPins[j].Actions[k].ActionCondition;
+                        Request registerCondition = new Request(RequestTypes.ConditionRegister, 0);
+                        if (condition.Type != ConditionType.NoCondition)
+                        {
+                            registerCondition.Value1 = condition.Pin.Owner.Address;
+                            registerCondition.Value2 = condition.Pin.PinNumber;
+                        }
+                        registerCondition.Value3 = (int)condition.Type;
+                        _serial.Write(registerCondition);
+                        System.Threading.Thread.Sleep(100);
+                    }
+                    //write actiove on low actions
+                    for (int k = 0; k < _devices[i].InputPins[j].ActiveLowActions.Count; k++)
+                    {
+                        Condition condition = _devices[i].InputPins[j].ActiveLowActions[k].ActionCondition;
+                        Request registerCondition = new Request(RequestTypes.ConditionRegister, 0);
+                        if (condition.Type != ConditionType.NoCondition)
+                        {
+                            registerCondition.Value1 = condition.Pin.Owner.Address;
+                            registerCondition.Value2 = condition.Pin.PinNumber;
+                        }
+                        registerCondition.Value3 = (int)condition.Type;
+                        _serial.Write(registerCondition);
+                        System.Threading.Thread.Sleep(100);
+                    }
+                }
+            }
+        }
         private void SendCommandToPrint()
         {
             Request r = new Request(RequestTypes.PrintEeprom, 0);
@@ -100,6 +136,7 @@ namespace DesktopServerLogical
             RegisterDevices();
             RegisterPins();
             RegisterActions();
+            RegisterConditions();
             SendCommandToPrint();
         }
 

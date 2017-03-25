@@ -53,10 +53,12 @@
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="Enums\ActionTypes.cs" />
     <Compile Include="Enums\BlockType.cs" />
+    <Compile Include="Enums\ConditionType.cs" />
     <Compile Include="Enums\PinTypes.cs" />
     <Compile Include="Enums\RequestTypes.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Models\BlockControl.cs" />
+    <Compile Include="Models\Condition.cs" />
     <Compile Include="Models\Device.cs" />
     <Compile Include="Models\Pin.cs" />
     <Compile Include="Models\RemoteAction.cs" />

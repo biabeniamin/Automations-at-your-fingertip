@@ -18,7 +18,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="784,72,0,0" VerticalAlignment="Top" Width="98" Click="button_Click"/>
+        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="986,80,0,0" VerticalAlignment="Top" Width="98" Click="button_Click"/>
         <ListView x:Name="listViewPins" HorizontalAlignment="Left" Height="133" Margin="165,36,0,0" VerticalAlignment="Top" Width="180" ItemsSource="{Binding SelectedItem.InputPins,ElementName=listView}" SelectedItem="{Binding SelectedPin}">
             <ListView.View>
                 <GridView x:Name="GridViewPins">
@@ -28,7 +28,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <ListView x:Name="listView_Copy1" HorizontalAlignment="Left" Height="158" Margin="350,73,0,0" VerticalAlignment="Top" Width="421" ItemsSource="{Binding SelectedItem.Actions, ElementName=listViewPins}">
+        <ListView x:Name="listView_Copy1" HorizontalAlignment="Left" Height="158" Margin="350,73,0,0" VerticalAlignment="Top" Width="631" ItemsSource="{Binding SelectedItem.Actions, ElementName=listViewPins}">
             <ListView.View>
                 <GridView x:Name="GridViewPins1">
                     <GridViewColumn Width="150" Header="Action">
@@ -61,6 +61,20 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
+                    <GridViewColumn Width="150" Header="Condition Type">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox ItemsSource="{Binding DataContext.ConditionTypes, ElementName=MainGrid}" SelectedItem="{Binding ActionCondition.Type}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="150" Header="Condition">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox ItemsSource="{Binding DataContext.AnalogPins, ElementName=MainGrid}" SelectedItem="{Binding ActionCondition.Pin}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
@@ -80,10 +94,10 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Command="{Binding SaveActionCommand}" Content="Save action" HorizontalAlignment="Left" Margin="784,15,0,0" VerticalAlignment="Top" Width="74"/>
-        <Button Command="{Binding LoadActionCommand}" Content="Load action" HorizontalAlignment="Left" Margin="784,40,0,0" VerticalAlignment="Top" Width="74"/>
-        <Button Command="{Binding LoadDevicesCommand}" Content="Load devices" HorizontalAlignment="Left" Margin="784,98,0,0" VerticalAlignment="Top" Width="97"/>
-        <Button Command="{Binding ProgramActionsCommand}" Content="Program actions" HorizontalAlignment="Left" Margin="784,124,0,0" VerticalAlignment="Top" Width="97"/>
+        <Button Command="{Binding SaveActionCommand}" Content="Save action" HorizontalAlignment="Left" Margin="986,23,0,0" VerticalAlignment="Top" Width="74"/>
+        <Button Command="{Binding LoadActionCommand}" Content="Load action" HorizontalAlignment="Left" Margin="986,48,0,0" VerticalAlignment="Top" Width="74"/>
+        <Button Command="{Binding LoadDevicesCommand}" Content="Load devices" HorizontalAlignment="Left" Margin="986,106,0,0" VerticalAlignment="Top" Width="97"/>
+        <Button Command="{Binding ProgramActionsCommand}" Content="Program actions" HorizontalAlignment="Left" Margin="986,132,0,0" VerticalAlignment="Top" Width="97"/>
         <Slider x:Name="slider" Value="{Binding SelectedItem.TriggeredValue, ElementName=listViewPins}" HorizontalAlignment="Left" Margin="539,41,0,0" VerticalAlignment="Top" Width="103" SmallChange="2" IsEnabled="{Binding SelectedItem.AllowTriggeredValue, ElementName=listViewPins}" LargeChange="2" Maximum="9"/>
         <Label x:Name="label3" Content="{Binding Value, Converter={StaticResource DoubleConvertor}, ElementName=slider}" HorizontalAlignment="Left" Margin="647,34,0,0" VerticalAlignment="Top"/>
         <ListView x:Name="listView_Copy" HorizontalAlignment="Left" Height="87" Margin="354,236,0,-4" VerticalAlignment="Top" Width="421" ItemsSource="{Binding SelectedItem.ActiveLowActions, ElementName=listViewPins}">
@@ -120,10 +134,10 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Command="{Binding AddActiveLowActionCommand}" x:Name="button1_Copy" Content="Add" HorizontalAlignment="Left" Margin="775,303,0,0" VerticalAlignment="Top" Width="74"/>
+        <Button Command="{Binding AddActiveLowActionCommand}" x:Name="button1_Copy" Content="Add" HorizontalAlignment="Left" Margin="946,313,0,0" VerticalAlignment="Top" Width="74"/>
         <Image x:Name="image" HorizontalAlignment="Left" Height="294" Margin="1207,328,0,0" VerticalAlignment="Top" Width="176" Source="{Binding TrashPath}"/>
         <Grid x:Name="grid" HorizontalAlignment="Left" Height="294" Margin="26,328,0,0" VerticalAlignment="Top" Width="1156"/>
-        <ListView x:Name="listView_Copy2" HorizontalAlignment="Left" Height="268" VerticalAlignment="Top" Width="190" Margin="992,15,0,0" ItemsSource="{Binding BlockTypes}">
+        <ListView x:Name="listView_Copy2" HorizontalAlignment="Left" Height="268" VerticalAlignment="Top" Width="190" Margin="1163,25,0,0" ItemsSource="{Binding BlockTypes}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn>
@@ -136,8 +150,8 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="button2" Content="Button" HorizontalAlignment="Left" Margin="881,34,0,0" VerticalAlignment="Top" Width="75" Click="button2_Click_1"/>
-        <Slider x:Name="slider1" HorizontalAlignment="Left" Margin="825,174,0,0" VerticalAlignment="Top" Height="14" Width="95" AutoToolTipPlacement="TopLeft"/>
+        <Button x:Name="button2" Content="Button" HorizontalAlignment="Left" Margin="1083,42,0,0" VerticalAlignment="Top" Width="75" Click="button2_Click_1"/>
+        <Slider x:Name="slider1" HorizontalAlignment="Left" Margin="996,184,0,0" VerticalAlignment="Top" Height="14" Width="95" AutoToolTipPlacement="TopLeft"/>
 
     </Grid>
 </Window>
