@@ -27,4 +27,5 @@ private:
 	int *_analogPins;
 	int *_analogTriggeredValue;
 	int *_isAnalogTriggered;
+	int *_lastAnalogValue;
 };
