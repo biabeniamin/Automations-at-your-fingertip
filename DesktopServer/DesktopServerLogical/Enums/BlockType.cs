@@ -16,5 +16,6 @@ namespace DesktopServerLogical.Enums
         DelayAction,
         PositiveAnalogTriggered,
         NegativeAnalogTriggered,
+        If
     }
 }
