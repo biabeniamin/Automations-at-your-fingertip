@@ -7,9 +7,9 @@
 #include <Lan.h>
 SoftwareSerial serial(10, 11);
 int inputPinsCount = 5;
-int inputPins[5] = {1,2,3,4,5};
-int outputPinsCount = 0;
-int outputPins[1] = {7};
+int inputPins[5] = {1, 2, 3, 4, 5};
+int outputPinsCount = 1;
+int outputPins[1] = {1};
 int analogPinsCount = 0;
 int analogPins[1] = {0};
 int analogTriggeredValue[] = {4};
@@ -25,15 +25,15 @@ int countLan()
 {
   return serial.available();
 }
-Lan lan(ADDRESS,DEVICE_TYPE,TRIGGERED_PIN, &writeLan, &readLan, &countLan);
+Lan lan(ADDRESS, DEVICE_TYPE, TRIGGERED_PIN, &writeLan, &readLan, &countLan);
 static byte myip[] = { 192, 168, 0, 108 };
 static byte gwip[] = { 192, 168, 0, 1 };
 static byte mymac[] = { 0x74, 0x69, 0x69, 0x2D, 0x30, 0x31 };
 byte Ethernet::buffer[1000];
+int showNotification = 0;
 const char page[] PROGMEM =
-  "HTTP/1.0 503 Service Unavailable\r\n"
+  "HTTP/1.1 200 OK\r\n"
   "Content-Type: text/html\r\n"
-  "Retry-After: 600\r\n"
   "\r\n"
   "<html>"
   "<head><title>"
@@ -55,6 +55,12 @@ const char page[] PROGMEM =
   "</body>"
   "</html>"
   ;
+const char positiveResponse[] PROGMEM = "HTTP/1.1 200 OK\r\n"
+  "Content-Type: text/html\r\n"
+  "\r\n1";
+const char negativeResponse[] PROGMEM = "HTTP/1.1 200 OK\r\n"
+  "Content-Type: text/html\r\n"
+  "\r\n0";
 void setupEncj()
 {
   if (ether.begin(sizeof Ethernet::buffer, mymac, 8) == 0)
@@ -65,7 +71,7 @@ void setup()
 {
   Serial.begin(9600);
   serial.begin(9600);
-  lan.SetPins(&inputPinsCount,inputPins,&outputPinsCount,outputPins,&analogPinsCount,analogPins,analogTriggeredValue);
+  lan.SetPins(&inputPinsCount, inputPins, &outputPinsCount, outputPins, &analogPinsCount, analogPins, analogTriggeredValue);
   lan.Register();
   setupEncj();
 }
@@ -73,19 +79,38 @@ void checkEncj()
 {
   word pos = ether.packetLoop(ether.packetReceive());
   char* request = "GET /?cmd=1 ";
+  char* notificationCheck = "GET /notif ";
   if (pos)
   {
     char* data = (char *) Ethernet::buffer + pos;
-    for (int i = 0; i < 10; ++i)
+    if (strncmp(notificationCheck, data, strlen(notificationCheck)) == 0)
     {
-      request[10] = i + 48;
-      if (strncmp(request, data, strlen(request)) == 0)
+      if (showNotification)
       {
-        lan.InputPinTriggered(i,1);
+        memcpy_P(ether.tcpOffset(), positiveResponse, sizeof positiveResponse);
+        ether.httpServerReply(sizeof positiveResponse - 1);
       }
+      else
+      {
+        memcpy_P(ether.tcpOffset(), negativeResponse, sizeof negativeResponse);
+        ether.httpServerReply(sizeof negativeResponse - 1);
+      }
+      showNotification = 0;
     }
-    memcpy_P(ether.tcpOffset(), page, sizeof page);
-    ether.httpServerReply(sizeof page - 1);
+    else
+    {
+      for (int i = 0; i < 10; ++i)
+      {
+        request[10] = i + 48;
+        if (strncmp(request, data, strlen(request)) == 0)
+        {
+          showNotification++;
+          lan.InputPinTriggered(i, 1);
+        }
+      }
+      memcpy_P(ether.tcpOffset(), page, sizeof page);
+      ether.httpServerReply(sizeof page - 1);
+    }
   }
 }
 void loop()
