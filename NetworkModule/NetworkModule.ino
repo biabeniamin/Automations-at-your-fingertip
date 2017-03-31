@@ -9,7 +9,7 @@ SoftwareSerial serial(10, 11);
 int inputPinsCount = 5;
 int inputPins[5] = {1, 2, 3, 4, 5};
 int outputPinsCount = 1;
-int outputPins[1] = {1};
+int outputPins[] = {1,2,3,4};
 int analogPinsCount = 0;
 int analogPins[1] = {0};
 int analogTriggeredValue[] = {4};
@@ -30,7 +30,7 @@ static byte myip[] = { 192, 168, 0, 108 };
 static byte gwip[] = { 192, 168, 0, 1 };
 static byte mymac[] = { 0x74, 0x69, 0x69, 0x2D, 0x30, 0x31 };
 byte Ethernet::buffer[1000];
-int showNotification = 0;
+int notificationId = 0;
 const char page[] PROGMEM =
   "HTTP/1.1 200 OK\r\n"
   "Content-Type: text/html\r\n"
@@ -55,12 +55,12 @@ const char page[] PROGMEM =
   "</body>"
   "</html>"
   ;
-const char positiveResponse[] PROGMEM = "HTTP/1.1 200 OK\r\n"
-  "Content-Type: text/html\r\n"
-  "\r\n1";
-const char negativeResponse[] PROGMEM = "HTTP/1.1 200 OK\r\n"
-  "Content-Type: text/html\r\n"
-  "\r\n0";
+const char notificationResponse0[] PROGMEM ="HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n0";
+const char notificationResponse1[] PROGMEM ="HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n1";
+const char notificationResponse2[] PROGMEM ="HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n2";
+const char notificationResponse3[] PROGMEM ="HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n3";
+const char notificationResponse4[] PROGMEM ="HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n4";
+char *notificationResponses[]={notificationResponse0,notificationResponse1,notificationResponse2,notificationResponse3,notificationResponse4};
 void setupEncj()
 {
   if (ether.begin(sizeof Ethernet::buffer, mymac, 8) == 0)
@@ -73,7 +73,18 @@ void setup()
   serial.begin(9600);
   lan.SetPins(&inputPinsCount, inputPins, &outputPinsCount, outputPins, &analogPinsCount, analogPins, analogTriggeredValue);
   lan.Register();
+  lan.SetOutputPinChanged(outputPinChanged);
   setupEncj();
+}
+void outputPinChanged(int pinNumber,int value)
+{
+  if(pinNumber<5)
+  {
+    if(value==1)
+    {
+      notificationId=pinNumber;
+    }
+  }
 }
 void checkEncj()
 {
@@ -85,17 +96,9 @@ void checkEncj()
     char* data = (char *) Ethernet::buffer + pos;
     if (strncmp(notificationCheck, data, strlen(notificationCheck)) == 0)
     {
-      if (showNotification)
-      {
-        memcpy_P(ether.tcpOffset(), positiveResponse, sizeof positiveResponse);
-        ether.httpServerReply(sizeof positiveResponse - 1);
-      }
-      else
-      {
-        memcpy_P(ether.tcpOffset(), negativeResponse, sizeof negativeResponse);
-        ether.httpServerReply(sizeof negativeResponse - 1);
-      }
-      showNotification = 0;
+      memcpy_P(ether.tcpOffset(), notificationResponses[notificationId], sizeof notificationResponse0);
+      ether.httpServerReply(sizeof notificationResponse0 - 1);
+      notificationId = 0;
     }
     else
     {
@@ -104,7 +107,7 @@ void checkEncj()
         request[10] = i + 48;
         if (strncmp(request, data, strlen(request)) == 0)
         {
-          showNotification++;
+          notificationId++;
           lan.InputPinTriggered(i, 1);
         }
       }

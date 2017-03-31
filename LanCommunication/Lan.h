@@ -8,6 +8,7 @@ class Lan
 public:
 	Lan(int,int, int, void(*)(int), int(*)(), int(*)());
 	void SetPins(int*, int*, int*, int*, int*, int*, int*);
+	void SetOutputPinChanged(void(*)(int, int));
 	void Register();
 	void CheckMessages();
 	void CheckAnalogPins();
@@ -28,4 +29,6 @@ private:
 	int *_analogTriggeredValue;
 	int *_isAnalogTriggered;
 	int *_lastAnalogValue;
+	int _isOutoutPinChangedFunctDefined = 0;
+	void(*_outputPinChanged)(int,int);
 };
