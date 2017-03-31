@@ -37,7 +37,11 @@ void Lan::SetPins(int *inputPinsCount, int *inputPins, int *outputPinsCount, int
 		pinMode(_outputPins[i], OUTPUT);
 	}
 }
-
+void Lan::SetOutputPinChanged(void(*pinChangedFunct)(int,int))
+{
+	_outputPinChanged = pinChangedFunct;
+	_isOutoutPinChangedFunctDefined = 1;
+}
 void Lan::Register()
 {
 	int data[6] = { MASTER_ADDRESS, 0, _address, _deviceType, 0 };
@@ -95,23 +99,29 @@ void Lan::CheckMessages()
 				switch (bytes[1])
 				{
 					case 0:
-
-						switch (bytes[3])
+						if (_isOutoutPinChangedFunctDefined)
 						{
-						case 0:
-							digitalWrite(bytes[2], LOW);
-							break;
-						case 1:
-							digitalWrite(bytes[2], HIGH);
-							break;
-						case 2:
-							int status = digitalRead(bytes[2]);
-							if (status == 1)
-								status = 0;
-							else
-								status = 1;
-							digitalWrite(bytes[2], status);
-							break;
+							_outputPinChanged(bytes[2], bytes[3]);
+						}
+						else
+						{
+
+							switch (bytes[3])
+							{
+							case 0:
+								digitalWrite(bytes[2], LOW);
+								break;
+							case 1:
+								break;
+							case 2:
+								int status = digitalRead(bytes[2]);
+								if (status == 1)
+									status = 0;
+								else
+									status = 1;
+								digitalWrite(bytes[2], status);
+								break;
+							}
 						}
 						break;
 					case 1:
