@@ -6,8 +6,8 @@
 #include <EtherCard.h>
 #include <Lan.h>
 SoftwareSerial serial(10, 11);
-int inputPinsCount = 5;
-int inputPins[5] = {1, 2, 3, 4, 5};
+int inputPinsCount = 6;
+int inputPins[] = {0,1, 2, 3, 4, 5};
 int outputPinsCount = 4;
 int outputPins[] = {6,7,8,9};
 int analogPinsCount = 0;
@@ -86,7 +86,6 @@ void outputPinChanged(int pinNumber,int value)
     }
   }
 }
-int count=0;
 void checkEncj()
 {
   word pos = ether.packetLoop(ether.packetReceive());
@@ -95,9 +94,6 @@ void checkEncj()
   if (pos)
   {
     char* data = (char *) Ethernet::buffer + pos;
-    Serial.print(count++);
-    Serial.print(" ");
-    Serial.println(data);
     if (strncmp(notificationCheck, data, strlen(notificationCheck)) == 0)
     {
       memcpy_P(ether.tcpOffset(), notificationResponses[notificationId], sizeof notificationResponse0);
