@@ -1,4 +1,4 @@
-﻿//#define ADD_DEVICES
+﻿#define ADD_DEVICES
 using DesktopServerLogical;
 using DesktopServerLogical.Enums;
 using DesktopServerLogical.Models;
@@ -214,6 +214,8 @@ namespace DesktopServer
             
             _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 9, PinTypes.Output));
             _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 4, PinTypes.Output));
+            SelectedDevice = _controller.Devices[0];
+            SelectedPin = _controller.Devices[0].Pins[2];
 #else
             _controller.LoadDevices();
 #endif
@@ -498,6 +500,15 @@ namespace DesktopServer
         private void AnalyzeBlocksForPin(Pin pin)
         {
             pin.ClearActions();
+            for (int i = 0; i < _blockControls.Count; i++)
+            {
+                BlockAnalyzer.Analyze(_blockControls[i]);
+                //MessageBox.Show(_blockControls[i].GetValue().ToString());
+            }
+            AnalyzeIfBlocks();
+        }
+        private void AnalyzeIfBlocks()
+        {
             for (int i = 0; i < _blockControls.Count; i++)
             {
                 BlockAnalyzer.Analyze(_blockControls[i]);

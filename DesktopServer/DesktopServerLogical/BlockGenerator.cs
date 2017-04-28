@@ -172,6 +172,28 @@ namespace DesktopServerLogical
             control = new BlockControl(b, BlockType.DelayAction);
             return control;
         }
+        public static BlockControl GenerateIfBlock(Point location)
+        {
+            BlockControl control;
+            Canvas b = (Canvas)GenerateBlock(location, new Size(150, 100), Color.FromRgb(0, 0, 255));
+            Label label = GenerateBlockControlItem<Label>(new Point(5, 5), new Size(90, 25));
+            label.Content = "If";
+            b.Children.Add(label);
+            ComboBox comboBox = GenerateBlockControlItem<ComboBox>(new Point(5, 35), new Size(90, 25));
+            Binding binding = new Binding("AnalogPins");
+            comboBox.SetBinding(ComboBox.ItemsSourceProperty, binding);
+            b.Children.Add(comboBox);
+            ComboBox comboBox2 = GenerateBlockControlItem<ComboBox>(new Point(5, 70), new Size(90, 25));
+            Binding binding2 = new Binding("ConditionTypes");
+            comboBox2.SetBinding(ComboBox.ItemsSourceProperty, binding2);
+            b.Children.Add(comboBox2);
+            b.Children.Add(GenerateEndConnector());
+            b.Children.Add(GenerateBeginConnector());
+            b.Children.Add(GenerateMarginBeginConnector());
+            b.Children.Add(GeneratePositioningIcon());
+            control = new BlockControl(b, BlockType.DelayAction);
+            return control;
+        }
         public static BlockControl GeneratePinActionBlock(Point location,BlockType type)
         {
             BlockControl control;
@@ -218,6 +240,9 @@ namespace DesktopServerLogical
                 case BlockType.PositiveAnalogTriggered:
                 case BlockType.NegativeAnalogTriggered:
                     element = GenerateAnalogTriggeredBlock(point,type);
+                    break;
+                case BlockType.If:
+                    element = GenerateIfBlock(point);
                     break;
                 case BlockType.PinTriggered:
                 default:
