@@ -60,6 +60,17 @@ namespace DesktopServerLogical
                         else
                             ownerPin.Actions.Add(action);
                         break;
+                    case BlockType.If:
+                        if (blockControl.Childs.Count() < 1)
+                            return;
+                        BlockControl
+                        pin = (Pin)blockControl.GetValue();
+                        action = new RemoteAction(pin, ActionTypes., ownerPin);
+                        if (ownerBlock.Type == BlockType.NegativeAnalogTriggered)
+                            ownerPin.ActiveLowActions.Add(action);
+                        else
+                            ownerPin.Actions.Add(action);
+                        break;*/
                 }
             }
             catch(Exception ee)

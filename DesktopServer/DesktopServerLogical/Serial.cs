@@ -1,4 +1,5 @@
-﻿using DesktopServerLogical.Enums;
+﻿#define OPEN_PORT
+using DesktopServerLogical.Enums;
 using DesktopServerLogical.Models;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,6 @@ using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace DesktopServerLogical
 {
     public class Serial
@@ -21,7 +21,9 @@ namespace DesktopServerLogical
             _port = new SerialPort("COM5");
             _port.DtrEnable = true;
             _port.RtsEnable = true;
+#if ADD_DEVICES
             _port.Open();
+#endif
             _port.DataReceived += _port_DataReceived;
             //Write(new Request(RequestTypes.Register, 1));
             //Write(new Request(RequestTypes.Register, 2));

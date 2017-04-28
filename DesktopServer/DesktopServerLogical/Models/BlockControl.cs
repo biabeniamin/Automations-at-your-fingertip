@@ -87,6 +87,7 @@ namespace DesktopServerLogical.Models
                 case BlockType.PinTriggered:
                 case BlockType.PositiveAnalogTriggered:
                 case BlockType.NegativeAnalogTriggered:
+                case BlockType.If:
                     value = ((ComboBox)((Canvas)_block).Children[1]).SelectedItem;
                     break;
                 case BlockType.For:
@@ -111,6 +112,9 @@ namespace DesktopServerLogical.Models
                 case BlockType.PositiveAnalogTriggered:
                 case BlockType.NegativeAnalogTriggered:
                     value = ((Slider)((Canvas)_block).Children[2]).Value;
+                    break;
+                case BlockType.If:
+                    value = ((ComboBox)((Canvas)_block).Children[2]).SelectedItem;
                     break;
             }
             return value;
