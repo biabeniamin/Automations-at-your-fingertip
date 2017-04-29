@@ -5,6 +5,7 @@
 #define DEVICE_TYPE 2
 #include<SoftwareSerial.h>
 #include <Lan.h>
+#include <EEPROM.h>
 SoftwareSerial serial(10, 11);
 int inputPinsCount = 1;
 rPin inputPins[1] = {{.pinNumber=0,.initializing=0}};
@@ -18,7 +19,7 @@ int keyboardRowPins[] = {5, 6, 7, 8};
 int insertedPin[4];
 int countInsertedPin=0;
 int pin[]={0,0,0,0};
-
+unsigned long lastLogIn;
 void writeLan(int byte)
 {
   serial.write(byte);
@@ -32,10 +33,19 @@ int countLan()
   return serial.available();
 }
 Lan lan(ADDRESS,DEVICE_TYPE,TRIGGERED_PIN, &writeLan, &readLan, &countLan);
+void loadPin()
+{
+  countInsertedPin=0;
+  for(int i=0;i<4;++i)
+  {
+    pin[i]=EEPROM.read(i);
+  }
+}
 void setup()
 {
   Serial.begin(9600);
   serial.begin(9600);
+  loadPin();
   for (int i = 0; i < COLS; ++i)
   {
     pinMode(keyboardColPins[i], OUTPUT);
@@ -110,6 +120,7 @@ void keyPressed(int number)
     if(isPinOk())
     {
       lan.InputPinTriggered(0, 1);
+      lastLogIn=millis();
       Serial.println("logged in");
     }
     else
@@ -119,12 +130,38 @@ void keyPressed(int number)
     countInsertedPin=0;
   }
 }
+void changePin()
+{
+  delay(500);
+  int tasta;
+  int newPin[4];
+  int count=0;
+  do
+  {
+    tasta = getPressedTasta();
+    if(tasta!=-1)
+    {
+      newPin[count++]=tasta;
+      delay(500);
+    }
+  }while(count<4);
+  for(int i=0;i<4;++i)
+  {
+    EEPROM.write(i,newPin[i]);
+  }
+  loadPin();
+}
 void loop()
 {
   int tasta = getPressedTasta();
   if (tasta != -1)
   {
-    keyPressed(tasta);
+    if(tasta==12 && millis()-lastLogIn<2000)
+    {
+      changePin();
+    }
+    else
+      keyPressed(tasta);
     Serial.println(tasta) ;
     delay(500);
   }
