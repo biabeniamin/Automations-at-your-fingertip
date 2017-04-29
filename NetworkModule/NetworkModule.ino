@@ -63,7 +63,7 @@ const char notificationResponse9[] PROGMEM ="HTTP/1.1 200 OK\r\nContent-Type: te
 char *notificationResponses[]={notificationResponse0,notificationResponse6,notificationResponse7,notificationResponse8,notificationResponse9};
 void setupEncj()
 {
-  if (ether.begin(sizeof Ethernet::buffer, mymac, 8) == 0)
+  if (ether.begin(sizeof Ethernet::buffer, mymac, 3) == 0)
     Serial.println( "Failed to access Ethernet controller");
   ether.staticSetup(myip, gwip);
 }

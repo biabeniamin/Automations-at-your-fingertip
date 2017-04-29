@@ -21,7 +21,7 @@ namespace DesktopServerLogical
             _port = new SerialPort("COM5");
             _port.DtrEnable = true;
             _port.RtsEnable = true;
-#if ADD_DEVICES
+#if OPEN_PORT
             _port.Open();
 #endif
             _port.DataReceived += _port_DataReceived;
