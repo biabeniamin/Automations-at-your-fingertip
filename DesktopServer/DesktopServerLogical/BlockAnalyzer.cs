@@ -60,7 +60,7 @@ namespace DesktopServerLogical
                         else
                             ownerPin.Actions.Add(action);
                         break;
-                    case BlockType.If:
+                    /*case BlockType.If:
                         if (blockControl.Childs.Count() < 1)
                             return;
                         BlockControl

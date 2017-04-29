@@ -10,7 +10,7 @@ Lan::~Lan()
 {
 }
 
-void Lan::SetPins(int *inputPinsCount, int *inputPins, int *outputPinsCount, int *outputPins, int *analogPinsCount, int *analogPins, int *analogTriggeredValue)
+void Lan::SetPins(int *inputPinsCount, rPin *inputPins, int *outputPinsCount, rPin *outputPins, int *analogPinsCount, rPin *analogPins, int *analogTriggeredValue)
 {
 	_inputPinsCount = inputPinsCount;
 	_inputPins = inputPins;
@@ -25,16 +25,15 @@ void Lan::SetPins(int *inputPinsCount, int *inputPins, int *outputPinsCount, int
 	{
 		_isAnalogTriggered[i] = 1;
 	}
-	if (_deviceType != 3)
+	for (int i = 0; i < *_inputPinsCount; ++i)
 	{
-		for (int i = 0; i < *_inputPinsCount; ++i)
-		{
-			pinMode(_inputPins[i], INPUT_PULLUP);
-		}
+		if(_inputPins[i].initializing==1)
+			pinMode(_inputPins[i].pinNumber, INPUT_PULLUP);
 	}
 	for (int i = 0; i < *_outputPinsCount; ++i)
 	{
-		pinMode(_outputPins[i], OUTPUT);
+		if (_outputPins[i].initializing == 1)
+			pinMode(_outputPins[i].pinNumber, OUTPUT);
 	}
 }
 void Lan::SetOutputPinChanged(void(*pinChangedFunct)(int,int))
@@ -53,7 +52,7 @@ void Lan::Register()
 		data[0] = MASTER_ADDRESS;
 		data[1] = 1;
 		data[2] = _address;
-		data[3] = _outputPins[i];
+		data[3] = _outputPins[i].pinNumber;
 		data[4] = 1;
 		data[5] = 0;
 		_lanComm->SendCommand(data);
@@ -63,7 +62,7 @@ void Lan::Register()
 		data[0] = MASTER_ADDRESS;
 		data[1] = 1;
 		data[2] = _address;
-		data[3] = _analogPins[i];
+		data[3] = _analogPins[i].pinNumber;
 		data[4] = 2;
 		data[5] = 0;
 		_lanComm->SendCommand(data);
@@ -74,7 +73,7 @@ void Lan::Register()
 		data[0] = MASTER_ADDRESS;
 		data[1] = 1;
 		data[2] = _address;
-		data[3] = _inputPins[i];
+		data[3] = _inputPins[i].pinNumber;
 		data[4] = 0;
 		data[5] = 0;
 		_lanComm->SendCommand(data);
@@ -132,7 +131,7 @@ void Lan::CheckMessages()
 					case 2:
 						for (int i = 0; i < *_analogPinsCount; ++i)
 						{
-							if (_analogPins[i] == bytes[2])
+							if (_analogPins[i].pinNumber == bytes[2])
 							{
 								_analogTriggeredValue[i] = bytes[3];
 							}
@@ -147,7 +146,7 @@ void Lan::CheckAnalogPins()
 {
 	for (int i = 0; i < *_analogPinsCount; ++i)
 	{
-		int value = map(analogRead(A0 - _analogPins[i]), 0, 1024, 0, 9);
+		int value = map(analogRead(A0 - _analogPins[i].pinNumber), 0, 1024, 0, 9);
 		/*Serial.print(value);
 		Serial.print(" ");
 		Serial.print(isAnalogTriggered[i]);
@@ -156,20 +155,20 @@ void Lan::CheckAnalogPins()
 		if (value>_analogTriggeredValue[i] && _isAnalogTriggered[i] == 0)
 		{
 			//masterAddress,type,myAddress,pin,value,[0-positiveTriggered,1-negTrr,2-value changed]
-			int data[6] = { MASTER_ADDRESS, 2, _address, _analogPins[i], value, 0 };
+			int data[6] = { MASTER_ADDRESS, 2, _address, _analogPins[i]. pinNumber, value, 0 };
 			_lanComm->SendCommand(data);
 			_isAnalogTriggered[i] = 1;
 		}
 		else if (value <= _analogTriggeredValue[i] && _isAnalogTriggered[i] == 1)
 		{
 			//masterAddress,type,myAddress,pin,value,[0-positiveTriggered,1-negTrr,2-value changed]
-			int data[6] = { MASTER_ADDRESS, 2, _address, _analogPins[i], value, 1 };
+			int data[6] = { MASTER_ADDRESS, 2, _address, _analogPins[i].pinNumber, value, 1 };
 			_lanComm->SendCommand(data);
 			_isAnalogTriggered[i] = 0;
 		}
 		else if (value != _lastAnalogValue[i])
 		{
-			int data[6] = { MASTER_ADDRESS, 2, _address, _analogPins[i], value, 2 };
+			int data[6] = { MASTER_ADDRESS, 2, _address, _analogPins[i].pinNumber, value, 2 };
 			_lanComm->SendCommand(data);
 		}
 		_lastAnalogValue[i] = value;
@@ -184,12 +183,12 @@ void Lan::CheckInputPins()
 {
 	for (int i = 0; i < *_inputPinsCount; ++i)
 	{
-		int value = digitalRead(_inputPins[i]);
+		int value = digitalRead(_inputPins[i].pinNumber);
 		if (value == 0)
 		{
 			//Serial.println("trig");
 			//masterAddress,respondType,fromAddress,pinNumber,value
-			InputPinTriggered(_inputPins[i], value);
+			InputPinTriggered(_inputPins[i].pinNumber, value);
 			delay(1000);
 		}
 	}

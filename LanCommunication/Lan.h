@@ -3,11 +3,16 @@
 #endif // !Lan_h
 #include <LanCommunication.h>
 #define MASTER_ADDRESS 0
+typedef struct
+{
+	int pinNumber;
+	int initializing;
+} rPin;
 class Lan
 {
 public:
 	Lan(int,int, int, void(*)(int), int(*)(), int(*)());
-	void SetPins(int*, int*, int*, int*, int*, int*, int*);
+	void SetPins(int*, rPin*, int*, rPin*, int*, rPin*, int*);
 	void SetOutputPinChanged(void(*)(int, int));
 	void Register();
 	void CheckMessages();
@@ -21,11 +26,11 @@ private:
 	int _address;
 	int _deviceType;
 	int *_inputPinsCount;
-	int *_inputPins;
+	rPin *_inputPins;
 	int *_outputPinsCount;
-	int *_outputPins;
+	rPin *_outputPins;
 	int *_analogPinsCount;
-	int *_analogPins;
+	rPin *_analogPins;
 	int *_analogTriggeredValue;
 	int *_isAnalogTriggered;
 	int *_lastAnalogValue;
