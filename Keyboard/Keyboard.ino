@@ -39,6 +39,11 @@ void loadPin()
   for(int i=0;i<4;++i)
   {
     pin[i]=EEPROM.read(i);
+    if(pin[i]>12)
+    {
+      EEPROM.write(i,0);
+      return loadPin();
+    }
   }
 }
 void setup()
