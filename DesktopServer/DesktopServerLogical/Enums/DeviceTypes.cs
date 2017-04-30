@@ -12,6 +12,7 @@ namespace DesktopServerLogical.Enums
         Relay=1,
         Keyboard=2,
         Network=3,
-        LightPanel=4
+        LightPanel=4,
+        Motor=5
     }
 }
