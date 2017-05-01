@@ -1,12 +1,13 @@
 #define COLS 3
 #define ROWS 4
 #define ADDRESS 3
-#define TRIGGERED_PIN 9
+#define TRIGGERED_PIN 2
 #define DEVICE_TYPE 2
 #include<SoftwareSerial.h>
 #include <Lan.h>
 #include <EEPROM.h>
-SoftwareSerial serial(10, 11);
+SoftwareSerial serial(0, 1);
+SoftwareSerial serial2(12, 13);
 int inputPinsCount = 1;
 rPin inputPins[1] = {{.pinNumber=0,.initializing=0}};
 int outputPinsCount = 0;
@@ -14,8 +15,8 @@ rPin outputPins[1] = {{.pinNumber=7,.initializing=0}};
 int analogPinsCount = 0;
 rPin analogPins[1] = {{.pinNumber=0,.initializing=0}};
 int analogTriggeredValue[] = {4};
-int keyboardColPins[] = {2, 3, 4};
-int keyboardRowPins[] = {5, 6, 7, 8};
+int keyboardColPins[] = {11,10,9};
+int keyboardRowPins[] = {8,7,6,5};
 int insertedPin[4];
 int countInsertedPin=0;
 int pin[]={0,0,0,0};
@@ -48,7 +49,7 @@ void loadPin()
 }
 void setup()
 {
-  Serial.begin(9600);
+  serial2.begin(9600);
   serial.begin(9600);
   loadPin();
   for (int i = 0; i < COLS; ++i)
@@ -126,11 +127,11 @@ void keyPressed(int number)
     {
       lan.InputPinTriggered(0, 1);
       lastLogIn=millis();
-      Serial.println("logged in");
+      serial2.println("logged in");
     }
     else
     {
-      Serial.println("bad pin");
+      serial2.println("bad pin");
     }
     countInsertedPin=0;
   }
@@ -167,7 +168,7 @@ void loop()
     }
     else
       keyPressed(tasta);
-    Serial.println(tasta) ;
+    serial2.println(tasta) ;
     delay(500);
   }
   lan.CheckMessages();

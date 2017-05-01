@@ -110,6 +110,8 @@ int LanCommunication::ReadCommand()
 		if (_checkVerificationBytes())
 		{
 			ok = 1;
+			if (_countFunct() < COMMUNICATION_BYTE_COUNT)
+				delay(3);
 			for (int i = 0; i < COMMUNICATION_BYTE_COUNT; i++)
 			{
 				_bytesInLastCommand[i] = _readFunct();
