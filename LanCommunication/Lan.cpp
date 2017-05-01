@@ -105,12 +105,18 @@ void Lan::CheckMessages()
 						else
 						{
 
+							Serial.println("pin change");
+							Serial.print("pin=");
+							Serial.print(bytes[2]);
+							Serial.print(" com=");
+							Serial.print(bytes[3]);
 							switch (bytes[3])
 							{
 							case 0:
 								digitalWrite(bytes[2], LOW);
 								break;
 							case 1:
+								digitalWrite(bytes[2], HIGH);
 								break;
 							case 2:
 								int status = digitalRead(bytes[2]);

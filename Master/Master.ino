@@ -186,21 +186,8 @@ int getIndexOfPin(int deviceAddress, int pinNumber)
 }
 int verifyCondition(int actionIndex)
 {
-  Serial.println("testing condition");
   //pinNumber,type,value,triggeredOnNeggativeValue
-  Serial.print("address= ");
-  Serial.println(conditions[actionIndex].deviceAddress);
-  Serial.print("pinN= ");
-  Serial.println(conditions[actionIndex].pinNumber);
   int verifiedPin=getIndexOfPin(conditions[actionIndex].deviceAddress,conditions[actionIndex].pinNumber);
-  Serial.print("type is");
-  Serial.println(conditions[actionIndex].type);
-  Serial.print("pin index= ");
-  Serial.println(verifiedPin);
-  Serial.print("current value= ");
-  Serial.println(pins[verifiedPin][4]);
-  Serial.print("trigger value= ");
-  Serial.println(pins[verifiedPin][3]);
   switch (conditions[actionIndex].type)
   {
     case 0:
