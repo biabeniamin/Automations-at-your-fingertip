@@ -227,7 +227,7 @@ void pinTriggered(int deviceId, int pinNumber, int value, int actionType)
     Serial.print("action start:");
     Serial.print(actionStart);
     Serial.print("action end:");
-    Serial.print(actionEnd);
+    Serial.println(actionEnd);
     for (int l = actionStart; l < actionEnd; ++l)
     {
       if (actions[l][4] == actionType)
