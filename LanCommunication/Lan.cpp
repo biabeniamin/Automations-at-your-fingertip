@@ -148,6 +148,7 @@ void Lan::CheckMessages()
 		}
 	}
 }
+int count;
 void Lan::CheckAnalogPins()
 {
 	for (int i = 0; i < *_analogPinsCount; ++i)
@@ -175,7 +176,7 @@ void Lan::CheckAnalogPins()
 		else if (value != _lastAnalogValue[i])
 		{
 			int data[6] = { MASTER_ADDRESS, 2, _address, _analogPins[i].pinNumber, value, 2 };
-			_lanComm->SendCommand(data);
+			//_lanComm->SendCommand(data);
 		}
 		_lastAnalogValue[i] = value;
 	}
