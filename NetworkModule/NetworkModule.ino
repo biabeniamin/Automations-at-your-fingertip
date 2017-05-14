@@ -6,12 +6,20 @@
 #include <EtherCard.h>
 #include <Lan.h>
 SoftwareSerial serial(10, 11);
-int inputPinsCount = 6;
-int inputPins[] = {0,1, 2, 3, 4, 5};
+int inputPinsCount =6;
+rPin inputPins[] = {{.pinNumber=0,.initializing=0},
+{.pinNumber=1,.initializing=0},
+{.pinNumber=2,.initializing=0},
+{.pinNumber=3,.initializing=0},
+{.pinNumber=4,.initializing=0},
+{.pinNumber=5,.initializing=0}};
 int outputPinsCount = 4;
-int outputPins[] = {6,7,8,9};
+rPin outputPins[] = {{.pinNumber=6,.initializing=0},
+{.pinNumber=7,.initializing=0},
+{.pinNumber=8,.initializing=0},
+{.pinNumber=9,.initializing=0}};
 int analogPinsCount = 0;
-int analogPins[1] = {0};
+rPin analogPins[] = {{.pinNumber=0,.initializing=0}};
 int analogTriggeredValue[] = {4};
 void writeLan(int byte)
 {
@@ -78,6 +86,7 @@ void setup()
 }
 void outputPinChanged(int pinNumber,int value)
 {
+  Serial.println(pinNumber);
   if(pinNumber>5)
   {
     if(value==1)
@@ -107,6 +116,7 @@ void checkEncj()
         request[10] = i + 48;
         if (strncmp(request, data, strlen(request)) == 0)
         {
+          Serial.println(i);
           lan.InputPinTriggered(i, 1);
         }
       }
