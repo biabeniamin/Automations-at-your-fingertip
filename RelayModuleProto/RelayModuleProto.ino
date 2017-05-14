@@ -1,16 +1,16 @@
 //relay module
-#define ADDRESS 3
+#define ADDRESS 2
 #define TRIGGERED_PIN 2
 #define DEVICE_TYPE 1
 #include<SoftwareSerial.h>
 #include <Lan.h>
 SoftwareSerial serial(0,1);
 int inputPinsCount = 0;
-int inputPins[1] = {8};
+rPin inputPins[1] = {{.pinNumber=4,.initializing=1}};
 int outputPinsCount = 1;
-int outputPins[1] = {9};
+rPin outputPins[1] = {{.pinNumber=9,.initializing=1}};
 int analogPinsCount = 0;
-int analogPins[1] = {0};
+rPin analogPins[1] = {{.pinNumber=0,.initializing=0}};
 int analogTriggeredValue[] = {4};
 void writeLan(int byte)
 {
