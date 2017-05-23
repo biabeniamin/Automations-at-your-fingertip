@@ -17,13 +17,31 @@ namespace DesktopServerLogical
         {
             _dbOper = new DatabaseOperations();
         }
+        private void AddActions(ObservableCollection<RemoteAction> actions, int pinId)
+        {
+            foreach (RemoteAction action in actions)
+            {
+                _dbOper.ExecuteQuery($@"insert into actions(pinId,Type,AValue,DeviceNumber,PinNumber) 
+                    values({pinId},{(int)action.Type},{action.Value},{action.Pin.Owner.Address},{action.Pin.PinNumber})");
+                //int actionid = _dbOper.ReadOneValue<int>($"select top 1 PinId from pins where Deviceid={deviceid} and PinNumber={pin.PinNumber} order by deviceid desc");
+            }
+        }
+        private void AddPins(ObservableCollection<Pin> pins, int deviceid)
+        {
+            foreach (Pin pin in pins)
+            {
+                _dbOper.ExecuteQuery($"insert into pins(deviceId,pinNumber,Repeats,TriggeredValue) values({deviceid},{pin.PinNumber},{pin.Repeats},{pin.TriggeredValue})");
+                int pinId = _dbOper.ReadOneValue<int>($"select top 1 PinId from pins where Deviceid={deviceid} and PinNumber={pin.PinNumber} order by deviceid desc");
+                AddActions(pin.Actions, pinId);
+            }
+        }
         private void AddDevices(ObservableCollection<Device> devices, int saveid)
         {
-            foreach(Device device in devices)
+            foreach (Device device in devices)
             {
-                //_dbOper.ExecuteQuery($"insert into actions(saveId,deviceId,pinId,Type,AValue) values({saveid},{actions[i].Pin.Owner.Address},{actions[i].Pin.PinNumber},{(int)actions[i].Type},{actions[i].Value})");
                 _dbOper.ExecuteQuery($"insert into device(saveId,DeviceNumber) values({saveid},{device.Address})");
-                int saveId = _dbOper.ReadOneValue<int>($"select top 1 DeviceId from device where DeviceNumber={device.Address} and saveId={saveid} order by deviceid desc");
+                int deviceId = _dbOper.ReadOneValue<int>($"select top 1 DeviceId from device where DeviceNumber={device.Address} and saveId={saveid} order by deviceid desc");
+                AddPins(device.Pins, deviceId);
             }
         }
         public void AddSave(ObservableCollection<Device> devices, string name)
