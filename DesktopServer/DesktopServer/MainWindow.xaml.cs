@@ -222,8 +222,7 @@ namespace DesktopServer
         }
         private void SaveAction()
         {
-            if (SelectedPin != null)
-                _saves.AddSave(SelectedPin.Actions, "test");
+            _saves.AddSave(_controller.Devices, DateTime.Now.ToString("hhmmss"));
         }
         private void LoadAction()
         {

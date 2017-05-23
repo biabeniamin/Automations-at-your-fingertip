@@ -17,14 +17,24 @@ namespace DesktopServerLogical
         {
             _dbOper = new DatabaseOperations();
         }
-        public void AddSave(ObservableCollection<RemoteAction> actions,string name)
+        private void AddDevices(ObservableCollection<Device> devices, int saveid)
+        {
+            foreach(Device device in devices)
+            {
+                //_dbOper.ExecuteQuery($"insert into actions(saveId,deviceId,pinId,Type,AValue) values({saveid},{actions[i].Pin.Owner.Address},{actions[i].Pin.PinNumber},{(int)actions[i].Type},{actions[i].Value})");
+                _dbOper.ExecuteQuery($"insert into device(saveId,DeviceNumber) values({saveid},{device.Address})");
+                int saveId = _dbOper.ReadOneValue<int>($"select top 1 DeviceId from device where DeviceNumber={device.Address} and saveId={saveid} order by deviceid desc");
+            }
+        }
+        public void AddSave(ObservableCollection<Device> devices, string name)
         {
             _dbOper.ExecuteQuery($"insert into saves(nume) values('{name}')");
             int saveId = _dbOper.ReadOneValue<int>($"select top 1 id from saves where nume='{name}' order by id desc");
-            for (int i = 0; i < actions.Count; i++)
+            AddDevices(devices, saveId);
+            /*for (int i = 0; i < actions.Count; i++)
             {
                 _dbOper.ExecuteQuery($"insert into actions(saveId,deviceId,pinId,Type,AValue) values({saveId},{actions[i].Pin.Owner.Address},{actions[i].Pin.PinNumber},{(int)actions[i].Type},{actions[i].Value})");
-            }
+            }*/
         }
         public ObservableCollection<RemoteAction> LoadActions(string name,ObservableCollection<Device> devices)
         {
