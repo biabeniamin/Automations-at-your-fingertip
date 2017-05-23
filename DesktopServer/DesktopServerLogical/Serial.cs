@@ -1,4 +1,4 @@
-﻿#define OPEN_PORT
+﻿//#define OPEN_PORT
 using DesktopServerLogical.Enums;
 using DesktopServerLogical.Models;
 using System;
