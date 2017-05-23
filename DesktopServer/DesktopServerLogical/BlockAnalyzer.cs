@@ -11,10 +11,11 @@ namespace DesktopServerLogical
 {
     public static class BlockAnalyzer
     {
-        private static void AnalyzeBlock(Pin ownerPin,BlockControl ownerBlock,BlockControl blockControl)
+        private static void AnalyzeBlock(Pin ownerPin,BlockControl ownerBlock,BlockControl blockControl,ref int repetitions)
         {
             RemoteAction action = null;
             Pin pin = null;
+            repetitions = 1;
             int value;
             try
             {
@@ -25,7 +26,10 @@ namespace DesktopServerLogical
                         ownerPin.TriggeredValue = Convert.ToInt32(blockControl.GetSecondValue());
                         break;
                     case BlockType.For:
-                        ownerPin.Repeats = Convert.ToInt32(blockControl.GetValue());
+                        if (blockControl.Parent == ownerBlock)
+                            ownerPin.Repeats = Convert.ToInt32(blockControl.GetValue());
+                        else
+                            repetitions = Convert.ToInt32(blockControl.GetValue());
                         break;
                     case BlockType.SwitchAction:
                         pin = (Pin)blockControl.GetValue();
@@ -84,19 +88,23 @@ namespace DesktopServerLogical
             try
             {
                 Pin pin = (Pin)blockControl.GetValue();
-                Analyze(blockControl, blockControl, pin);
+                Analyze(blockControl, blockControl, pin,1);
             }
             catch(Exception ee)
             {
                 Debug.WriteLine($"Error when trying to analyze a parent block.{ee.Message}");
             }
         }
-        private static void Analyze(BlockControl ownerBlock,BlockControl blockControl,Pin pin)
+        private static void Analyze(BlockControl ownerBlock,BlockControl blockControl,Pin pin,int repetitions)
         {
-            AnalyzeBlock(pin, ownerBlock, blockControl);
-            for (int i = 0; i < blockControl.Childs.Count; i++)
+            for (int j = 0; j < repetitions; j++)
             {
-                Analyze(ownerBlock, blockControl.Childs[i], pin);
+                int blockRepetitions = 1;
+                AnalyzeBlock(pin, ownerBlock, blockControl,ref repetitions);
+                for (int i = 0; i < blockControl.Childs.Count; i++)
+                {
+                    Analyze(ownerBlock, blockControl.Childs[i], pin, blockRepetitions);
+                }
             }
         }
     }

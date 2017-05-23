@@ -1,4 +1,4 @@
-﻿//#define ADD_DEVICES
+﻿#define ADD_DEVICES
 using DesktopServerLogical;
 using DesktopServerLogical.Enums;
 using DesktopServerLogical.Models;
@@ -505,7 +505,7 @@ namespace DesktopServer
                 BlockAnalyzer.Analyze(_blockControls[i]);
                 //MessageBox.Show(_blockControls[i].GetValue().ToString());
             }
-            AnalyzeIfBlocks();
+            //AnalyzeIfBlocks();
         }
         private void AnalyzeIfBlocks()
         {
