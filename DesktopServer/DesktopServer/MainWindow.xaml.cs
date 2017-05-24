@@ -228,12 +228,12 @@ namespace DesktopServer
         {
             if (SelectedPin != null)
             {
-                SelectedPin.Actions = _saves.LoadActions("test", _controller.Devices);
-                for (int i = 0; i < SelectedPin.Actions.Count; i++)
+                _saves.LoadActions("110525", _controller.Devices);
+                /*for (int i = 0; i < SelectedPin.Actions.Count; i++)
                 {
                     SelectedPin.Actions[i].RemoveAction = _controller.RemoveAction;
                     SelectedPin.Actions[i].OwnerPin = SelectedPin;
-                }
+                }*/
             }
         }
         private void AddAction()
