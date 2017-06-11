@@ -5,8 +5,8 @@
 #include<SoftwareSerial.h>
 #include <Lan.h>
 SoftwareSerial serial(0,1);
-int inputPinsCount = 0;
-rPin inputPins[1] = {{.pinNumber=10,.initializing=1}};
+int inputPinsCount = 1;
+rPin inputPins[1] = {{.pinNumber=4,.initializing=1,.activateOnSwitch=1}};
 int outputPinsCount = 1;
 rPin outputPins[1] = {{.pinNumber=9,.initializing=1}};
 int analogPinsCount = 1;

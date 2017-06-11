@@ -7,6 +7,7 @@ typedef struct
 {
 	int pinNumber;
 	int initializing;
+	int activateOnSwitch;
 } rPin;
 class Lan
 {
@@ -27,6 +28,7 @@ private:
 	int _deviceType;
 	int *_inputPinsCount;
 	rPin *_inputPins;
+	int *_lastInputPinValues;
 	int *_outputPinsCount;
 	rPin *_outputPins;
 	int *_analogPinsCount;
