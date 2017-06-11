@@ -18,7 +18,7 @@ namespace DesktopServerLogical
         private DataSet _set;
         public DatabaseOperations()
         {
-            _connection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Workspace\Grepit\DesktopServer\DesktopServerLogical\configurations.mdf;Integrated Security=True;Connect Timeout=30");
+            _connection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Beni\Grepit\DesktopServer\DesktopServerLogical\configurations.mdf;Integrated Security=True;Connect Timeout=30");
             _connection.Open();
         }
         public SqlDataReader GetReader(string query)

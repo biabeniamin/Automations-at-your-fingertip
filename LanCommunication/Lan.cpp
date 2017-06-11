@@ -153,7 +153,7 @@ void Lan::CheckAnalogPins()
 {
 	for (int i = 0; i < *_analogPinsCount; ++i)
 	{
-		int value = map(analogRead(A0 - _analogPins[i].pinNumber), 0, 1024, 0, 9);
+		int value = map(analogRead(A0 + _analogPins[i].pinNumber), 0, 1024, 0, 9);
 		/*Serial.print(value);
 		Serial.print(" ");
 		Serial.print(isAnalogTriggered[i]);
