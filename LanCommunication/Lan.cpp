@@ -21,12 +21,14 @@ void Lan::SetPins(int *inputPinsCount, rPin *inputPins, int *outputPinsCount, rP
 	_analogTriggeredValue = analogTriggeredValue;
 	_isAnalogTriggered = (int*)malloc(*_analogPinsCount * sizeof(int));
 	_lastAnalogValue= (int*)malloc(*_analogPinsCount * sizeof(int));
+	_lastInputPinValues= (int*)malloc(*_inputPinsCount * sizeof(int));
 	for (int i = 0; i < *_analogPinsCount; i++)
 	{
 		_isAnalogTriggered[i] = 1;
 	}
 	for (int i = 0; i < *_inputPinsCount; ++i)
 	{
+		_lastInputPinValues[i]=1;
 		if(_inputPins[i].initializing==1)
 			pinMode(_inputPins[i].pinNumber, INPUT_PULLUP);
 	}
@@ -191,12 +193,24 @@ void Lan::CheckInputPins()
 	for (int i = 0; i < *_inputPinsCount; ++i)
 	{
 		int value = digitalRead(_inputPins[i].pinNumber);
-		if (value == 0)
+		if(_inputPins[i].activateOnSwitch==1)
 		{
-			//Serial.println("trig");
-			//masterAddress,respondType,fromAddress,pinNumber,value
-			InputPinTriggered(_inputPins[i].pinNumber, value);
-			delay(1000);
+			if(value!=_lastInputPinValues[i])
+			{
+				InputPinTriggered(_inputPins[i].pinNumber, value);
+				delay(1000);
+			}
 		}
+		else
+		{
+			if (value == 0)
+			{
+				//Serial.println("trig");
+				//masterAddress,respondType,fromAddress,pinNumber,value
+				InputPinTriggered(_inputPins[i].pinNumber, value);
+				delay(1000);
+			}
+		}
+		_lastInputPinValues[i]=value;
 	}
 }
