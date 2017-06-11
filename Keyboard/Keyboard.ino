@@ -15,8 +15,8 @@ rPin outputPins[1] = {{.pinNumber=7,.initializing=0}};
 int analogPinsCount = 0;
 rPin analogPins[1] = {{.pinNumber=0,.initializing=0}};
 int analogTriggeredValue[] = {4};
-int keyboardColPins[] = {11,10,9};
-int keyboardRowPins[] = {8,7,6,5};
+int keyboardColPins[] = {5,6,7};//11,10,9
+int keyboardRowPins[] = {8,9,10,11};
 int insertedPin[4];
 int countInsertedPin=0;
 int pin[]={0,0,0,0};
