@@ -45,6 +45,36 @@ namespace DesktopServer
         private string _trashClosedPath = "Images/recyclePart.png";
         private string _trashOpenPath = "Images/openRecyclePart.png";
         private string _trashPath;
+        private ObservableCollection<string> _presetConfig;
+        private string _selectedSave;
+        private string _saveName;
+            
+        public string SaveName
+        {
+            get { return _saveName; }
+            set
+            {
+                _saveName = value;
+                OnPropertyChanged("SaveName");
+            }
+        }
+
+        public string SelectedSave
+        {
+            get { return _selectedSave; }
+            set
+            {
+                _selectedSave = value;
+                OnPropertyChanged("SelectedSave");
+            }
+        }
+
+        public ObservableCollection<string> PresetConfig
+        {
+            get { return _presetConfig; }
+            set { _presetConfig = value; }
+        }
+
         public string TrashPath
         {
             get { return _trashPath; }
@@ -187,7 +217,14 @@ namespace DesktopServer
             _saves = new Saves();
             _blockControls = new List<BlockControl>();
             LoadDevices();
+            LoadSaves();
         }
+
+        private void LoadSaves()
+        {
+            PresetConfig = _saves.GetActions();
+        }
+
         private void ProgramActions()
         {
             if (_selectedPin != null)
@@ -222,13 +259,17 @@ namespace DesktopServer
         }
         private void SaveAction()
         {
-            _saves.AddSave(_controller.Devices, DateTime.Now.ToString("hhmmss"));
+            if (SaveName == null)
+                SaveName = DateTime.Now.ToString("hhmmss");
+            _saves.AddSave(_controller.Devices, SaveName);
+            //LoadSaves();
+            PresetConfig.Add(SaveName);
         }
         private void LoadAction()
         {
-            if (SelectedPin != null)
+            if (SelectedSave!=null)
             {
-                _saves.LoadActions("110525", _controller.Devices);
+                _saves.LoadActions(SelectedSave, _controller.Devices);
                 /*for (int i = 0; i < SelectedPin.Actions.Count; i++)
                 {
                     SelectedPin.Actions[i].RemoveAction = _controller.RemoveAction;

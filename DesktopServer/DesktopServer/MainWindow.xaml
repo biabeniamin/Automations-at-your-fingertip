@@ -151,7 +151,20 @@
             </ListView.View>
         </ListView>
         <Button x:Name="button2" Content="Button" HorizontalAlignment="Left" Margin="1083,42,0,0" VerticalAlignment="Top" Width="75" Click="button2_Click_1"/>
-        <Slider x:Name="slider1" HorizontalAlignment="Left" Margin="996,184,0,0" VerticalAlignment="Top" Height="14" Width="95" AutoToolTipPlacement="TopLeft"/>
-
+        <Slider x:Name="slider1" HorizontalAlignment="Left" Margin="877,236,0,0" VerticalAlignment="Top" Height="14" Width="95" AutoToolTipPlacement="TopLeft"/>
+        <ListView ItemsSource="{Binding PresetConfig}" SelectedValue="{Binding SelectedSave}" Margin="999,189,275,345.6">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}"></TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="23" Margin="999,161,0,0" TextWrapping="Wrap" Text="{Binding SaveName}" VerticalAlignment="Top" Width="132"/>
     </Grid>
 </Window>

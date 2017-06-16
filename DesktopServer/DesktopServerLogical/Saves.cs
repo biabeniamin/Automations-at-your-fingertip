@@ -67,6 +67,18 @@ namespace DesktopServerLogical
                 }
             }
         }
+        public ObservableCollection<string> GetActions()
+        {
+            ObservableCollection<string> list = new ObservableCollection<string>();
+            ObservableCollection<RemoteAction> actions = new ObservableCollection<RemoteAction>();
+            SqlDataReader reader = _dbOper.GetReader($@"SELECT Name from Saves");
+            while (reader.Read())
+            {
+                list.Add(reader[0].ToString());
+            }
+            reader.Dispose();
+            return list;
+        }
         public ObservableCollection<Device> LoadActions(string name,ObservableCollection<Device> devices)
         {
             ObservableCollection<RemoteAction> actions = new ObservableCollection<RemoteAction>();
