@@ -107,11 +107,11 @@ void Lan::CheckMessages()
 						else
 						{
 
-							Serial.println("pin change");
+							/*Serial.println("pin change");
 							Serial.print("pin=");
 							Serial.print(bytes[2]);
 							Serial.print(" com=");
-							Serial.print(bytes[3]);
+							Serial.print(bytes[3]);*/
 							switch (bytes[3])
 							{
 							case 0:
