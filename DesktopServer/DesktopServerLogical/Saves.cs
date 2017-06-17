@@ -88,7 +88,7 @@ FROM Actions
 INNER JOIN Pins ON Pins.PinId=Actions.PinId
 INNER JOIN Devices ON Devices.Deviceid=Pins.DeviceId
 INNER JOIN Saves ON Saves.Id=Devices.SaveId
-WHERE Saves.Id IN(SELECT TOP 1 Id FROM Saves ORDER BY Id DESC)");
+WHERE Saves.Name='{name}'");
             while (reader.Read())
             {
                 int ownerDeviceId = Convert.ToInt32(reader[0]);
