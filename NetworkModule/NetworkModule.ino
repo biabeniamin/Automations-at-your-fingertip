@@ -34,7 +34,7 @@ int countLan()
   return serial.available();
 }
 Lan lan(ADDRESS, DEVICE_TYPE, TRIGGERED_PIN, &writeLan, &readLan, &countLan);
-static byte myip[] = { 192, 168, 0, 108 };
+static byte myip[] = { 192, 168, 0, 106 };
 static byte gwip[] = { 192, 168, 0, 1 };
 static byte mymac[] = { 0x74, 0x69, 0x69, 0x2D, 0x30, 0x31 };
 byte Ethernet::buffer[1000];
