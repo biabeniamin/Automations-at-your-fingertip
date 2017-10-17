@@ -84,7 +84,8 @@ namespace DesktopServerLogical.Models
         }
         public override string ToString()
         {
-            return $"{_owner.Address}-{PinNumber}";
+            String pinName = PinName.GetPinName(_owner.Type, _type, _pinNumber);
+            return $"{_owner.Address}-{pinName}";
         }
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged(string name)
