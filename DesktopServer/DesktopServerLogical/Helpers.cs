@@ -1,4 +1,5 @@
-﻿using DesktopServerLogical.Models;
+﻿using DesktopServerLogical.Enums;
+using DesktopServerLogical.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -132,5 +133,6 @@ namespace DesktopServerLogical
                 return false;
             return true;
         }
+        
     }
 }
