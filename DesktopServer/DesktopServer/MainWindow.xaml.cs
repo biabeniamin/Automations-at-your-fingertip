@@ -1,4 +1,5 @@
-﻿//#define ADD_DEVICES
+﻿#define ADD_DEVICES
+
 using DesktopServerLogical;
 using DesktopServerLogical.Enums;
 using DesktopServerLogical.Models;
@@ -48,7 +49,25 @@ namespace DesktopServer
         private ObservableCollection<string> _presetConfig;
         private string _selectedSave;
         private string _saveName;
-            
+        private DelegateCommand _showHideSavesCommand;
+        private Visibility _areSavesShowed=Visibility.Hidden;
+
+        public Visibility AreSavesShowed
+        {
+            get { return _areSavesShowed; }
+            set
+            {
+                _areSavesShowed = value;
+                OnPropertyChanged("AreSavedShowed");
+            }
+        }
+
+        public DelegateCommand ShowHideSavesCommand
+        {
+            get { return _showHideSavesCommand; }
+            set { _showHideSavesCommand = value; }
+        }
+
         public string SaveName
         {
             get { return _saveName; }
@@ -201,6 +220,10 @@ namespace DesktopServer
                 return list;
             }
         }
+        private Point GetDefaultBlockPosition()
+        {
+            return (new Point(600, -150));
+        }
         public MainWindow()
         {
             InitializeComponent();
@@ -214,10 +237,11 @@ namespace DesktopServer
             LoadDevicesCommand = new DelegateCommand(LoadDevices);
             ProgramActionsCommand = new DelegateCommand(ProgramActions);
             AddBlockCommand = new DelegateCommand(AddBlockAction);
+            ShowHideSavesCommand = new DelegateCommand(ShowHideSavesAction);
             _saves = new Saves();
             _blockControls = new List<BlockControl>();
             LoadDevices();
-            LoadSaves();
+            //LoadSaves();
         }
 
         private void LoadSaves()
@@ -265,6 +289,10 @@ namespace DesktopServer
             //LoadSaves();
             PresetConfig.Add(SaveName);
         }
+        private void ShowHideSavesAction()
+        {
+            System.Windows.Forms.MessageBox.Show("Test");
+        }
         private void LoadAction()
         {
             if (SelectedSave!=null)
@@ -294,17 +322,6 @@ namespace DesktopServer
                 action.RemoveAction = _controller.RemoveAction;
                 SelectedPin.ActiveLowActions.Add(action);
             }
-        }
-        private void button_Click(object sender, RoutedEventArgs e)
-        {
-            //_controller.Devices.Clear();
-            /*Request r = new Request(RequestTypes.ValueChange, 1);
-            Device d = new Device(1, DeviceTypes.Relay);
-            Pin p = new Pin(d, 8, PinTypes.Output);
-            r.Pin = p;
-            RemoteAction ra = new RemoteAction(p, ActionTypes.Switch,p);
-            r.PinAction = ra;
-            _controller._serial.Write(r);*/
         }
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged(string name)
@@ -437,7 +454,7 @@ namespace DesktopServer
         private void AddBlockAction(object parameter)
         {
             BlockType type = (BlockType)Enum.Parse(typeof(BlockType), parameter.ToString());
-            AddNewBlock(new Point(950, 100), type);
+            AddNewBlock(GetDefaultBlockPosition(), type);
         }
         private void button_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
