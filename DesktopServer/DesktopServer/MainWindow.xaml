@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DesktopServer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="684.345" Width="1412.885">
+        Title="MainWindow" Height="700.345" Width="1427.285">
     <Window.Resources>
         <local:DoubleApproximator x:Key="DoubleConvertor"></local:DoubleApproximator>
     </Window.Resources>
-    <Grid x:Name="MainGrid" HorizontalAlignment="Left" Margin="0,0,0,0.4" Width="1406">
+    <Grid x:Name="MainGrid" HorizontalAlignment="Left" Margin="0,8,0,-7.6" Width="1406">
         <ListView x:Name="listView" HorizontalAlignment="Left" Height="268" Margin="10,41,0,0" VerticalAlignment="Top" Width="133" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
             <ListView.View>
                 <GridView>
@@ -18,7 +18,6 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="986,80,0,0" VerticalAlignment="Top" Width="98" Click="button_Click"/>
         <ListView x:Name="listViewPins" HorizontalAlignment="Left" Height="133" Margin="165,36,0,0" VerticalAlignment="Top" Width="180" ItemsSource="{Binding SelectedItem.InputPins,ElementName=listView}" SelectedItem="{Binding SelectedPin}">
             <ListView.View>
                 <GridView x:Name="GridViewPins">
@@ -29,63 +28,12 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <ListView x:Name="listView_Copy1" HorizontalAlignment="Left" Height="158" Margin="350,73,0,0" VerticalAlignment="Top" Width="631" ItemsSource="{Binding SelectedItem.Actions, ElementName=listViewPins}">
-            <ListView.View>
-                <GridView x:Name="GridViewPins1">
-                    <GridViewColumn Width="150" Header="Action">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <ComboBox ItemsSource="{Binding DataContext.AvailableActions, ElementName=MainGrid}" SelectedItem="{Binding Type}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn x:Name="sad1" Width="100" Header="Actioned Pin">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <ComboBox IsEnabled="{Binding AllowPinSelection}" ItemsSource="{Binding DataContext.OutputPins, ElementName=MainGrid}" SelectedItem="{Binding Pin}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Width="90">
-                        <GridViewColumn.Header>Value</GridViewColumn.Header>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBox IsEnabled="{Binding AllowValue}" Width="75" Text="{Binding Value}"></TextBox>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Width="50">
-                        <GridViewColumn.Header>Delete</GridViewColumn.Header>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Width="30" Content="X" Command="{Binding RemoveCommand}"></Button>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Width="150" Header="Condition Type">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <ComboBox ItemsSource="{Binding DataContext.ConditionTypes, ElementName=MainGrid}" SelectedItem="{Binding ActionCondition.Type}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Width="150" Header="Condition">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <ComboBox ItemsSource="{Binding DataContext.AnalogPins, ElementName=MainGrid}" SelectedItem="{Binding ActionCondition.Pin}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <Button Command="{Binding AddActionCommand}" x:Name="button1" Content="Add" HorizontalAlignment="Left" Margin="697,44,0,0" VerticalAlignment="Top" Width="74"/>
-        <Label x:Name="label" Content="Repeats" HorizontalAlignment="Left" Margin="354,41,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="411,41,0,0" TextWrapping="Wrap" Text="{Binding SelectedItem.Repeats, ElementName=listViewPins}" VerticalAlignment="Top" Width="120"/>
-        <Label x:Name="label2" Content="Triggered Val" HorizontalAlignment="Left" Margin="534,0,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label" Content="Repeats" HorizontalAlignment="Left" Margin="567,69,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="624,69,0,0" TextWrapping="Wrap" Text="{Binding SelectedItem.Repeats, ElementName=listViewPins}" VerticalAlignment="Top" Width="120"/>
+        <Label x:Name="label2" Content="Triggered Val" HorizontalAlignment="Left" Margin="747,28,0,0" VerticalAlignment="Top"/>
         <Label x:Name="label1" Content="Devices:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <Label x:Name="label1_Copy" Content="Pins:" HorizontalAlignment="Left" Margin="165,10,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="label1_Copy1" Content="Actions for a pin:" HorizontalAlignment="Left" Margin="353,10,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label1_Copy1" Content="Actions for a pin:" HorizontalAlignment="Left" Margin="566,38,0,0" VerticalAlignment="Top"/>
         <ListView x:Name="listViewPins_Copy" HorizontalAlignment="Left" Height="133" Margin="165,174,0,0" VerticalAlignment="Top" Width="180" ItemsSource="{Binding SelectedItem.OutputPins, ElementName=listView}">
             <ListView.View>
                 <GridView x:Name="GridViewPins2">
@@ -96,50 +44,13 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Command="{Binding SaveActionCommand}" Content="Save action" HorizontalAlignment="Left" Margin="986,23,0,0" VerticalAlignment="Top" Width="74"/>
-        <Button Command="{Binding LoadActionCommand}" Content="Load action" HorizontalAlignment="Left" Margin="986,48,0,0" VerticalAlignment="Top" Width="74"/>
-        <Button Command="{Binding LoadDevicesCommand}" Content="Load devices" HorizontalAlignment="Left" Margin="986,106,0,0" VerticalAlignment="Top" Width="97"/>
-        <Button Command="{Binding ProgramActionsCommand}" Content="Program actions" HorizontalAlignment="Left" Margin="986,132,0,0" VerticalAlignment="Top" Width="97"/>
-        <Slider x:Name="slider" Value="{Binding SelectedItem.TriggeredValue, ElementName=listViewPins}" HorizontalAlignment="Left" Margin="539,41,0,0" VerticalAlignment="Top" Width="103" SmallChange="2" IsEnabled="{Binding SelectedItem.AllowTriggeredValue, ElementName=listViewPins}" LargeChange="2" Maximum="9"/>
-        <Label x:Name="label3" Content="{Binding Value, Converter={StaticResource DoubleConvertor}, ElementName=slider}" HorizontalAlignment="Left" Margin="647,34,0,0" VerticalAlignment="Top"/>
-        <ListView x:Name="listView_Copy" HorizontalAlignment="Left" Height="87" Margin="354,236,0,-4" VerticalAlignment="Top" Width="421" ItemsSource="{Binding SelectedItem.ActiveLowActions, ElementName=listViewPins}">
-            <ListView.View>
-                <GridView x:Name="GridViewPins3">
-                    <GridViewColumn Width="150" Header="Action">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <ComboBox IsEnabled="{Binding AllowAction}" ItemsSource="{Binding DataContext.AvailableActions, ElementName=MainGrid}" SelectedItem="{Binding Type}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn x:Name="sad2" Width="100" Header="Actioned Pin">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <ComboBox IsEnabled="{Binding AllowAction}" ItemsSource="{Binding DataContext.OutputPins, ElementName=MainGrid}" SelectedItem="{Binding Pin}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Width="90" Header="Value">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBox Width="75" Text="{Binding Value}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Width="50" Header="Delete">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Width="30" Content="X" Command="{Binding RemoveCommand}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <Button Command="{Binding AddActiveLowActionCommand}" x:Name="button1_Copy" Content="Add" HorizontalAlignment="Left" Margin="946,313,0,0" VerticalAlignment="Top" Width="74"/>
-        <Image x:Name="image" HorizontalAlignment="Left" Height="294" Margin="1207,328,0,0" VerticalAlignment="Top" Width="176" Source="{Binding TrashPath}"/>
+        <Button Command="{Binding LoadDevicesCommand}" Content="Load devices" HorizontalAlignment="Left" Margin="566,106,0,0" VerticalAlignment="Top" Width="97"/>
+        <Button Command="{Binding ProgramActionsCommand}" Content="Program actions" HorizontalAlignment="Left" Margin="1243,589,0,0" VerticalAlignment="Top" Width="153" Height="57"/>
+        <Slider x:Name="slider" Value="{Binding SelectedItem.TriggeredValue, ElementName=listViewPins}" HorizontalAlignment="Left" Margin="752,69,0,0" VerticalAlignment="Top" Width="103" SmallChange="2" IsEnabled="{Binding SelectedItem.AllowTriggeredValue, ElementName=listViewPins}" LargeChange="2" Maximum="9"/>
+        <Label x:Name="label3" Content="{Binding Value, Converter={StaticResource DoubleConvertor}, ElementName=slider}" HorizontalAlignment="Left" Margin="860,62,0,0" VerticalAlignment="Top"/>
+        <Image x:Name="image" HorizontalAlignment="Left" Height="294" Margin="1224,281,0,0" VerticalAlignment="Top" Width="176" Source="{Binding TrashPath}"/>
         <Grid x:Name="grid" HorizontalAlignment="Left" Height="294" Margin="26,328,0,0" VerticalAlignment="Top" Width="1156"/>
-        <ListView x:Name="listView_Copy2" HorizontalAlignment="Left" Height="268" VerticalAlignment="Top" Width="190" Margin="1163,25,0,0" ItemsSource="{Binding BlockTypes}">
+        <ListView x:Name="listView_Copy2" HorizontalAlignment="Left" Height="268" VerticalAlignment="Top" Width="190" Margin="360,36,0,0" ItemsSource="{Binding BlockTypes}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn>
@@ -152,21 +63,26 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="button2" Content="Button" HorizontalAlignment="Left" Margin="1083,42,0,0" VerticalAlignment="Top" Width="75" Click="button2_Click_1"/>
-        <Slider x:Name="slider1" HorizontalAlignment="Left" Margin="877,236,0,0" VerticalAlignment="Top" Height="14" Width="95" AutoToolTipPlacement="TopLeft"/>
-        <ListView ItemsSource="{Binding PresetConfig}" SelectedValue="{Binding SelectedSave}" Margin="999,189,275,345.6">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding}"></TextBlock>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="23" Margin="999,161,0,0" TextWrapping="Wrap" Text="{Binding SaveName}" VerticalAlignment="Top" Width="132"/>
+        <Slider x:Name="slider1" HorizontalAlignment="Left" Margin="566,155,0,0" VerticalAlignment="Top" Height="14" Width="95" AutoToolTipPlacement="TopLeft"/>
+        <Button Command="{Binding ShowHideSavesCommand}" Content="Show saves" HorizontalAlignment="Left" Margin="1251,41,0,0" VerticalAlignment="Top" Width="89" Height="32"/>
+        <Grid x:Name="tes" Visibility="{Binding AreSavedShowed}" HorizontalAlignment="Left" Height="172" Margin="1137,104,0,0" VerticalAlignment="Top" Width="259">
+            <Button Command="{Binding AddActionCommand}" x:Name="button1" Content="Add" HorizontalAlignment="Left" Margin="22,120,0,-40" VerticalAlignment="Top" Width="74"/>
+            <Button Command="{Binding SaveActionCommand}" Content="Save action" HorizontalAlignment="Left" Margin="22,71,0,0" VerticalAlignment="Top" Width="74"/>
+            <Button Command="{Binding LoadActionCommand}" Content="Load action" HorizontalAlignment="Left" Margin="22,96,0,-16" VerticalAlignment="Top" Width="74"/>
+            <ListView ItemsSource="{Binding PresetConfig}" SelectedValue="{Binding SelectedSave}" Margin="114,56,10,10">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="23" Margin="114,28,-146,0" TextWrapping="Wrap" Text="{Binding SaveName}" VerticalAlignment="Top" Width="132"/>
+        </Grid>
     </Grid>
 </Window>

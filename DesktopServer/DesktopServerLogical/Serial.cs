@@ -1,4 +1,4 @@
-﻿#define OPEN_PORT
+﻿//#define OPEN_PORT
 using DesktopServerLogical.Enums;
 using DesktopServerLogical.Models;
 using System;
@@ -18,7 +18,7 @@ namespace DesktopServerLogical
         public Serial(Action<Response> receivedAction)
         {
             _receivedAction = receivedAction;
-            _port = new SerialPort("COM13");
+            _port = new SerialPort("COM4");
             _port.DtrEnable = true;
             _port.RtsEnable = true;
 #if OPEN_PORT
