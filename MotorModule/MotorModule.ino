@@ -10,8 +10,8 @@ SoftwareSerial serial(0, 1);
 int inputPinsCount = 0;
 rPin inputPins[1] = {{.pinNumber=0,.initializing=0}};
 int outputPinsCount = 4;
-rPin outputPins[] = {{.pinNumber=3,.initializing=1},
-{.pinNumber=4,.initializing=1},
+rPin outputPins[] = {{.pinNumber=7,.initializing=1},
+{.pinNumber=8,.initializing=1},
 {.pinNumber=5,.initializing=1},
 {.pinNumber=6,.initializing=1}};
 int analogPinsCount = 0;
