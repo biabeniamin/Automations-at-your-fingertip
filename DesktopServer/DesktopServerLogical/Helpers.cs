@@ -122,14 +122,16 @@ namespace DesktopServerLogical
         }
         public static bool IsOverTrash(Point p)
         {
+            //1224,281,0,0
             //1190,10 1350,290
-            if (p.X < 1190)
+            Console.WriteLine($"{p.X}:{p.Y}");
+            if (p.X < 1200)
                 return false;
-            if (p.Y < 10)
+            if (p.Y < -50)
                 return false;
-            if (p.X > 1350)
+            if (p.X > 1360)
                 return false;
-            if (p.Y > 290)
+            if (p.Y > 240)
                 return false;
             return true;
         }
