@@ -135,6 +135,16 @@ namespace DesktopServerLogical
                 return false;
             return true;
         }
+
+        public static String GetDirectoryParent(String path, int height)
+        {
+            for (int i = 0; i < height; i++)
+            {
+                path = System.IO.Directory.GetParent(path).FullName;
+            }
+
+            return path;
+        }
         
     }
 }
