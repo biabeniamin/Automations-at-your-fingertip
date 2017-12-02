@@ -51,6 +51,14 @@ namespace DesktopServer
         private string _saveName;
         private DelegateCommand _showHideSavesCommand;
         private Visibility _areSavesShowed=Visibility.Hidden;
+        private DelegateCommand _reinitiliazingCommand;
+
+        public DelegateCommand ReinitializingCommand
+        {
+            get { return _reinitiliazingCommand; }
+            set { _reinitiliazingCommand = value; }
+        }
+        
 
         public Visibility AreSavesShowed
         {
@@ -238,6 +246,7 @@ namespace DesktopServer
             ProgramActionsCommand = new DelegateCommand(ProgramActions);
             AddBlockCommand = new DelegateCommand(AddBlockAction);
             ShowHideSavesCommand = new DelegateCommand(ShowHideSavesAction);
+            ReinitializingCommand = new DelegateCommand(Reinitializing);
             _saves = new Saves();
             _blockControls = new List<BlockControl>();
             LoadDevices();
@@ -281,6 +290,13 @@ namespace DesktopServer
             _controller.LoadDevices();
 #endif
         }
+
+        private void Reinitializing()
+        {
+            System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+            Application.Current.Shutdown();
+        }
+
         private void SaveAction()
         {
             if (SaveName == null)

@@ -63,7 +63,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Slider x:Name="slider1" HorizontalAlignment="Left" Margin="566,155,0,0" VerticalAlignment="Top" Height="14" Width="95" AutoToolTipPlacement="TopLeft"/>
+        <Slider x:Name="slider1" HorizontalAlignment="Left" Margin="876,69,0,0" VerticalAlignment="Top" Height="14" Width="95" AutoToolTipPlacement="TopLeft"/>
         <Button Command="{Binding ShowHideSavesCommand}" Content="Show saves" HorizontalAlignment="Left" Margin="1251,41,0,0" VerticalAlignment="Top" Width="89" Height="32"/>
         <Grid x:Name="tes" Visibility="{Binding AreSavedShowed}" HorizontalAlignment="Left" Height="172" Margin="1137,104,0,0" VerticalAlignment="Top" Width="259">
             <Grid.ColumnDefinitions>
@@ -90,5 +90,6 @@
             <Label Content="Saves:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <Label Content="Save name:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="26,28,0,0"/>
         </Grid>
+        <Button Content="Reinitializing" Command="{Binding ReinitializingCommand}" HorizontalAlignment="Left" Margin="1156,41,0,0" VerticalAlignment="Top" Width="90" Height="32"/>
     </Grid>
 </Window>
