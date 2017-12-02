@@ -10,7 +10,7 @@
         <local:DoubleApproximator x:Key="DoubleConvertor"></local:DoubleApproximator>
     </Window.Resources>
     <Grid x:Name="MainGrid" HorizontalAlignment="Left" Margin="0,8,0,-7.6" Width="1406">
-        <ListView x:Name="listView" HorizontalAlignment="Left" Height="268" Margin="10,41,0,0" VerticalAlignment="Top" Width="133" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
+        <ListView x:Name="listView" HorizontalAlignment="Left" Height="240" Margin="10,69,0,0" VerticalAlignment="Top" Width="133" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Address}" />
@@ -31,7 +31,7 @@
         <Label x:Name="label" Content="Repeats" HorizontalAlignment="Left" Margin="567,69,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="624,69,0,0" TextWrapping="Wrap" Text="{Binding SelectedItem.Repeats, ElementName=listViewPins}" VerticalAlignment="Top" Width="120"/>
         <Label x:Name="label2" Content="Triggered Val" HorizontalAlignment="Left" Margin="747,28,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="label1" Content="Devices:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label1" Content="Devices:" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
         <Label x:Name="label1_Copy" Content="Pins:" HorizontalAlignment="Left" Margin="165,10,0,0" VerticalAlignment="Top"/>
         <Label x:Name="label1_Copy1" Content="Actions for a pin:" HorizontalAlignment="Left" Margin="566,38,0,0" VerticalAlignment="Top"/>
         <ListView x:Name="listViewPins_Copy" HorizontalAlignment="Left" Height="133" Margin="165,174,0,0" VerticalAlignment="Top" Width="180" ItemsSource="{Binding SelectedItem.OutputPins, ElementName=listView}">
@@ -44,7 +44,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Command="{Binding LoadDevicesCommand}" Content="Load devices" HorizontalAlignment="Left" Margin="566,106,0,0" VerticalAlignment="Top" Width="97"/>
+        <Button Command="{Binding LoadDevicesCommand}" Content="Load devices" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Width="133" Height="41"/>
         <Button Command="{Binding ProgramActionsCommand}" Content="Program actions" HorizontalAlignment="Left" Margin="1243,589,0,0" VerticalAlignment="Top" Width="153" Height="57"/>
         <Slider x:Name="slider" Value="{Binding SelectedItem.TriggeredValue, ElementName=listViewPins}" HorizontalAlignment="Left" Margin="752,69,0,0" VerticalAlignment="Top" Width="103" SmallChange="2" IsEnabled="{Binding SelectedItem.AllowTriggeredValue, ElementName=listViewPins}" LargeChange="2" Maximum="9"/>
         <Label x:Name="label3" Content="{Binding Value, Converter={StaticResource DoubleConvertor}, ElementName=slider}" HorizontalAlignment="Left" Margin="860,62,0,0" VerticalAlignment="Top"/>
