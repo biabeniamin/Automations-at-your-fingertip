@@ -9,7 +9,7 @@ int inputPinsCount = 1;
 rPin inputPins[1] = {{.pinNumber=8,.initializing=1,.activateOnSwitch=1}};
 int outputPinsCount = 1;
 rPin outputPins[1] = {{.pinNumber=9,.initializing=1}};
-int analogPinsCount = 1;
+int analogPinsCount = 0;
 rPin analogPins[1] = {{.pinNumber=5,.initializing=0}};
 int analogTriggeredValue[] = {4};
 void writeLan(int byte)

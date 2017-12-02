@@ -1,4 +1,4 @@
-﻿#define ADD_DEVICES
+﻿//#define ADD_DEVICES
 
 using DesktopServerLogical;
 using DesktopServerLogical.Enums;
@@ -556,6 +556,10 @@ namespace DesktopServer
 
         private void AnalyzeBlocksForPin(Pin pin)
         {
+            if(null == pin)
+            {
+                return;
+            }
             pin.ClearActions();
             for (int i = 0; i < _blockControls.Count; i++)
             {
