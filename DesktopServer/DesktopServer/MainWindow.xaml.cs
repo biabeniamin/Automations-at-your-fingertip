@@ -241,7 +241,7 @@ namespace DesktopServer
             _saves = new Saves();
             _blockControls = new List<BlockControl>();
             LoadDevices();
-            //LoadSaves();
+            LoadSaves();
         }
 
         private void LoadSaves()
