@@ -23,7 +23,7 @@
                 <GridView x:Name="GridViewPins">
                     <GridViewColumn Header="Pin" DisplayMemberBinding="{Binding PinNumber}" />
                     <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Type}" />
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding}" />
+                    <GridViewColumn Width="120px" Header="Name" DisplayMemberBinding="{Binding}" />
 
                 </GridView>
             </ListView.View>
@@ -39,7 +39,7 @@
                 <GridView x:Name="GridViewPins2">
                     <GridViewColumn Header="Pin" DisplayMemberBinding="{Binding PinNumber}" />
                     <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Type}" />
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding}" />
+                    <GridViewColumn Width="120px" Header="Name" DisplayMemberBinding="{Binding}" />
 
                 </GridView>
             </ListView.View>
