@@ -33,6 +33,24 @@ namespace DesktopServerLogical
                         break;
                 }
             }
+            else if (DeviceTypes.Motor == deviceType)
+            {
+                switch (pinNumber)
+                {
+                    case 7:
+                        return "Mot. 1 c.clockwise";
+                        break;
+                    case 9:
+                        return "Mot. 1 clockwise";
+                        break;
+                    case 5:
+                        return "Mot. 2 clockwise";
+                        break;
+                    case 6:
+                        return "Mot. 2 c.clockwise";
+                        break;
+                }
+            }
             return pinNumber.ToString();
         }
         private static String GetPinNameForInput(DeviceTypes deviceType, int pinNumber)
@@ -58,10 +76,10 @@ namespace DesktopServerLogical
                         return "Button 3";
                         break;
                     case 4:
-                        return "Button 4";
+                        return "Face 1";
                         break;
                     case 5:
-                        return "Button 5";
+                        return "Face 2";
                         break;
                 }
             }
