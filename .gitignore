@@ -16,4 +16,5 @@ DesktopServer/.vs/DesktopServer/v14/.suo
 DesktopServer/DesktopServer.VC.VC.opendb
 DesktopServer/DesktopServer.VC.db
 DesktopServer/.vs
-
+DesktopServer/DesktopServerLogical/configurations.mdf
+DesktopServer/DesktopServerLogical/configurations_log.ldf
