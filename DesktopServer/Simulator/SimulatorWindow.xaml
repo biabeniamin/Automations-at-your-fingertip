@@ -17,7 +17,8 @@
         <Button x:Name="button1" Content="1" HorizontalAlignment="Left" Margin="173,123,0,0" VerticalAlignment="Top" Width="23" Click="button1_Click"/>
         <Button x:Name="button1_Copy" Content="2" HorizontalAlignment="Left" Margin="201,123,0,0" VerticalAlignment="Top" Width="23" Click="button2_Click"/>
         <Button x:Name="button1_Copy1" Content="3" HorizontalAlignment="Left" Margin="229,123,0,0" VerticalAlignment="Top" Width="23" Click="button3_Click"/>
-        <Image x:Name="door" HorizontalAlignment="Left" Height="100" Margin="300,191,0,0" VerticalAlignment="Top" Width="100" Source="Images/open.png"/>
+        <Image x:Name="door" HorizontalAlignment="Left" Height="100" Margin="162,211,0,0" VerticalAlignment="Top" Width="100" Source="Images/open.png"/>
+        <Image x:Name="notification" HorizontalAlignment="Left" Height="197" Margin="304,158,-8.6,-34.2" VerticalAlignment="Top" Width="223" Source="Images/not1.png"/>
 
     </Grid>
 </Window>

@@ -146,6 +146,9 @@
     <Content Include="Images\close.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\not0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\not1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

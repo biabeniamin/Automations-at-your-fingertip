@@ -290,6 +290,8 @@ namespace DesktopServer
             _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 3, PinTypes.Input));
             //add notification in network
             _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 6, PinTypes.Output));
+            _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 7, PinTypes.Output));
+            _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 8, PinTypes.Output));
 
             //relay module
             _controller.Devices.Add(new Device(2, DeviceTypes.Relay));

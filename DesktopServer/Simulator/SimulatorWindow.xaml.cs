@@ -31,12 +31,16 @@ namespace Simulator
         private Input _networkButton2;
         private Input _networkButton3;
         private Executer _executer;
+        Notifications _notifications;
         public SimulatorWindow(ObservableCollection<Device> devices)
         {
             //DesktopServerLogical
             InitializeComponent();
 
             _executer = new Executer();
+
+            _notifications = new Notifications(notification);
+
 
             _switch = new Input();
             _networkButton1 = new Input();
@@ -56,6 +60,10 @@ namespace Simulator
             _executer.AddSimulatedPin(_networkButton3, devices[0].InputPins[2]);
 
             _executer.AddSimulatedPin(_door, devices[2].OutputPins[0]);
+
+            _executer.AddSimulatedPin(_notifications.Notification1, devices[0].OutputPins[0]);
+            _executer.AddSimulatedPin(_notifications.Notification2, devices[0].OutputPins[1]);
+            _executer.AddSimulatedPin(_notifications.Notification3, devices[0].OutputPins[2]);
 
             BitmapImage bitimg = new BitmapImage();
             bitimg.BeginInit();

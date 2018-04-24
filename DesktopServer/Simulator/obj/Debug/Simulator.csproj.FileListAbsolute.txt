@@ -45,3 +45,4 @@ C:\Workspace\Grepit\DesktopServer\Simulator\bin\Debug\Images\open.png
 C:\Workspace\Grepit\DesktopServer\Simulator\bin\Debug\Images\not1.png
 C:\Workspace\Grepit\DesktopServer\Simulator\bin\Debug\Images\not2.png
 C:\Workspace\Grepit\DesktopServer\Simulator\bin\Debug\Images\not3.png
+C:\Workspace\Grepit\DesktopServer\Simulator\bin\Debug\Images\not0.png

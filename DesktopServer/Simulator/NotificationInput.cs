@@ -17,7 +17,8 @@ namespace Simulator
 
         public override void UpdateStatus()
         {
-            _action();
+            if(true == GetStatus())
+                _action();
         }
     }
 }
