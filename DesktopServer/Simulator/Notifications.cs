@@ -38,11 +38,24 @@ namespace Simulator
         {
             _imageControl = imageControl;
             _notification1 = new NotificationInput(Notification1Triggered);
+            _notification2 = new NotificationInput(Notification2Triggered);
+            _notification3 = new NotificationInput(Notification3Triggered);
+            Update(0);
         }
 
         private void Notification1Triggered()
         {
             Update(1);
+        }
+
+        private void Notification2Triggered()
+        {
+            Update(2);
+        }
+
+        private void Notification3Triggered()
+        {
+            Update(3);
         }
 
         private void Update(int id)
