@@ -2,8 +2,10 @@
 *.pdb
 *.pdb
 *.cache
-/DesktopServer/DesktopServerLogical/bin
-/DesktopServer/DesktopServerLogical/obj
+/DesktopServer/DesktopServerLogical/bin/*
+/DesktopServer/DesktopServerLogical/obj/*
+/DesktopServer/Simulator/bin
+/DesktopServer/Simulator/obj
 /DesktopServer/DesktopServer/bin
 DesktopServer/DesktopServer/obj/*
 /DesktopServer/DesktopServer/obj/Debug

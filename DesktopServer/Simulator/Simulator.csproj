@@ -79,6 +79,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Class1.cs" />
+    <Compile Include="Door.cs" />
+    <Compile Include="Executer.cs" />
+    <Compile Include="Input.cs" />
+    <Compile Include="Light.cs" />
+    <Compile Include="NotificationInput.cs" />
+    <Compile Include="Notifications.cs" />
+    <Compile Include="Output.cs" />
+    <Compile Include="Pin.cs" />
     <Compile Include="SimulatorWindow.xaml.cs">
       <DependentUpon>SimulatorWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -127,6 +135,32 @@
       <Project>{0242b3a4-53cf-4957-87fd-a11383fef869}</Project>
       <Name>DesktopServerLogical</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\bulbOn.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\bulb.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\close.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\not1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\not2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\not3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\open.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\switch.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

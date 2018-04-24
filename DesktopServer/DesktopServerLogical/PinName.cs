@@ -38,10 +38,10 @@ namespace DesktopServerLogical
                 switch (pinNumber)
                 {
                     case 7:
-                        return "Mot. 1 c.clockwise";
+                        return "Door";
                         break;
                     case 9:
-                        return "Mot. 1 clockwise";
+                        return "Mot. 2 c.clockwise";
                         break;
                     case 5:
                         return "Mot. 2 clockwise";
