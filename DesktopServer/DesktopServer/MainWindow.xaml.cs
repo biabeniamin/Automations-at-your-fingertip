@@ -1,4 +1,5 @@
 ﻿#define ADD_DEVICES
+#define RUN_SIMULATOR
 
 using DesktopServerLogical;
 using DesktopServerLogical.Enums;
@@ -52,6 +53,7 @@ namespace DesktopServer
         private DelegateCommand _showHideSavesCommand;
         private Visibility _areSavesShowed=Visibility.Hidden;
         private DelegateCommand _reinitiliazingCommand;
+        private Simulator.SimulatorWindow _simulatorWindow;
 
         public DelegateCommand ReinitializingCommand
         {
@@ -251,6 +253,11 @@ namespace DesktopServer
             _blockControls = new List<BlockControl>();
             LoadDevices();
             LoadSaves();
+
+#if RUN_SIMULATOR
+            _simulatorWindow = new Simulator.SimulatorWindow();
+            _simulatorWindow.Show();
+#endif
         }
 
         private void LoadSaves()
@@ -265,8 +272,13 @@ namespace DesktopServer
                 if (_wasBlockMoved)
                     AnalyzeBlocksForPin(_selectedPin);
             }
+            
+#if RUN_SIMULATOR
+            _simulatorWindow.UpdateConfiguration(_controller.Devices);
+#else
             _controller.ProgramMaster();
-            MessageBox.Show("Programare terminata!");
+#endif
+            MessageBox.Show("Programming is done!");
         }
         private void LoadDevices()
         {
