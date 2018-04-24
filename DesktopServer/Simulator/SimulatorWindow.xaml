@@ -7,6 +7,17 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+        <Image x:Name="bulb" HorizontalAlignment="Left" Height="100" Margin="57,68,0,0" VerticalAlignment="Top" Width="100" Source="Images/bulb.png"/>
+        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="57,247,0,0" VerticalAlignment="Top" Width="75" Click="button_Click_1">
+        </Button>
+
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="100" Margin="162,87,0,0" VerticalAlignment="Top" Width="100">
+            <Label x:Name="label" Content="Web server" Margin="19.2,-0.8,8.4,74.4"/>
+        </Border>
+        <Button x:Name="button1" Content="1" HorizontalAlignment="Left" Margin="173,123,0,0" VerticalAlignment="Top" Width="23" Click="button1_Click"/>
+        <Button x:Name="button1_Copy" Content="2" HorizontalAlignment="Left" Margin="201,123,0,0" VerticalAlignment="Top" Width="23" Click="button2_Click"/>
+        <Button x:Name="button1_Copy1" Content="3" HorizontalAlignment="Left" Margin="229,123,0,0" VerticalAlignment="Top" Width="23" Click="button3_Click"/>
+        <Image x:Name="door" HorizontalAlignment="Left" Height="100" Margin="300,191,0,0" VerticalAlignment="Top" Width="100" Source="Images/open.png"/>
+
     </Grid>
 </Window>

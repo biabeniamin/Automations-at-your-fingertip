@@ -255,7 +255,7 @@ namespace DesktopServer
             LoadSaves();
 
 #if RUN_SIMULATOR
-            _simulatorWindow = new Simulator.SimulatorWindow();
+            _simulatorWindow = new Simulator.SimulatorWindow(_controller.Devices);
             _simulatorWindow.Show();
 #endif
         }
@@ -283,21 +283,34 @@ namespace DesktopServer
         private void LoadDevices()
         {
 #if ADD_DEVICES
+            //Network interface
+            _controller.Devices.Add(new Device(1, DeviceTypes.Network));
+            _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 1, PinTypes.Input));
+            _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 2, PinTypes.Input));
+            _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 3, PinTypes.Input));
+            //add notification in network
+            _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 6, PinTypes.Output));
+
+            //relay module
             _controller.Devices.Add(new Device(2, DeviceTypes.Relay));
-            _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 5, PinTypes.Analog));
-            Pin oPin = new Pin(_controller.Devices[0], 7, PinTypes.Output);
-            _controller.Devices[0].Pins.Add(oPin);
-            Pin pin = new Pin(_controller.Devices[0], 8, PinTypes.Input);
+            _controller.Devices[1].Pins.Add(new Pin(_controller.Devices[1], 5, PinTypes.Analog));
+            Pin oPin = new Pin(_controller.Devices[1], 9, PinTypes.Output);
+            _controller.Devices[1].Pins.Add(oPin);
+            Pin pin = new Pin(_controller.Devices[1], 8, PinTypes.Input);
             pin.Actions.Add(new RemoteAction(oPin, ActionTypes.Switch, pin));
             RemoteAction del = new RemoteAction(oPin, ActionTypes.Delay, null);
             del.Value = 5;
             pin.Actions.Add(del);
-            _controller.Devices[0].Pins.Add(pin);
+            _controller.Devices[1].Pins.Add(pin);
+
+            //motor controller
+            _controller.Devices.Add(new Device(2, DeviceTypes.Motor));
+            _controller.Devices[2].Pins.Add(new Pin(_controller.Devices[2], 7, PinTypes.Output));
+            _controller.Devices[2].Pins.Add(new Pin(_controller.Devices[2], 9, PinTypes.Output));
             
-            _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 9, PinTypes.Output));
-            _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 4, PinTypes.Output));
-            SelectedDevice = _controller.Devices[0];
-            SelectedPin = _controller.Devices[0].Pins[2];
+
+            SelectedDevice = _controller.Devices[1];
+            SelectedPin = _controller.Devices[1].Pins[2];
 #else
             _controller.LoadDevices();
 #endif
