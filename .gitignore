@@ -4,6 +4,9 @@
 *.cache
 /DesktopServer/DesktopServerLogical/bin/*
 /DesktopServer/DesktopServerLogical/obj/*
+/DesktopServer/FacialRecognition/bin/*
+/DesktopServer/FacialRecognition/obj/*
+/DesktopServer/FacialRecognition/Subscription.cs
 /DesktopServer/Simulator/bin
 /DesktopServer/Simulator/obj
 /DesktopServer/DesktopServer/bin
