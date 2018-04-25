@@ -313,7 +313,12 @@ namespace DesktopServer
             _controller.Devices.Add(new Device(4, DeviceTypes.Motor));
             _controller.Devices[3].Pins.Add(new Pin(_controller.Devices[3], 7, PinTypes.Output));
             _controller.Devices[3].Pins.Add(new Pin(_controller.Devices[3], 9, PinTypes.Output));
-            
+
+            //voice assistance
+            _controller.Devices.Add(new Device(5, DeviceTypes.VoiceAssistance));
+            _controller.Devices[4].Pins.Add(new Pin(_controller.Devices[4], 1, PinTypes.Input));
+            _controller.Devices[4].Pins.Add(new Pin(_controller.Devices[4], 2, PinTypes.Input));
+            _controller.Devices[4].Pins.Add(new Pin(_controller.Devices[4], 3, PinTypes.Input));
 
             SelectedDevice = _controller.Devices[1];
             SelectedPin = _controller.Devices[1].Pins[2];

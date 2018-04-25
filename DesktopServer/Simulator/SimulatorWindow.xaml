@@ -7,21 +7,25 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="536.2">
     <Grid>
-        <Image x:Name="bulb" HorizontalAlignment="Left" Height="100" Margin="57,68,0,0" VerticalAlignment="Top" Width="100" Source="Images/bulb.png"/>
+        <Image x:Name="bulb" HorizontalAlignment="Left" Height="100" Margin="16,58,0,0" VerticalAlignment="Top" Width="100" Source="Images/bulb.png"/>
         <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="57,247,0,0" VerticalAlignment="Top" Width="75" Click="button_Click_1">
         </Button>
 
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="100" Margin="162,87,0,0" VerticalAlignment="Top" Width="100">
-            <Label x:Name="label" Content="Web server" Margin="19.2,-0.8,8.4,74.4"/>
-        </Border>
-        <Button x:Name="button1" Content="1" HorizontalAlignment="Left" Margin="173,123,0,0" VerticalAlignment="Top" Width="23" Click="button1_Click"/>
-        <Button x:Name="button1_Copy" Content="2" HorizontalAlignment="Left" Margin="201,123,0,0" VerticalAlignment="Top" Width="23" Click="button2_Click"/>
-        <Button x:Name="button1_Copy1" Content="3" HorizontalAlignment="Left" Margin="229,123,0,0" VerticalAlignment="Top" Width="23" Click="button3_Click"/>
         <Image x:Name="door" HorizontalAlignment="Left" Height="100" Margin="162,211,0,0" VerticalAlignment="Top" Width="100" Source="Images/open.png"/>
         <Image x:Name="notification" HorizontalAlignment="Left" Height="197" Margin="304,158,-8.6,-34.2" VerticalAlignment="Top" Width="223" Source="Images/not1.png"/>
         <Button x:Name="button2" Content="CheckPin" HorizontalAlignment="Left" Margin="350,42,0,0" VerticalAlignment="Top" Width="75" Click="button2_Click_1"/>
         <TextBox x:Name="pinTextBox" HorizontalAlignment="Left" Height="23" Margin="225,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" ToolTip="Pin"/>
-        <Button x:Name="button3" Content="Say action 1" HorizontalAlignment="Left" Margin="445,24,0,0" VerticalAlignment="Top" Width="75" Click="button3_Click_1"/>
+        <Button x:Name="button3" Content="Say &quot;Action 1&quot;" HorizontalAlignment="Left" Margin="441,24,0,0" VerticalAlignment="Top" Width="79" Click="button3_Click_1"/>
+        <Button x:Name="button3_Copy" Content="Say &quot;Action 2&quot;" HorizontalAlignment="Left" Margin="441,48,0,0" VerticalAlignment="Top" Width="79" Click="button3_Copy_Click"/>
+        <Button x:Name="button3_Copy1" Content="Say &quot;Action 3&quot;" HorizontalAlignment="Left" Margin="441,72,0,0" VerticalAlignment="Top" Width="79" Click="button3_Copy1_Click"/>
+        <Grid HorizontalAlignment="Left" Height="100" Margin="121,21,0,0" VerticalAlignment="Top" Width="100">
+            <Rectangle Fill="#FFF4F4F5" StrokeDashArray="4 4" HorizontalAlignment="Left" Height="100"  Stroke="Black" VerticalAlignment="Top" Width="100"/>
+            <Label x:Name="label" Content="Web server" Margin="20,10,10,66"/>
+            <Button x:Name="button1" Content="1" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" Width="23" Click="button1_Click"/>
+
+            <Button x:Name="button1_Copy1" Content="3" HorizontalAlignment="Left" Margin="67,45,0,0" VerticalAlignment="Top" Width="23" Click="button3_Click"/>
+            <Button x:Name="button1_Copy" Content="2" HorizontalAlignment="Left" Margin="39,45,0,0" VerticalAlignment="Top" Width="23" Click="button2_Click"/>
+        </Grid>
 
     </Grid>
 </Window>
