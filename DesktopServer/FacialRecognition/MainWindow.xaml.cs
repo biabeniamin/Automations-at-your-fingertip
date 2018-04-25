@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,10 +21,10 @@ namespace FacialRecognition
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window,INotifyPropertyChanged
     {
         private ObservableCollection<Face> _faces;
-
+        private FacialRecognitionApi _facialRecognitionApi;
 
 
         public ObservableCollection<Face> Faces
@@ -41,9 +42,10 @@ namespace FacialRecognition
         {
             DataContext = this;
             InitializeComponent();
-            image.Source = new BitmapImage(new Uri(@"C:\Users\biabe\Pictures\Camera Roll\WIN_20180425_16_24_50_Pro.jpg"));
+            image.Source = new BitmapImage(new Uri(@"D:\Beni\DSC05280.JPG"));
             Faces = new ObservableCollection<Face>();
-            Faces.Add(new Face(0, 0, 50, 50));
+            Faces.Add(new Face(-10, 0, 50, 50));
+            _facialRecognitionApi = new FacialRecognitionApi();
         }
 
         private async void RunFacialRecognition()
@@ -55,17 +57,30 @@ namespace FacialRecognition
 
             if (result.HasValue && result.Value)
             {
-                var facial = new FacialRecognitionApi();
-                List<Face> faces = await facial.DoesExists(dlg.FileName);
+                DrawingVisual drawingVisual = new DrawingVisual();
+                DrawingContext drawingContext = drawingVisual.RenderOpen();
+
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.None;
+                bitmap.UriSource = new Uri(dlg.FileName);
+                bitmap.EndInit();
+
+                drawingContext.DrawImage(bitmap, new Rect(new System.Windows.Point(0, 0), new System.Windows.Size(bitmap.Width, bitmap.Height)));
+
+                List<Face> faces = await _facialRecognitionApi.DoesExists(dlg.FileName);
                 foreach (Face face in faces)
                 {
-                    int left = face.Left;
-                    int top = face.Top;
-                    int width = face.Width;
-                    int height = face.Height;
-                    Faces.Add(new Face(left, top, width, height));
+                    var mar = image.Margin;
+                    //Graphics g = Graphics.FromImage()
+                    drawingContext.DrawRectangle(System.Windows.Media.Brushes.Transparent, new System.Windows.Media.Pen(System.Windows.Media.Brushes.Black, 6),
+                        new Rect(face.Left, face.Top, face.Width, face.Height));
                 }
-                image.Source = new BitmapImage(new Uri(dlg.FileName));
+                drawingContext.Close();
+
+                RenderTargetBitmap renderTarget = new RenderTargetBitmap(bitmap.PixelWidth, bitmap.PixelHeight, 96, 96, PixelFormats.Pbgra32);
+                renderTarget.Render(drawingVisual);
+                image.Source = renderTarget;
             }
             GC.Collect();
 
@@ -73,6 +88,8 @@ namespace FacialRecognition
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
+            //Faces.Add(ImageHelpers.MapToImageControl(@"D:\Beni\DSC05280.JPG", new Face(950, 300, 60, 60), image.RenderSize));
+
             RunFacialRecognition();
         }
 
@@ -82,6 +99,26 @@ namespace FacialRecognition
             if (null != PropertyChanged)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
+        private void button_Copy_Click(object sender, RoutedEventArgs e)
+        {
+            if(!String.IsNullOrEmpty(personName.Text))
+            {
+                Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+                dlg.DefaultExt = ".jpg";
+                dlg.Filter = "Image files(*.jpg, *.png, *.bmp, *.gif) | *.jpg; *.png; *.bmp; *.gif";
+                var result = dlg.ShowDialog();
+
+                if (result.HasValue && result.Value)
+                {
+                    _facialRecognitionApi.AddFace(dlg.FileName, personName.Text);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please enter a name for person");
             }
         }
     }
