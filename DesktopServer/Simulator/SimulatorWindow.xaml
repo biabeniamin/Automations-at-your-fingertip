@@ -5,27 +5,50 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Simulator"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="536.2">
+        Title="MainWindow" Height="350" Width="549.8">
     <Grid>
-        <Image x:Name="bulb" HorizontalAlignment="Left" Height="100" Margin="16,58,0,0" VerticalAlignment="Top" Width="100" Source="Images/bulb.png"/>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="57,247,0,0" VerticalAlignment="Top" Width="75" Click="button_Click_1">
-        </Button>
-
-        <Image x:Name="door" HorizontalAlignment="Left" Height="100" Margin="162,211,0,0" VerticalAlignment="Top" Width="100" Source="Images/open.png"/>
-        <Image x:Name="notification" HorizontalAlignment="Left" Height="197" Margin="304,158,-8.6,-34.2" VerticalAlignment="Top" Width="223" Source="Images/not1.png"/>
-        <Button x:Name="button2" Content="CheckPin" HorizontalAlignment="Left" Margin="350,42,0,0" VerticalAlignment="Top" Width="75" Click="button2_Click_1"/>
-        <TextBox x:Name="pinTextBox" HorizontalAlignment="Left" Height="23" Margin="225,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" ToolTip="Pin"/>
-        <Button x:Name="button3" Content="Say &quot;Action 1&quot;" HorizontalAlignment="Left" Margin="441,24,0,0" VerticalAlignment="Top" Width="79" Click="button3_Click_1"/>
-        <Button x:Name="button3_Copy" Content="Say &quot;Action 2&quot;" HorizontalAlignment="Left" Margin="441,48,0,0" VerticalAlignment="Top" Width="79" Click="button3_Copy_Click"/>
-        <Button x:Name="button3_Copy1" Content="Say &quot;Action 3&quot;" HorizontalAlignment="Left" Margin="441,72,0,0" VerticalAlignment="Top" Width="79" Click="button3_Copy1_Click"/>
-        <Grid HorizontalAlignment="Left" Height="100" Margin="121,21,0,0" VerticalAlignment="Top" Width="100">
+        <Grid HorizontalAlignment="Left" Height="100" Margin="129,29,0,0" VerticalAlignment="Top" Width="100">
             <Rectangle Fill="#FFF4F4F5" StrokeDashArray="4 4" HorizontalAlignment="Left" Height="100"  Stroke="Black" VerticalAlignment="Top" Width="100"/>
             <Label x:Name="label" Content="Web server" Margin="20,10,10,66"/>
             <Button x:Name="button1" Content="1" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" Width="23" Click="button1_Click"/>
 
             <Button x:Name="button1_Copy1" Content="3" HorizontalAlignment="Left" Margin="67,45,0,0" VerticalAlignment="Top" Width="23" Click="button3_Click"/>
             <Button x:Name="button1_Copy" Content="2" HorizontalAlignment="Left" Margin="39,45,0,0" VerticalAlignment="Top" Width="23" Click="button2_Click"/>
-        </Grid>
 
+        </Grid>
+        <Grid x:Name="afa" Margin="424,10,2.2,201.8">
+            <Rectangle Fill="#FFF4F4F5" StrokeDashArray="4 4" HorizontalAlignment="Left" Height="100"  Stroke="Black" VerticalAlignment="Top" Width="100" Grid.ColumnSpan="2"/>
+            <Button x:Name="button3" Content="Say &quot;Action 1&quot;" HorizontalAlignment="Left" Margin="10,24,0,0" VerticalAlignment="Top" Width="79" Click="button3_Click_1" Grid.ColumnSpan="2"/>
+            <Button x:Name="button3_Copy" Content="Say &quot;Action 2&quot;" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Width="79" Click="button3_Copy_Click" Grid.ColumnSpan="2"/>
+            <Button x:Name="button3_Copy1" Content="Say &quot;Action 3&quot;" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top" Width="79" Click="button3_Copy1_Click" Grid.ColumnSpan="2"/>
+            <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="10,3,0,0" TextWrapping="Wrap" Text="Voice assitance" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        </Grid>
+        <Grid Margin="46,176,372.6,9.8">
+            <Rectangle Fill="#FFF4F4F5" StrokeDashArray="4 4" HorizontalAlignment="Left" Height="125"  Stroke="Black" VerticalAlignment="Top" Width="101"/>
+            <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Width="75" Click="button_Click_1"/>
+            <Label x:Name="label1" Content="Switch" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Top"/>
+        </Grid>
+        <Grid Margin="13,24,405.6,161.8">
+            <Rectangle Fill="#FFF4F4F5" StrokeDashArray="4 4" HorizontalAlignment="Left" Height="125"  Stroke="Black" VerticalAlignment="Top" Width="101"/>
+            <Label Content="Light" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Top"/>
+            <Image x:Name="bulb" HorizontalAlignment="Left" Height="100" Margin="1,25,0,0" VerticalAlignment="Top" Width="100" Source="Images/bulb.png"/>
+        </Grid>
+        <Grid Margin="170,176,248.6,9.8">
+            <Rectangle Fill="#FFF4F4F5" StrokeDashArray="4 4" HorizontalAlignment="Left" Height="125"  Stroke="Black" VerticalAlignment="Top" Width="101"/>
+            <Label Content="Door" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Top"/>
+            <Image x:Name="door" HorizontalAlignment="Left" Height="100" Margin="1,25,0,0" VerticalAlignment="Top" Width="100" Source="Images/open.png"/>
+        </Grid>
+        <Grid Margin="237,24,124.2,227.8">
+            <Rectangle Fill="#FFF4F4F5" StrokeDashArray="4 4" HorizontalAlignment="Left" Height="60"  Stroke="Black" VerticalAlignment="Top" Width="172"/>
+            <Label Content="Keypad" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="pinTextBox" HorizontalAlignment="Left" Height="23" Margin="9,25,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="68" ToolTip="Pin"/>
+            <Button x:Name="button2" Content="CheckPin" HorizontalAlignment="Left" Margin="82,25,0,0" VerticalAlignment="Top" Width="75" Click="button2_Click_1"/>
+        </Grid>
+        <Grid Margin="306,134,2.2,-0.2">
+            <Rectangle Fill="#FFF4F4F5" StrokeDashArray="4 4" HorizontalAlignment="Left" Height="192"  Stroke="Black" VerticalAlignment="Top" Width="223"/>
+            <Label Content="Notifications" HorizontalAlignment="Left" Margin="70,0,0,0" VerticalAlignment="Top"/>
+            <Image x:Name="notification" HorizontalAlignment="Left" Height="197" Margin="0,26,-15,-71" VerticalAlignment="Top" Width="223" Source="Images/not1.png"/>
+        </Grid>
     </Grid>
+
 </Window>
