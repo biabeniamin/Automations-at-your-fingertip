@@ -51,6 +51,7 @@ namespace DesktopServerLogical
                         break;
                 }
             }
+            
             return pinNumber.ToString();
         }
         private static String GetPinNameForInput(DeviceTypes deviceType, int pinNumber)
@@ -86,6 +87,21 @@ namespace DesktopServerLogical
             else if (DeviceTypes.Keyboard == deviceType)
             {
                 return "Pin entered";
+            }
+            else if (DeviceTypes.VoiceAssistance == deviceType)
+            {
+                switch (pinNumber)
+                {
+                    case 1:
+                        return "action 1";
+                        break;
+                    case 2:
+                        return "Action 2";
+                        break;
+                    case 3:
+                        return "Action 3";
+                        break;
+                }
             }
             return pinNumber.ToString();
         }

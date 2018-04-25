@@ -13,6 +13,7 @@ namespace DesktopServerLogical.Enums
         Keyboard=2,
         Network=3,
         LightPanel=4,
-        Motor=5
+        Motor=5,
+        VoiceAssistance = 6
     }
 }

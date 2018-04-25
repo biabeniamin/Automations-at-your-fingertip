@@ -33,6 +33,9 @@ namespace Simulator
         private Input _keyboard;
         private Executer _executer;
         Notifications _notifications;
+        private Input _voice1;
+        private Input _voice2;
+        private Input _voice3;
         public SimulatorWindow(ObservableCollection<Device> devices)
         {
             //DesktopServerLogical
@@ -48,6 +51,10 @@ namespace Simulator
             _networkButton2 = new Input();
             _networkButton3 = new Input();
             _keyboard = new Input();
+
+            _voice1 = new Input();
+            _voice2 = new Input();
+            _voice3 = new Input();
 
             _light = new Light(bulb);
             _light.TurnOff();
@@ -69,7 +76,9 @@ namespace Simulator
             _executer.AddSimulatedPin(_notifications.Notification2, devices[0].OutputPins[1]);
             _executer.AddSimulatedPin(_notifications.Notification3, devices[0].OutputPins[2]);
 
-            
+            _executer.AddSimulatedPin(_voice1, devices[4].InputPins[0]);
+            _executer.AddSimulatedPin(_voice2, devices[4].InputPins[1]);
+            _executer.AddSimulatedPin(_voice3, devices[4].InputPins[2]);
         }
 
         public void UpdateConfiguration(ObservableCollection<Device> devices)
@@ -115,7 +124,17 @@ namespace Simulator
 
         private void button3_Click_1(object sender, RoutedEventArgs e)
         {
+            _executer.ActionTriggered(_voice1);
+        }
 
+        private void button3_Copy_Click(object sender, RoutedEventArgs e)
+        {
+            _executer.ActionTriggered(_voice2);
+        }
+
+        private void button3_Copy1_Click(object sender, RoutedEventArgs e)
+        {
+            _executer.ActionTriggered(_voice3);
         }
     }
 }
