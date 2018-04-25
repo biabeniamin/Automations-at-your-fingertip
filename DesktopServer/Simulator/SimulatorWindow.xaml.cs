@@ -118,7 +118,12 @@ namespace Simulator
         {
             if(pinTextBox.Text.Equals("0000"))
             {
+                MessageBox.Show("Pin correct!");
                 _executer.ActionTriggered(_keyboard);
+            }
+            else
+            {
+                MessageBox.Show("Pin incorrect! (The pin is 0000)");
             }
         }
 
