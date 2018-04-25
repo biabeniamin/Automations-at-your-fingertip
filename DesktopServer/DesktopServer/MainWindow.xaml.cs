@@ -300,15 +300,19 @@ namespace DesktopServer
             _controller.Devices[1].Pins.Add(oPin);
             Pin pin = new Pin(_controller.Devices[1], 8, PinTypes.Input);
             pin.Actions.Add(new RemoteAction(oPin, ActionTypes.Switch, pin));
-            RemoteAction del = new RemoteAction(oPin, ActionTypes.Delay, null);
-            del.Value = 5;
-            pin.Actions.Add(del);
+            //RemoteAction del = new RemoteAction(oPin, ActionTypes.Delay, null);
+            //del.Value = 5;
+            //pin.Actions.Add(del);
             _controller.Devices[1].Pins.Add(pin);
 
+            //keypad module
+            _controller.Devices.Add(new Device(3, DeviceTypes.Keyboard));
+            _controller.Devices[2].Pins.Add(new Pin(_controller.Devices[2], 7, PinTypes.Input));
+
             //motor controller
-            _controller.Devices.Add(new Device(2, DeviceTypes.Motor));
-            _controller.Devices[2].Pins.Add(new Pin(_controller.Devices[2], 7, PinTypes.Output));
-            _controller.Devices[2].Pins.Add(new Pin(_controller.Devices[2], 9, PinTypes.Output));
+            _controller.Devices.Add(new Device(4, DeviceTypes.Motor));
+            _controller.Devices[3].Pins.Add(new Pin(_controller.Devices[3], 7, PinTypes.Output));
+            _controller.Devices[3].Pins.Add(new Pin(_controller.Devices[3], 9, PinTypes.Output));
             
 
             SelectedDevice = _controller.Devices[1];

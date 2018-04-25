@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Simulator"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="536.2">
     <Grid>
         <Image x:Name="bulb" HorizontalAlignment="Left" Height="100" Margin="57,68,0,0" VerticalAlignment="Top" Width="100" Source="Images/bulb.png"/>
         <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="57,247,0,0" VerticalAlignment="Top" Width="75" Click="button_Click_1">
@@ -19,6 +19,9 @@
         <Button x:Name="button1_Copy1" Content="3" HorizontalAlignment="Left" Margin="229,123,0,0" VerticalAlignment="Top" Width="23" Click="button3_Click"/>
         <Image x:Name="door" HorizontalAlignment="Left" Height="100" Margin="162,211,0,0" VerticalAlignment="Top" Width="100" Source="Images/open.png"/>
         <Image x:Name="notification" HorizontalAlignment="Left" Height="197" Margin="304,158,-8.6,-34.2" VerticalAlignment="Top" Width="223" Source="Images/not1.png"/>
+        <Button x:Name="button2" Content="CheckPin" HorizontalAlignment="Left" Margin="350,42,0,0" VerticalAlignment="Top" Width="75" Click="button2_Click_1"/>
+        <TextBox x:Name="pinTextBox" HorizontalAlignment="Left" Height="23" Margin="225,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" ToolTip="Pin"/>
+        <Button x:Name="button3" Content="Say action 1" HorizontalAlignment="Left" Margin="445,24,0,0" VerticalAlignment="Top" Width="75" Click="button3_Click_1"/>
 
     </Grid>
 </Window>
