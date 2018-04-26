@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Simulator"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="549.8">
+        Title="MainWindow" Height="556" Width="924.8">
     <Grid>
-        <Grid HorizontalAlignment="Left" Height="100" Margin="129,29,0,0" VerticalAlignment="Top" Width="100">
+        <Grid HorizontalAlignment="Left" Height="100" Margin="266,158,0,0" VerticalAlignment="Top" Width="100">
             <Rectangle Fill="#FFF4F4F5" StrokeDashArray="4 4" HorizontalAlignment="Left" Height="100"  Stroke="Black" VerticalAlignment="Top" Width="100"/>
             <Label x:Name="label" Content="Web server" Margin="20,10,10,66"/>
             <Button x:Name="button1" Content="1" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" Width="23" Click="button1_Click"/>
@@ -16,41 +16,48 @@
             <Button x:Name="button1_Copy" Content="2" HorizontalAlignment="Left" Margin="39,45,0,0" VerticalAlignment="Top" Width="23" Click="button2_Click"/>
 
         </Grid>
-        <Grid x:Name="afa" Margin="424,10,2.2,201.8">
+        <Grid x:Name="afa" Margin="371,158,55,54">
             <Rectangle Fill="#FFF4F4F5" StrokeDashArray="4 4" HorizontalAlignment="Left" Height="100"  Stroke="Black" VerticalAlignment="Top" Width="100" Grid.ColumnSpan="2"/>
             <Button x:Name="button3" Content="Say &quot;Action 1&quot;" HorizontalAlignment="Left" Margin="10,24,0,0" VerticalAlignment="Top" Width="79" Click="button3_Click_1" Grid.ColumnSpan="2"/>
             <Button x:Name="button3_Copy" Content="Say &quot;Action 2&quot;" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Width="79" Click="button3_Copy_Click" Grid.ColumnSpan="2"/>
             <Button x:Name="button3_Copy1" Content="Say &quot;Action 3&quot;" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top" Width="79" Click="button3_Copy1_Click" Grid.ColumnSpan="2"/>
             <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="10,3,0,0" TextWrapping="Wrap" Text="Voice assitance" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
         </Grid>
-        <Grid Margin="46,176,372.6,9.8">
+        <Grid Margin="13,279,406,-93">
             <Rectangle Fill="#FFF4F4F5" StrokeDashArray="4 4" HorizontalAlignment="Left" Height="125"  Stroke="Black" VerticalAlignment="Top" Width="101"/>
             <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Width="75" Click="button_Click_1"/>
             <Label x:Name="label1" Content="Switch" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Top"/>
         </Grid>
-        <Grid Margin="13,24,405.6,161.8">
+        <Grid Margin="13,54,406,132">
             <Rectangle Fill="#FFF4F4F5" StrokeDashArray="4 4" HorizontalAlignment="Left" Height="125"  Stroke="Black" VerticalAlignment="Top" Width="101"/>
             <Label Content="Light" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Top"/>
             <Image x:Name="bulb" HorizontalAlignment="Left" Height="100" Margin="1,25,0,0" VerticalAlignment="Top" Width="100" Source="Images/bulb.png"/>
         </Grid>
-        <Grid Margin="170,176,248.6,9.8">
+        <Grid Margin="10,186,551,52">
+            <Rectangle Fill="#FFF4F4F5" StrokeDashArray="4 4" HorizontalAlignment="Left" Height="71"  Stroke="Black" VerticalAlignment="Top" Width="153"/>
+            <Label Content="Light intensity" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Top"/>
+            <Slider HorizontalAlignment="Left" Margin="27,33,0,0" VerticalAlignment="Top" Width="100" ValueChanged="Slider_ValueChanged" SmallChange="1" Maximum="9" Value="5"/>
+
+        </Grid>
+        <Grid Margin="393,279,26,-93">
             <Rectangle Fill="#FFF4F4F5" StrokeDashArray="4 4" HorizontalAlignment="Left" Height="125"  Stroke="Black" VerticalAlignment="Top" Width="101"/>
             <Label Content="Door" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Top"/>
             <Image x:Name="door" HorizontalAlignment="Left" Height="100" Margin="1,25,0,0" VerticalAlignment="Top" Width="100" Source="Images/open.png"/>
         </Grid>
-        <Grid Margin="237,24,124.2,227.8">
+        <Grid Margin="266,54,95,198">
             <Rectangle Fill="#FFF4F4F5" StrokeDashArray="4 4" HorizontalAlignment="Left" Height="60"  Stroke="Black" VerticalAlignment="Top" Width="172"/>
             <Label Content="Keypad" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Top"/>
             <TextBox x:Name="pinTextBox" HorizontalAlignment="Left" Height="23" Margin="9,25,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="68" ToolTip="Pin"/>
             <Button x:Name="button2" Content="CheckPin" HorizontalAlignment="Left" Margin="82,25,0,0" VerticalAlignment="Top" Width="75" Click="button2_Click_1"/>
         </Grid>
-        <Grid Margin="306,134,2.2,-0.2">
+        <Grid Margin="623,206,-315,-72">
             <Rectangle Fill="#FFF4F4F5" StrokeDashArray="4 4" HorizontalAlignment="Left" Height="192"  Stroke="Black" VerticalAlignment="Top" Width="223"/>
             <Label Content="Notifications" HorizontalAlignment="Left" Margin="70,0,0,0" VerticalAlignment="Top"/>
             <Image x:Name="notification" HorizontalAlignment="Left" Height="197" Margin="0,26,-15,-71" VerticalAlignment="Top" Width="223" Source="Images/not1.png"/>
         </Grid>
         <Button Content="Run facial recognition
-" HorizontalAlignment="Left" Margin="141,142,0,0" VerticalAlignment="Top" Width="123" Click="Button_Click"/>
+" HorizontalAlignment="Left" Margin="647,42,0,0" VerticalAlignment="Top" Width="123" Click="Button_Click"/>
+        <Label Content="Harware modules simulator" HorizontalAlignment="Left" Margin="13,10,0,0" VerticalAlignment="Top" FontSize="20"/>
     </Grid>
 
 </Window>

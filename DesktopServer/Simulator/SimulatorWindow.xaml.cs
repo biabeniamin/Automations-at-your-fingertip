@@ -43,12 +43,18 @@ namespace Simulator
         private Input _face2;
         private Input _face3;
 
+        private Input _lightIntensity;
+
         private FacialRecognitionWindow _facialRecognition;
+
+        private ObservableCollection<Device> _devices;
 
         public SimulatorWindow(ObservableCollection<Device> devices)
         {
             //DesktopServerLogical
             InitializeComponent();
+
+            _devices = devices;
 
             _facialRecognition = new FacialRecognitionWindow(FaceDetected);
 
@@ -70,6 +76,8 @@ namespace Simulator
             _face1 = new Input();
             _face2 = new Input();
             _face3 = new Input();
+
+            _lightIntensity = new Input();
 
             _light = new Light(bulb);
             _light.TurnOff();
@@ -98,6 +106,8 @@ namespace Simulator
             _executer.AddSimulatedPin(_face1, devices[5].InputPins[0]);
             _executer.AddSimulatedPin(_face2, devices[5].InputPins[1]);
             _executer.AddSimulatedPin(_face3, devices[5].InputPins[2]);
+
+            _executer.AddSimulatedPin(_lightIntensity, devices[1].InputPins[0]);
         }
 
         public void UpdateConfiguration(ObservableCollection<Device> devices)
@@ -179,6 +189,28 @@ namespace Simulator
                 case 3:
                     _executer.ActionTriggered(_face3);
                     break;
+            }
+        }
+
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            try
+            {
+                if ((int)e.NewValue > _devices[1].InputPins[0].TriggeredValue
+                    && (int)e.OldValue <= _devices[1].InputPins[0].TriggeredValue)
+                {
+                    _executer.ActionTriggered(_lightIntensity);
+                }
+
+                if ((int)e.NewValue < _devices[1].InputPins[0].TriggeredValue
+                    && (int)e.OldValue >= _devices[1].InputPins[0].TriggeredValue)
+                {
+                    _executer.ActionTriggered(_lightIntensity, true);
+                }
+            }
+            catch(Exception ee)
+            {
+
             }
         }
     }

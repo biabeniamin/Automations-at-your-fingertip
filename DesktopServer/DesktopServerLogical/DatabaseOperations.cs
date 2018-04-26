@@ -22,7 +22,7 @@ namespace DesktopServerLogical
             String path;
 
             path = Helpers.GetDirectoryParent(System.IO.Directory.GetCurrentDirectory(), 3);
-            _connection = new SqlConnection($@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={path}\DesktopServerLogical\configurations.mdf2;Integrated Security=True;Connect Timeout=30");
+            _connection = new SqlConnection($@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={path}\DesktopServerLogical\configurations.mdf;Integrated Security=True;Connect Timeout=30");
             try
             {
                 _connection.Open();

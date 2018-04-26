@@ -24,13 +24,19 @@ namespace Simulator
             _mapSimToMod = new Dictionary<Pin, DesktopServerLogical.Models.Pin>();
         }
 
-        public void ActionTriggered(Input pin)
+        public void ActionTriggered(Input pin, bool runNegativeTriggeredActions = false)
         {
             DesktopServerLogical.Models.Pin modPin = _mapSimToMod[pin];
             if (null == modPin)
                 return;
 
-            foreach(DesktopServerLogical.Models.RemoteAction action in modPin.Actions)
+            var actions = modPin.Actions;
+            if(runNegativeTriggeredActions)
+            {
+                actions = modPin.ActiveLowActions;
+            }
+
+            foreach (DesktopServerLogical.Models.RemoteAction action in actions)
             {
                 Pin p;
                 _mapModToSim.TryGetValue(action.Pin, out p);
