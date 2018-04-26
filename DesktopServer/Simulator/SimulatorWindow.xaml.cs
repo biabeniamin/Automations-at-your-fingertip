@@ -3,6 +3,7 @@ using FacialRecognition;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace Simulator
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class SimulatorWindow : Window
+    public partial class SimulatorWindow : Window, INotifyPropertyChanged
     {
         private Light _light;
         private Door _door;
@@ -49,10 +50,27 @@ namespace Simulator
 
         private ObservableCollection<Device> _devices;
 
+
+        public Light Light
+        {
+            get => _light;
+            set
+            {
+                _light = value;
+                OnPropertyChanged("Light");
+            }
+        }
+
+        
+
+
         public SimulatorWindow(ObservableCollection<Device> devices)
         {
             //DesktopServerLogical
             InitializeComponent();
+
+            this.DataContext = this;
+
 
             _devices = devices;
 
@@ -211,6 +229,14 @@ namespace Simulator
             catch(Exception ee)
             {
 
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(string name)
+        {
+            if(null != PropertyChanged)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
         }
     }

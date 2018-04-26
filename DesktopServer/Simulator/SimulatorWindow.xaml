@@ -31,7 +31,7 @@
         <Grid Margin="13,54,406,132">
             <Rectangle Fill="#FFF4F4F5" StrokeDashArray="4 4" HorizontalAlignment="Left" Height="125"  Stroke="Black" VerticalAlignment="Top" Width="101"/>
             <Label Content="Light" HorizontalAlignment="Left" Margin="28,0,0,0" VerticalAlignment="Top"/>
-            <Image x:Name="bulb" HorizontalAlignment="Left" Height="100" Margin="1,25,0,0" VerticalAlignment="Top" Width="100" Source="Images/bulb.png"/>
+            <Image x:Name="bulb" HorizontalAlignment="Left" Height="100" Margin="1,25,0,0" VerticalAlignment="Top" Width="100" Source="{Binding Light.ImageSource}"/>
         </Grid>
         <Grid Margin="10,186,551,52">
             <Rectangle Fill="#FFF4F4F5" StrokeDashArray="4 4" HorizontalAlignment="Left" Height="71"  Stroke="Black" VerticalAlignment="Top" Width="153"/>
