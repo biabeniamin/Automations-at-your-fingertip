@@ -2,10 +2,12 @@
 using Microsoft.ProjectOxford.Face.Contract;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace FacialRecognition
 {
@@ -13,15 +15,52 @@ namespace FacialRecognition
     {
         private FaceServiceClient _faceServiceClient = new FaceServiceClient(Subscription.SubscriptionKey, Subscription.Endpoint);
         private LargePersonGroup _personGroup;
+        private List<Microsoft.ProjectOxford.Face.Contract.Person> _people;
+
         private async void GetLargePersonGroup()
         {
-            var data = await _faceServiceClient.ListLargePersonGroupsAsync();
-            if (0 < data.Length)
+            try
             {
-                _personGroup = data[0];
+                var data = await _faceServiceClient.ListLargePersonGroupsAsync();
+                if (0 == data.Length)
+                {
+                    _personGroup = new LargePersonGroup();
+                    _personGroup.LargePersonGroupId = Guid.NewGuid().ToString();
+                    await _faceServiceClient.CreateLargePersonGroupAsync(_personGroup.LargePersonGroupId, _personGroup.LargePersonGroupId);
+                }
+                else
+                {
+                    _personGroup = data[0];
+
+                }
+                UpdatePeopleList();
+
+
+            }
+            catch(FaceAPIException ee)
+            {
+                MessageBox.Show(ee.Message);
             }
 
-            _personGroup.LargePersonGroupId = "1d321ce4-f343-4b92-8d68-1c97bd0ba007";
+        }
+
+        private async void UpdatePeopleList()
+
+        {
+            try
+            {
+                var personsInGroup = await _faceServiceClient.ListPersonsInLargePersonGroupAsync(_personGroup.LargePersonGroupId);
+
+                _people = new List<Microsoft.ProjectOxford.Face.Contract.Person>();
+                foreach (var face in personsInGroup)
+                {
+                    _people.Add(face);
+                }
+            }
+            catch(FaceAPIException ee)
+            {
+                MessageBox.Show(ee.Message);
+            }
         }
 
         public async Task<List<Face>> DoesExists(String imagePath)
@@ -45,10 +84,15 @@ namespace FacialRecognition
                     var identifyResult = await _faceServiceClient.IdentifyAsync(faces.Select(ff => ff.FaceId).ToArray(), largePersonGroupId: _personGroup.LargePersonGroupId);
 
                     bool wasRecognized = false;
+                    string name = "Familiar";
                     foreach (var result in identifyResult)
                     {
                         if (0 < result.Candidates.Length)
                         {
+                            if (_people.Any(p => p.PersonId == result.Candidates[0].PersonId))
+                            {
+                                name = _people.Where(p => p.PersonId == result.Candidates[0].PersonId).First().Name;
+                            }
                             wasRecognized = true;
                             break;
                         }
@@ -56,11 +100,16 @@ namespace FacialRecognition
 
                     if (true == wasRecognized)
                     {
-                        System.Windows.MessageBox.Show("Was recognized");
+                        System.Windows.MessageBox.Show($"{name} face detected!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("No familiar face detected!");
                     }
                 }
                 catch (FaceAPIException ex)
                 {
+                    MessageBox.Show(ex.Message);
                 }
             }
             return facesLocation;
@@ -68,16 +117,38 @@ namespace FacialRecognition
 
         public async void AddFace(String imagePath, String name)
         {
+            bool hasFailed = false;
             using (var fStream = File.OpenRead(imagePath))
             {
                 try
                 {
+                    IdentifyResult[] identifyResult = new IdentifyResult[1]; ;
                     var faces = await _faceServiceClient.DetectAsync(fStream);
+                    if(0 == faces.Length)
+                    {
+                        MessageBox.Show("No face detected!");
+                        return;
+                    }
 
+                    try
+                    {
+                        var personsInGroup = await _faceServiceClient.ListPersonsInLargePersonGroupAsync(_personGroup.LargePersonGroupId);
+                        if (0 == personsInGroup.Length)
+                        {
+                            identifyResult[0] = new IdentifyResult();
+                            identifyResult[0].Candidates = new Candidate[0];
+                            identifyResult[0].FaceId = faces[0].FaceId;
+                        }
+                        else
+                        {
+                            identifyResult = await _faceServiceClient.IdentifyAsync(faces.Select(ff => ff.FaceId).ToArray(), largePersonGroupId: _personGroup.LargePersonGroupId);
+                        }
+                    }
+                    catch(FaceAPIException ex)
+                    {
 
-                    var identifyResult = await _faceServiceClient.IdentifyAsync(faces.Select(ff => ff.FaceId).ToArray(), largePersonGroupId: _personGroup.LargePersonGroupId);
+                    }
 
-                    bool wasRecognized = false;
                     foreach (var result in identifyResult)
                     {
                         if (0 == result.Candidates.Length)
@@ -95,18 +166,51 @@ namespace FacialRecognition
                                 imagePath);
                             }
                         }
+                        else
+                        {
+                            using (var fStream2 = File.OpenRead(imagePath))
+                            {
+                                var res = await _faceServiceClient.AddPersonFaceInLargePersonGroupAsync(_personGroup.LargePersonGroupId,
+                                result.Candidates[0].PersonId,
+                                fStream2,
+                                imagePath);
+                            }
+                        }
                     }
 
                 }
                 catch (FaceAPIException ex)
                 {
+                    hasFailed = true;
+                    MessageBox.Show(ex.Message);
                 }
+            }
+
+            await _faceServiceClient.TrainLargePersonGroupAsync(_personGroup.LargePersonGroupId);
+
+            // Wait until train completed
+            while (true)
+            {
+                await Task.Delay(1000);
+                var status = await _faceServiceClient.GetLargePersonGroupTrainingStatusAsync(_personGroup.LargePersonGroupId);
+                if (status.Status != Microsoft.ProjectOxford.Face.Contract.Status.Running)
+                {
+                    break;
+                }
+            }
+
+            if (!hasFailed)
+            {
+                UpdatePeopleList();
+                MessageBox.Show("The face was added and the model was trained!");
             }
         }
 
-                public FacialRecognitionApi()
+        public FacialRecognitionApi()
         {
+            _people = new List<Microsoft.ProjectOxford.Face.Contract.Person>();
             GetLargePersonGroup();
+            
         }
 
 

@@ -42,9 +42,7 @@ namespace FacialRecognition
         {
             DataContext = this;
             InitializeComponent();
-            image.Source = new BitmapImage(new Uri(@"D:\Beni\DSC05280.JPG"));
             Faces = new ObservableCollection<Face>();
-            Faces.Add(new Face(-10, 0, 50, 50));
             _facialRecognitionApi = new FacialRecognitionApi();
         }
 
