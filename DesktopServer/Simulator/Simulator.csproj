@@ -136,6 +136,10 @@
       <Project>{0242b3a4-53cf-4957-87fd-a11383fef869}</Project>
       <Name>DesktopServerLogical</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FacialRecognition\FacialRecognition.csproj">
+      <Project>{4e38886f-993d-4708-b46f-bc278f8b3df9}</Project>
+      <Name>FacialRecognition</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\bulbOn.png">

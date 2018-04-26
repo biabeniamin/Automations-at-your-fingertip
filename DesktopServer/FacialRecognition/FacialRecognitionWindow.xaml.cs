@@ -21,10 +21,11 @@ namespace FacialRecognition
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window,INotifyPropertyChanged
+    public partial class FacialRecognitionWindow : Window,INotifyPropertyChanged
     {
         private ObservableCollection<Face> _faces;
         private FacialRecognitionApi _facialRecognitionApi;
+        private Action<int> _actionFaceDetected;
 
 
         public ObservableCollection<Face> Faces
@@ -38,12 +39,13 @@ namespace FacialRecognition
             }
         }
 
-        public MainWindow()
+        public FacialRecognitionWindow(Action<int> actionFaceDetected)
         {
             DataContext = this;
             InitializeComponent();
             Faces = new ObservableCollection<Face>();
             _facialRecognitionApi = new FacialRecognitionApi();
+            _actionFaceDetected = actionFaceDetected;
         }
 
         private async void RunFacialRecognition()
@@ -66,13 +68,30 @@ namespace FacialRecognition
 
                 drawingContext.DrawImage(bitmap, new Rect(new System.Windows.Point(0, 0), new System.Windows.Size(bitmap.Width, bitmap.Height)));
 
-                List<Face> faces = await _facialRecognitionApi.DoesExists(dlg.FileName);
-                foreach (Face face in faces)
+                List<Person> people = await _facialRecognitionApi.DoesExists(dlg.FileName);
+                foreach (Person person in people)
                 {
                     var mar = image.Margin;
                     //Graphics g = Graphics.FromImage()
                     drawingContext.DrawRectangle(System.Windows.Media.Brushes.Transparent, new System.Windows.Media.Pen(System.Windows.Media.Brushes.Black, 6),
-                        new Rect(face.Left, face.Top, face.Width, face.Height));
+                        new Rect(person.Face.Left, person.Face.Top, person.Face.Width, person.Face.Height));
+
+                    if (null != person.PersonA)
+                    {
+                        if (person.PersonA.Name.Equals("Ben"))
+                        {
+                            _actionFaceDetected(1);
+                        }
+
+                        else
+                        {
+                            _actionFaceDetected(3);
+                        }
+                    }
+                    else
+                    {
+                        _actionFaceDetected(3);
+                    }
                 }
                 drawingContext.Close();
 

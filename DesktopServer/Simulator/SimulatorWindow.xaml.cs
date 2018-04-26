@@ -1,4 +1,5 @@
 ﻿using DesktopServerLogical.Models;
+using FacialRecognition;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -33,13 +34,23 @@ namespace Simulator
         private Input _keyboard;
         private Executer _executer;
         Notifications _notifications;
+
         private Input _voice1;
         private Input _voice2;
         private Input _voice3;
+
+        private Input _face1;
+        private Input _face2;
+        private Input _face3;
+
+        private FacialRecognitionWindow _facialRecognition;
+
         public SimulatorWindow(ObservableCollection<Device> devices)
         {
             //DesktopServerLogical
             InitializeComponent();
+
+            _facialRecognition = new FacialRecognitionWindow(FaceDetected);
 
             _executer = new Executer();
 
@@ -55,6 +66,10 @@ namespace Simulator
             _voice1 = new Input();
             _voice2 = new Input();
             _voice3 = new Input();
+
+            _face1 = new Input();
+            _face2 = new Input();
+            _face3 = new Input();
 
             _light = new Light(bulb);
             _light.TurnOff();
@@ -79,6 +94,10 @@ namespace Simulator
             _executer.AddSimulatedPin(_voice1, devices[4].InputPins[0]);
             _executer.AddSimulatedPin(_voice2, devices[4].InputPins[1]);
             _executer.AddSimulatedPin(_voice3, devices[4].InputPins[2]);
+
+            _executer.AddSimulatedPin(_face1, devices[5].InputPins[0]);
+            _executer.AddSimulatedPin(_face2, devices[5].InputPins[1]);
+            _executer.AddSimulatedPin(_face3, devices[5].InputPins[2]);
         }
 
         public void UpdateConfiguration(ObservableCollection<Device> devices)
@@ -140,6 +159,27 @@ namespace Simulator
         private void button3_Copy1_Click(object sender, RoutedEventArgs e)
         {
             _executer.ActionTriggered(_voice3);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            _facialRecognition.Show();
+        }
+
+        private void FaceDetected(int id)
+        {
+            switch(id)
+            {
+                case 1:
+                    _executer.ActionTriggered(_face1);
+                    break;
+                case 2:
+                    _executer.ActionTriggered(_face2);
+                    break;
+                case 3:
+                    _executer.ActionTriggered(_face3);
+                    break;
+            }
         }
     }
 }

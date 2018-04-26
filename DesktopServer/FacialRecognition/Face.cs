@@ -12,6 +12,13 @@ namespace FacialRecognition
         private int _top;
         private int _width;
         private int _height;
+        private Guid _faceId;
+
+        public Guid FaceId
+        {
+            get { return _faceId; }
+            set { _faceId = value; }
+        }
 
         public System.Windows.Int32Rect UIRect
         {
@@ -27,6 +34,11 @@ namespace FacialRecognition
             this._top = y;
             this._width = width;
             this._height = height;
+        }
+
+        public Face(int left, int top, int width, int height, Guid faceId) : this(left, top, width, height)
+        {
+            _faceId = faceId;
         }
 
         public int Height

@@ -320,6 +320,12 @@ namespace DesktopServer
             _controller.Devices[4].Pins.Add(new Pin(_controller.Devices[4], 2, PinTypes.Input));
             _controller.Devices[4].Pins.Add(new Pin(_controller.Devices[4], 3, PinTypes.Input));
 
+            //facial recognition
+            _controller.Devices.Add(new Device(6, DeviceTypes.FacialRecognition));
+            _controller.Devices[5].Pins.Add(new Pin(_controller.Devices[5], 1, PinTypes.Input));
+            _controller.Devices[5].Pins.Add(new Pin(_controller.Devices[5], 2, PinTypes.Input));
+            _controller.Devices[5].Pins.Add(new Pin(_controller.Devices[5], 3, PinTypes.Input));
+
             SelectedDevice = _controller.Devices[1];
             SelectedPin = _controller.Devices[1].Pins[2];
 #else

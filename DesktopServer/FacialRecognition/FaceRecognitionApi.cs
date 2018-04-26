@@ -63,9 +63,9 @@ namespace FacialRecognition
             }
         }
 
-        public async Task<List<Face>> DoesExists(String imagePath)
+        public async Task<List<Person>> DoesExists(String imagePath)
         {
-            List<Face> facesLocation = new List<Face>();
+            List<Person> facesLocation = new List<Person>();
             // Call detection REST API
             using (var fStream = File.OpenRead(imagePath))
             {
@@ -74,10 +74,11 @@ namespace FacialRecognition
                     var faces = await _faceServiceClient.DetectAsync(fStream);
                     foreach (var face in faces)
                     {
-                        facesLocation.Add(new Face(face.FaceRectangle.Left,
+                        facesLocation.Add(new Person(new Face(face.FaceRectangle.Left,
                             face.FaceRectangle.Top,
                             face.FaceRectangle.Width,
-                            face.FaceRectangle.Height));
+                            face.FaceRectangle.Height,
+                            face.FaceId)));
                     }
 
                     // Convert detection result into UI binding object for rendering
@@ -91,7 +92,13 @@ namespace FacialRecognition
                         {
                             if (_people.Any(p => p.PersonId == result.Candidates[0].PersonId))
                             {
-                                name = _people.Where(p => p.PersonId == result.Candidates[0].PersonId).First().Name;
+                                Microsoft.ProjectOxford.Face.Contract.Person person = _people.Where(p => p.PersonId == result.Candidates[0].PersonId).First();
+                                name = person.Name;
+                                if (facesLocation.Any(p => p.Face.FaceId == result.FaceId))
+                                {
+                                    facesLocation.Where(p => p.Face.FaceId == result.FaceId).First().PersonA = person;
+                                }
+
                             }
                             wasRecognized = true;
                             break;
@@ -153,7 +160,7 @@ namespace FacialRecognition
                     {
                         if (0 == result.Candidates.Length)
                         {
-                            Person person = new Person();
+                            Microsoft.ProjectOxford.Face.Contract.Person person = new Microsoft.ProjectOxford.Face.Contract.Person();
                             person.Name = name;
                             person.PersonId = (await _faceServiceClient.CreatePersonInLargePersonGroupAsync(_personGroup.LargePersonGroupId,
                                 name)).PersonId;

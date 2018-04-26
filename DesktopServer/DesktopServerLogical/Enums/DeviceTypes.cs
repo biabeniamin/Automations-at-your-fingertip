@@ -14,6 +14,7 @@ namespace DesktopServerLogical.Enums
         Network=3,
         LightPanel=4,
         Motor=5,
-        VoiceAssistance = 6
+        VoiceAssistance = 6,
+        FacialRecognition = 7
     }
 }

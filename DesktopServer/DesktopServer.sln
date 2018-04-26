@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesktopServer", "DesktopServer\DesktopServer.csproj", "{233387A1-8028-4291-8179-6939F9CD640A}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -13,6 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesktopServerLogical", "Des
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simulator", "Simulator\Simulator.csproj", "{4C653C14-44F7-4ED0-9691-40B6ABD158B6}"
 	ProjectSection(ProjectDependencies) = postProject
+		{4E38886F-993D-4708-B46F-BC278F8B3DF9} = {4E38886F-993D-4708-B46F-BC278F8B3DF9}
 		{0242B3A4-53CF-4957-87FD-A11383FEF869} = {0242B3A4-53CF-4957-87FD-A11383FEF869}
 	EndProjectSection
 EndProject

@@ -103,6 +103,21 @@ namespace DesktopServerLogical
                         break;
                 }
             }
+            else if (DeviceTypes.FacialRecognition == deviceType)
+            {
+                switch (pinNumber)
+                {
+                    case 1:
+                        return "Ben face";
+                        break;
+                    case 2:
+                        return "Face 2";
+                        break;
+                    case 3:
+                        return "Unknown face";
+                        break;
+                }
+            }
             return pinNumber.ToString();
         }
         public static String GetPinName(DeviceTypes deviceType, PinTypes pinType, int pinNumber)

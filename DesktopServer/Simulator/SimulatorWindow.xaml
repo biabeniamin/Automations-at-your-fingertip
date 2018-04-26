@@ -49,6 +49,8 @@
             <Label Content="Notifications" HorizontalAlignment="Left" Margin="70,0,0,0" VerticalAlignment="Top"/>
             <Image x:Name="notification" HorizontalAlignment="Left" Height="197" Margin="0,26,-15,-71" VerticalAlignment="Top" Width="223" Source="Images/not1.png"/>
         </Grid>
+        <Button Content="Run facial recognition
+" HorizontalAlignment="Left" Margin="141,142,0,0" VerticalAlignment="Top" Width="123" Click="Button_Click"/>
     </Grid>
 
 </Window>

@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>FacialRecognition.App</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.ProjectOxford.Common, Version=1.0.324.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ProjectOxford.Common.1.0.324\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10\Microsoft.ProjectOxford.Common.dll</HintPath>
@@ -79,8 +82,9 @@
     </ApplicationDefinition>
     <Compile Include="Face.cs" />
     <Compile Include="FaceRecognitionApi.cs" />
+    <Compile Include="Person.cs" />
     <Compile Include="Subscription.cs" />
-    <Page Include="MainWindow.xaml">
+    <Page Include="FacialRecognitionWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -89,8 +93,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ImageHelpers.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="FacialRecognitionWindow.xaml.cs">
+      <DependentUpon>FacialRecognitionWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
