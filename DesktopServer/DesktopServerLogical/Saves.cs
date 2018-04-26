@@ -48,6 +48,11 @@ namespace DesktopServerLogical
         }
         public void AddSave(ObservableCollection<Device> devices, string name)
         {
+            if(System.Data.ConnectionState.Open != _dbOper.State)
+            {
+                System.Windows.Forms.MessageBox.Show("Database wasn't opened because of a failure!");
+                return;
+            }
             _dbOper.ExecuteQuery($"insert into saves(name) values('{name}')");
             int saveId = _dbOper.ReadOneValue<int>($"select top 1 id from saves where name='{name}' order by id desc");
             AddDevices(devices, saveId);
@@ -72,6 +77,12 @@ namespace DesktopServerLogical
             ObservableCollection<string> list = new ObservableCollection<string>();
             ObservableCollection<RemoteAction> actions = new ObservableCollection<RemoteAction>();
             SqlDataReader reader = _dbOper.GetReader($@"SELECT Name from Saves");
+
+            if(null == reader)
+            {
+                return list;
+            }
+
             while (reader.Read())
             {
                 list.Add(reader[0].ToString());

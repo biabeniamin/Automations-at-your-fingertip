@@ -283,6 +283,7 @@ namespace DesktopServer
         private void LoadDevices()
         {
 #if ADD_DEVICES
+            _controller.Devices.Clear(); ;
             //Network interface
             _controller.Devices.Add(new Device(1, DeviceTypes.Network));
             _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 1, PinTypes.Input));
