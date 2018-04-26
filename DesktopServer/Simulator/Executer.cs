@@ -38,37 +38,42 @@ namespace Simulator
                     actions = modPin.ActiveLowActions;
                 }
 
-                foreach (DesktopServerLogical.Models.RemoteAction action in actions)
+                for (int i = 0; i < modPin.Repeats; i++)
                 {
-                    Pin p;
-                    _mapModToSim.TryGetValue(action.Pin, out p);
-                    Output output = null;
-                    if (DesktopServerLogical.Enums.ActionTypes.Delay == action.Type)
-                    {
 
-                    }
-                    else if (null == p)
+
+                    foreach (DesktopServerLogical.Models.RemoteAction action in actions)
                     {
-                        continue;
-                    }
-                    else
-                    {
-                        output = (Output)p;
-                    }
-                    switch (action.Type)
-                    {
-                        case DesktopServerLogical.Enums.ActionTypes.TurnOn:
-                            output.TurnOn();
-                            break;
-                        case DesktopServerLogical.Enums.ActionTypes.Switch:
-                            output.Switch();
-                            break;
-                        case DesktopServerLogical.Enums.ActionTypes.TurnOff:
-                            output.TurnOff();
-                            break;
-                        case DesktopServerLogical.Enums.ActionTypes.Delay:
-                            System.Threading.Thread.Sleep(action.Value * 1000);
-                            break;
+                        Pin p;
+                        _mapModToSim.TryGetValue(action.Pin, out p);
+                        Output output = null;
+                        if (DesktopServerLogical.Enums.ActionTypes.Delay == action.Type)
+                        {
+
+                        }
+                        else if (null == p)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            output = (Output)p;
+                        }
+                        switch (action.Type)
+                        {
+                            case DesktopServerLogical.Enums.ActionTypes.TurnOn:
+                                output.TurnOn();
+                                break;
+                            case DesktopServerLogical.Enums.ActionTypes.Switch:
+                                output.Switch();
+                                break;
+                            case DesktopServerLogical.Enums.ActionTypes.TurnOff:
+                                output.TurnOff();
+                                break;
+                            case DesktopServerLogical.Enums.ActionTypes.Delay:
+                                System.Threading.Thread.Sleep(action.Value * 1000);
+                                break;
+                        }
                     }
                 }
             });

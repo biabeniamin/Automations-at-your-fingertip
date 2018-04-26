@@ -61,7 +61,25 @@ namespace Simulator
             }
         }
 
-        
+        public Door Door
+        {
+            get => _door;
+            set
+            {
+                _door = value;
+                OnPropertyChanged("Door");
+            }
+        }
+
+        public Notifications Notifications
+        {
+            get => _notifications;
+            set
+            {
+                _notifications = value;
+                OnPropertyChanged("Notifications");
+            }
+        }
 
 
         public SimulatorWindow(ObservableCollection<Device> devices)
@@ -78,7 +96,7 @@ namespace Simulator
 
             _executer = new Executer();
 
-            _notifications = new Notifications(notification);
+            _notifications = new Notifications();
 
 
             _switch = new Switch(button);
@@ -97,10 +115,10 @@ namespace Simulator
 
             _lightIntensity = new Input();
 
-            _light = new Light(bulb);
+            _light = new Light();
             _light.TurnOff();
 
-            _door = new Door(door);
+            _door = new Door();
             _door.TurnOff();
 
             _executer.AddSimulatedPin(_switch, devices[1].InputPins[1]);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,12 +9,23 @@ using System.Windows.Media.Imaging;
 
 namespace Simulator
 {
-    public class Notifications
+    public class Notifications : INotifyPropertyChanged
     {
-        private Image _imageControl;
         private NotificationInput _notification1;
         private NotificationInput _notification2;
         private NotificationInput _notification3;
+
+        private string _imageSource;
+
+        public string ImageSource
+        {
+            get { return _imageSource; }
+            set
+            {
+                _imageSource = value;
+                OnPropertyChanged("ImageSource");
+            }
+        }
 
         public NotificationInput Notification3
         {
@@ -34,9 +46,8 @@ namespace Simulator
         }
 
 
-        public Notifications(Image imageControl)
+        public Notifications()
         {
-            _imageControl = imageControl;
             _notification1 = new NotificationInput(Notification1Triggered);
             _notification2 = new NotificationInput(Notification2Triggered);
             _notification3 = new NotificationInput(Notification3Triggered);
@@ -60,8 +71,16 @@ namespace Simulator
 
         private void Update(int id)
         {
-            _imageControl.Source = new BitmapImage(new Uri($"{System.IO.Directory.GetCurrentDirectory()}\\Images\\not{id}.png"));
+            ImageSource = $"{System.IO.Directory.GetCurrentDirectory()}\\Images\\not{id}.png";
+            //_imageControl.Source = new BitmapImage(new Uri($"{System.IO.Directory.GetCurrentDirectory()}\\Images\\not{id}.png"));
         }
-        
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(string name)
+        {
+            if (null != PropertyChanged)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+        }
     }
 }

@@ -11,8 +11,6 @@ namespace Simulator
 {
     public class Light : Output, INotifyPropertyChanged
     {
-        private Image _lightImageControl;
-
         private string _imageSource;
 
         public string ImageSource
@@ -24,10 +22,9 @@ namespace Simulator
         }
 
 
-        public Light(Image lightImageControl)
+        public Light()
             :base()
         {
-            _lightImageControl = lightImageControl;
             
         }
         public override void UpdateStatus()
