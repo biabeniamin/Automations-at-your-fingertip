@@ -257,5 +257,10 @@ namespace Simulator
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
         }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            _notifications.ClearNotifications();
+        }
     }
 }

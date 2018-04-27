@@ -305,7 +305,7 @@ namespace DesktopServer
             //del.Value = 5;
             //pin.Actions.Add(del);
             _controller.Devices[1].Pins.Add(pin);
-
+            
             //keypad module
             _controller.Devices.Add(new Device(3, DeviceTypes.Keyboard));
             _controller.Devices[2].Pins.Add(new Pin(_controller.Devices[2], 7, PinTypes.Input));

@@ -69,6 +69,11 @@ namespace Simulator
             Update(3);
         }
 
+        public void ClearNotifications()
+        {
+            Update(0);
+        }
+
         private void Update(int id)
         {
             ImageSource = $"{System.IO.Directory.GetCurrentDirectory()}\\Images\\not{id}.png";

@@ -50,10 +50,11 @@
             <TextBox x:Name="pinTextBox" HorizontalAlignment="Left" Height="23" Margin="9,25,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="68" ToolTip="Pin"/>
             <Button x:Name="button2" Content="CheckPin" HorizontalAlignment="Left" Margin="82,25,0,0" VerticalAlignment="Top" Width="75" Click="button2_Click_1"/>
         </Grid>
-        <Grid Margin="623,206,-315,-72">
+        <Grid Margin="623,206,55,81">
             <Rectangle Fill="#FFF4F4F5" StrokeDashArray="4 4" HorizontalAlignment="Left" Height="192"  Stroke="Black" VerticalAlignment="Top" Width="223"/>
             <Label Content="Notifications" HorizontalAlignment="Left" Margin="70,0,0,0" VerticalAlignment="Top"/>
-            <Image x:Name="notification" HorizontalAlignment="Left" Height="197" Margin="0,26,-15,-71" VerticalAlignment="Top" Width="223" Source="{Binding Notifications.ImageSource}"/>
+            <Image x:Name="notification" HorizontalAlignment="Left" Height="197" Margin="0,58,0,-17" VerticalAlignment="Top" Width="223" Source="{Binding Notifications.ImageSource}"/>
+            <Button Content="Clear notifications" HorizontalAlignment="Left" Margin="56,33,0,0" VerticalAlignment="Top" Width="106" Click="Button_Click_2"/>
         </Grid>
         <Button Content="Run facial recognition
 " HorizontalAlignment="Left" Margin="647,42,0,0" VerticalAlignment="Top" Width="123" Click="Button_Click"/>
