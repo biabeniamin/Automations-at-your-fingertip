@@ -72,7 +72,14 @@ namespace FacialRecognition
                 try
                 {
                     var faces = await _faceServiceClient.DetectAsync(fStream);
-                    foreach (var face in faces)
+
+                    if (0 == faces.Length)
+                    {
+                        MessageBox.Show("No face detected!");
+                        return facesLocation;
+                    }
+
+                        foreach (var face in faces)
                     {
                         facesLocation.Add(new Person(new Face(face.FaceRectangle.Left,
                             face.FaceRectangle.Top,

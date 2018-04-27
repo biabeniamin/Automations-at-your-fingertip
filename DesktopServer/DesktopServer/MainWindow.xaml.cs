@@ -326,6 +326,7 @@ namespace DesktopServer
             _controller.Devices[5].Pins.Add(new Pin(_controller.Devices[5], 1, PinTypes.Input));
             _controller.Devices[5].Pins.Add(new Pin(_controller.Devices[5], 2, PinTypes.Input));
             _controller.Devices[5].Pins.Add(new Pin(_controller.Devices[5], 3, PinTypes.Input));
+            _controller.Devices[5].Pins.Add(new Pin(_controller.Devices[5], 4, PinTypes.Input));
 
             SelectedDevice = _controller.Devices[1];
             SelectedPin = _controller.Devices[1].Pins[2];

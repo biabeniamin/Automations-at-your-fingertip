@@ -97,7 +97,7 @@ namespace DesktopServerLogical
                 switch (pinNumber)
                 {
                     case 1:
-                        return "action 1";
+                        return "Action 1";
                         break;
                     case 2:
                         return "Action 2";
@@ -115,9 +115,12 @@ namespace DesktopServerLogical
                         return "Ben face";
                         break;
                     case 2:
-                        return "Face 2";
+                        return "Cosmin's face";
                         break;
                     case 3:
+                        return "Familiar face";
+                        break;
+                    case 4:
                         return "Unknown face";
                         break;
                 }

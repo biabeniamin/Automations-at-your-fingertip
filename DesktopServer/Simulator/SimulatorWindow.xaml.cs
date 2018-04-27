@@ -43,6 +43,7 @@ namespace Simulator
         private Input _face1;
         private Input _face2;
         private Input _face3;
+        private Input _face4;
 
         private Input _lightIntensity;
 
@@ -112,6 +113,7 @@ namespace Simulator
             _face1 = new Input();
             _face2 = new Input();
             _face3 = new Input();
+            _face4 = new Input();
 
             _lightIntensity = new Input();
 
@@ -142,6 +144,7 @@ namespace Simulator
             _executer.AddSimulatedPin(_face1, devices[5].InputPins[0]);
             _executer.AddSimulatedPin(_face2, devices[5].InputPins[1]);
             _executer.AddSimulatedPin(_face3, devices[5].InputPins[2]);
+            _executer.AddSimulatedPin(_face4, devices[5].InputPins[3]);
 
             _executer.AddSimulatedPin(_lightIntensity, devices[1].InputPins[0]);
         }
@@ -224,6 +227,9 @@ namespace Simulator
                     break;
                 case 3:
                     _executer.ActionTriggered(_face3);
+                    break;
+                case 4:
+                    _executer.ActionTriggered(_face4);
                     break;
             }
         }

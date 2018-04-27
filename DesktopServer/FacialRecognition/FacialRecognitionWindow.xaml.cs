@@ -82,7 +82,10 @@ namespace FacialRecognition
                         {
                             _actionFaceDetected(1);
                         }
-
+                        else if (person.PersonA.Name.Equals("Cosmin"))
+                        {
+                            _actionFaceDetected(2);
+                        }
                         else
                         {
                             _actionFaceDetected(3);
@@ -90,7 +93,7 @@ namespace FacialRecognition
                     }
                     else
                     {
-                        _actionFaceDetected(3);
+                        _actionFaceDetected(4);
                     }
                 }
                 drawingContext.Close();
