@@ -56,13 +56,17 @@ namespace DesktopServerLogical
         }
         private static String GetPinNameForInput(DeviceTypes deviceType, int pinNumber)
         {
-            if (DeviceTypes.Relay == deviceType && 8 == pinNumber)
+            if (DeviceTypes.Relay == deviceType)
             {
-                return "Switch";
+                switch (pinNumber)
+                {
+                    case 8:
+                        return "Switch";
+                }
             }
             else if (DeviceTypes.Network == deviceType)
             {
-                switch(pinNumber)
+                switch (pinNumber)
                 {
                     case 0:
                         return "Notification Received";
@@ -120,6 +124,19 @@ namespace DesktopServerLogical
             }
             return pinNumber.ToString();
         }
+        private static String GetPinNameForAnalog(DeviceTypes deviceType, int pinNumber)
+        {
+            if (DeviceTypes.Relay == deviceType)
+            {
+                switch (pinNumber)
+                {
+                    case 5:
+                        return "Light sensor";
+                }
+            }
+            return pinNumber.ToString();
+        }
+
         public static String GetPinName(DeviceTypes deviceType, PinTypes pinType, int pinNumber)
         {
             switch(pinType)
@@ -129,6 +146,9 @@ namespace DesktopServerLogical
                     break;
                 case PinTypes.Input:
                     return GetPinNameForInput(deviceType, pinNumber);
+                    break;
+                case PinTypes.Analog:
+                    return GetPinNameForAnalog(deviceType, pinNumber);
                     break;
             }
             return pinNumber.ToString();
