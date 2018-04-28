@@ -94,10 +94,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="configurations.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="configurations_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <DependentUpon>configurations.mdf</DependentUpon>
     </Content>
   </ItemGroup>

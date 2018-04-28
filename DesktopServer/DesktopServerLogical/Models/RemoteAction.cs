@@ -103,6 +103,11 @@ namespace DesktopServerLogical.Models
             _removeCommand = new DelegateCommand(Delete);
             ActionCondition = Condition.NoCondition();
         }
+        public RemoteAction(Pin pin, ActionTypes type, Pin ownerPin, int value)
+            : this(pin, type, ownerPin)
+        {
+            _value = value;
+        }
         private void Delete()
         {
             _removeAction(_ownerPin, this);

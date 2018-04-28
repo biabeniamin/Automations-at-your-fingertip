@@ -101,7 +101,9 @@ namespace DesktopServer
         public ObservableCollection<string> PresetConfig
         {
             get { return _presetConfig; }
-            set { _presetConfig = value; }
+            set { _presetConfig = value;
+                OnPropertyChanged("PresetConfig");
+            }
         }
 
         public string TrashPath
@@ -285,48 +287,84 @@ namespace DesktopServer
 #if ADD_DEVICES
             _controller.Devices.Clear(); ;
             //Network interface
-            _controller.Devices.Add(new Device(1, DeviceTypes.Network));
-            _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 1, PinTypes.Input));
-            _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 2, PinTypes.Input));
-            _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 3, PinTypes.Input));
+            Device network = new Device(1, DeviceTypes.Network);
+            _controller.Devices.Add(network);
+            network.Pins.Add(new Pin(network, 1, PinTypes.Input));
+            network.Pins.Add(new Pin(network, 2, PinTypes.Input));
+            network.Pins.Add(new Pin(network, 3, PinTypes.Input));
             //add notification in network
-            _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 6, PinTypes.Output));
-            _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 7, PinTypes.Output));
-            _controller.Devices[0].Pins.Add(new Pin(_controller.Devices[0], 8, PinTypes.Output));
+            network.Pins.Add(new Pin(network, 6, PinTypes.Output));
+            network.Pins.Add(new Pin(network, 7, PinTypes.Output));
+            network.Pins.Add(new Pin(network, 8, PinTypes.Output));
+
 
             //relay module
-            _controller.Devices.Add(new Device(2, DeviceTypes.Relay));
-            _controller.Devices[1].Pins.Add(new Pin(_controller.Devices[1], 5, PinTypes.Analog));
-            Pin oPin = new Pin(_controller.Devices[1], 9, PinTypes.Output);
-            _controller.Devices[1].Pins.Add(oPin);
-            Pin pin = new Pin(_controller.Devices[1], 8, PinTypes.Input);
+            Device relay = new Device(2, DeviceTypes.Relay);
+            _controller.Devices.Add(relay);
+            relay.Pins.Add(new Pin(relay, 5, PinTypes.Analog));
+            Pin oPin = new Pin(relay, 9, PinTypes.Output);
+            relay.Pins.Add(oPin);
+            Pin pin = new Pin(relay, 8, PinTypes.Input);
             pin.Actions.Add(new RemoteAction(oPin, ActionTypes.Switch, pin));
             //RemoteAction del = new RemoteAction(oPin, ActionTypes.Delay, null);
             //del.Value = 5;
             //pin.Actions.Add(del);
-            _controller.Devices[1].Pins.Add(pin);
-            
+            relay.Pins.Add(pin);
+
             //keypad module
-            _controller.Devices.Add(new Device(3, DeviceTypes.Keyboard));
-            _controller.Devices[2].Pins.Add(new Pin(_controller.Devices[2], 7, PinTypes.Input));
+            Device keypad = new Device(3, DeviceTypes.Keyboard);
+            _controller.Devices.Add(keypad);
+            keypad.Pins.Add(new Pin(keypad, 7, PinTypes.Input));
 
             //motor controller
-            _controller.Devices.Add(new Device(4, DeviceTypes.Motor));
-            _controller.Devices[3].Pins.Add(new Pin(_controller.Devices[3], 7, PinTypes.Output));
-            _controller.Devices[3].Pins.Add(new Pin(_controller.Devices[3], 9, PinTypes.Output));
+            Device motor = new Device(4, DeviceTypes.Motor);
+            _controller.Devices.Add(motor);
+            motor.Pins.Add(new Pin(motor, 7, PinTypes.Output));
+            motor.Pins.Add(new Pin(motor, 9, PinTypes.Output));
 
             //voice assistance
-            _controller.Devices.Add(new Device(5, DeviceTypes.VoiceAssistance));
-            _controller.Devices[4].Pins.Add(new Pin(_controller.Devices[4], 1, PinTypes.Input));
-            _controller.Devices[4].Pins.Add(new Pin(_controller.Devices[4], 2, PinTypes.Input));
-            _controller.Devices[4].Pins.Add(new Pin(_controller.Devices[4], 3, PinTypes.Input));
+            Device voiceAssistance = new Device(5, DeviceTypes.VoiceAssistance);
+            _controller.Devices.Add(voiceAssistance);
+            voiceAssistance.Pins.Add(new Pin(voiceAssistance, 1, PinTypes.Input));
+            voiceAssistance.Pins.Add(new Pin(voiceAssistance, 2, PinTypes.Input));
+            voiceAssistance.Pins.Add(new Pin(voiceAssistance, 3, PinTypes.Input));
 
             //facial recognition
-            _controller.Devices.Add(new Device(6, DeviceTypes.FacialRecognition));
-            _controller.Devices[5].Pins.Add(new Pin(_controller.Devices[5], 1, PinTypes.Input));
-            _controller.Devices[5].Pins.Add(new Pin(_controller.Devices[5], 2, PinTypes.Input));
-            _controller.Devices[5].Pins.Add(new Pin(_controller.Devices[5], 3, PinTypes.Input));
-            _controller.Devices[5].Pins.Add(new Pin(_controller.Devices[5], 4, PinTypes.Input));
+            Device facial = new Device(6, DeviceTypes.FacialRecognition);
+            _controller.Devices.Add(facial);
+            facial.Pins.Add(new Pin(facial, 1, PinTypes.Input));
+            facial.Pins.Add(new Pin(facial, 2, PinTypes.Input));
+            facial.Pins.Add(new Pin(facial, 3, PinTypes.Input));
+            facial.Pins.Add(new Pin(facial, 4, PinTypes.Input));
+
+            //adding actions for network
+            network.Pins[0].Actions.Add(new RemoteAction(relay.OutputPins[0], ActionTypes.Switch, network.Pins[0]));
+
+            network.Pins[1].Actions.Add(new RemoteAction(motor.OutputPins[0], ActionTypes.TurnOn, network.Pins[0]));
+            network.Pins[1].Actions.Add(new RemoteAction(motor.OutputPins[0], ActionTypes.Delay, network.Pins[0], 3));
+            network.Pins[1].Actions.Add(new RemoteAction(motor.OutputPins[0], ActionTypes.TurnOff, network.Pins[0]));
+
+            //keyboard
+            keypad.Pins[0].Actions.Add(new RemoteAction(motor.OutputPins[0], ActionTypes.TurnOn, keypad.Pins[0]));
+            keypad.Pins[0].Actions.Add(new RemoteAction(motor.OutputPins[0], ActionTypes.Delay, keypad.Pins[0], 3));
+            keypad.Pins[0].Actions.Add(new RemoteAction(motor.OutputPins[0], ActionTypes.TurnOff, keypad.Pins[0]));
+            keypad.Pins[0].Actions.Add(new RemoteAction(network.OutputPins[0], ActionTypes.TurnOn, keypad.Pins[0]));
+
+            //facial
+            facial.Pins[0].Actions.Add(new RemoteAction(motor.OutputPins[0], ActionTypes.TurnOn, facial.Pins[0]));
+            facial.Pins[0].Actions.Add(new RemoteAction(motor.OutputPins[0], ActionTypes.Delay, facial.Pins[0], 3));
+            facial.Pins[0].Actions.Add(new RemoteAction(motor.OutputPins[0], ActionTypes.TurnOff, facial.Pins[0]));
+
+            facial.Pins[1].Actions.Add(new RemoteAction(network.OutputPins[1], ActionTypes.TurnOn, facial.Pins[1]));
+
+            facial.Pins[3].Actions.Add(new RemoteAction(network.OutputPins[2], ActionTypes.TurnOn, facial.Pins[3]));
+
+            //voice
+            voiceAssistance.Pins[0].Actions.Add(new RemoteAction(relay.OutputPins[0], ActionTypes.Switch, voiceAssistance.Pins[0]));
+
+            //relay
+            relay.InputPins[0].Actions.Add(new RemoteAction(relay.OutputPins[0], ActionTypes.TurnOff, relay.InputPins[0]));
+            relay.InputPins[0].ActiveLowActions.Add(new RemoteAction(relay.OutputPins[0], ActionTypes.TurnOn, relay.InputPins[0]));
 
             SelectedDevice = _controller.Devices[1];
             SelectedPin = _controller.Devices[1].Pins[2];
@@ -343,8 +381,11 @@ namespace DesktopServer
 
         private void SaveAction()
         {
-            if (SaveName == null)
-                SaveName = DateTime.Now.ToString("hhmmss");
+            if (String.IsNullOrEmpty(SaveName))
+            {
+                MessageBox.Show("Please add a name for configuration in order to be saved!");
+                return;
+            }
             _saves.AddSave(_controller.Devices, SaveName);
             //LoadSaves();
             PresetConfig.Add(SaveName);
