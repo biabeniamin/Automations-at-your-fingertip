@@ -264,7 +264,14 @@ namespace DesktopServer
 
         private void LoadSaves()
         {
-            PresetConfig = _saves.GetActions();
+            try
+            {
+                PresetConfig = _saves.GetActions();
+            }
+            catch(Exception ee)
+            {
+                MessageBox.Show("The configurations cannot be loaded!");
+            }
         }
 
         private void ProgramActions()
@@ -398,13 +405,21 @@ namespace DesktopServer
         {
             if (SelectedSave!=null)
             {
-                _saves.LoadActions(SelectedSave, _controller.Devices);
+                try
+                {
+                    _saves.LoadActions(SelectedSave, _controller.Devices);
+                }
+                catch (Exception ee)
+                {
+                    MessageBox.Show("The configuration cannot be loaded!");
+                }
+            }
+            
                 /*for (int i = 0; i < SelectedPin.Actions.Count; i++)
                 {
                     SelectedPin.Actions[i].RemoveAction = _controller.RemoveAction;
                     SelectedPin.Actions[i].OwnerPin = SelectedPin;
                 }*/
-            }
         }
         private void AddAction()
         {
