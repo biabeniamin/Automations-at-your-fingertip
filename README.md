@@ -8,10 +8,10 @@ The platform is built using different modules with you program by drag and drop 
 
 ## Motivation
 This project was created in order to create a platform for different automations products.
-It was awarded with:
--1st prize at National Instruments Student Challenge Competition
--Gold Medal at ProInvent Salon of Inventions
--2st place at Grepit
+It was awarded with:<br />
+-1st prize at National Instruments Student Challenge Competition  <br />
+-Gold Medal at ProInvent Salon of Inventions  <br />
+-2st place at Grepit  <br />
 
 ## How it's working
 [![image.png](https://i.postimg.cc/6TskL0Fr/image.png)](https://postimg.cc/LgTQmz95)
