@@ -1,17 +1,26 @@
-# Automations at your fingertip
+## Automations at your fingertips
 
 Welcome to the Automations-at-your-fingertip wiki!
 
 Automations at your fingertip helps you to do automations without knowing electronic or programming.It is very simple to build something.
 
-For example,you can make a remote room control.You can control light,door or anything you connect.You can control them from internet network module or get notified on phone when something happened in room.Options are endless.The control is at your fingertip.Everything is based on module.Programming is easy and is based on c# application.
+The platform is built using different modules with you program by drag and drop some blocks in a C# application
 
-This is how you can program it:
+## Motivation
+This project was created in order to create a platform for different automations products.
+It was awarded with:
+-1st prize at National Instruments Student Challenge Competition
+-Gold Medal at ProInvent Salon of Inventions
+-2st place at Grepit
 
-![](https://s23.postimg.org/5xark9jmz/Screenshot_17.png)
+## How it's working
+[![image.png](https://i.postimg.cc/6TskL0Fr/image.png)](https://postimg.cc/LgTQmz95)
 
+## This is how you can program it:
 
+[![image.png](https://i.postimg.cc/1tv06dv4/image.png)](https://postimg.cc/qhCCH1Vd)
 
-31.01.17
-programmer send date on 5 bits
-fixed errors
+## Simulator for hardware devices
+
+It you don't have the hardware modules, you can test the platform with integrated simulator:
+[![image.png](https://i.postimg.cc/Kz8BZNmb/image.png)](https://postimg.cc/p93pCK9c)
